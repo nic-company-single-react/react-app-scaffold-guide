@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200">
+  <defs>
+    <style>
+      .title { font: bold 28px sans-serif; fill: #1a1a1a; }
+      .subtitle { font: bold 18px sans-serif; fill: #2563eb; }
+      .text { font: 600 16px sans-serif; fill: #374151; }
+      .small-text { font: 500 14px sans-serif; fill: #4b5563; }
+      .step { font: bold 18px sans-serif; fill: #dc2626; }
+      .box { fill: #f0f9ff; stroke: #2563eb; stroke-width: 2; rx: 8; }
+      .server-box { fill: #f0fdf4; stroke: #16a34a; stroke-width: 2; rx: 8; }
+      .client-box { fill: #fff7ed; stroke: #ea580c; stroke-width: 2; rx: 8; }
+      .internal-box { fill: #faf5ff; stroke: #9333ea; stroke-width: 2; rx: 8; }
+      .arrow { stroke: #2563eb; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .arrow-server { stroke: #16a34a; stroke-width: 2; fill: none; marker-end: url(#arrowhead-green); }
+      .arrow-client { stroke: #ea580c; stroke-width: 2; fill: none; marker-end: url(#arrowhead-orange); }
+      .note-box { fill: #fef3c7; stroke: #f59e0b; stroke-width: 1.5; rx: 4; }
+      .highlight { fill: #dbeafe; stroke: #3b82f6; stroke-width: 1; rx: 4; }
+      .feature-box { fill: #ecfdf5; stroke: #10b981; stroke-width: 1.5; rx: 4; }
+      .code { font: bold 16px 'Courier New', monospace; fill: #1e40af; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#2563eb" />
+    </marker>
+    <marker id="arrowhead-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#16a34a" />
+    </marker>
+    <marker id="arrowhead-orange" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#ea580c" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" class="title">$router.push 함수 동작 흐름도</text>
+  <text x="450" y="58" text-anchor="middle" class="small-text">(Universal Router API - Server &amp; Client Components)</text>
+
+  <!-- Step 1: Function Call -->
+  <rect x="50" y="85" width="800" height="140" class="internal-box"/>
+  <text x="450" y="112" text-anchor="middle" class="subtitle">① $router.push() 호출</text>
+  
+  <text x="85" y="140" class="code">$router.push('/example', { params: { id: 123 }, scroll: false });</text>
+  <text x="70" y="165" class="small-text">• url: 이동할 경로</text>
+  <text x="70" y="185" class="small-text">• options.params: 쿼리 파라미터 객체 (선택)</text>
+  <text x="70" y="205" class="small-text">• options.scroll: 스크롤 제어 (기본값: true)</text>
+
+  <!-- Arrow 1 -->
+  <path d="M 450 225 L 450 265" class="arrow"/>
+  <rect x="310" y="235" width="280" height="25" class="highlight"/>
+  <text x="450" y="253" text-anchor="middle" class="step">URL 빌드</text>
+
+  <!-- Step 2: buildUrl -->
+  <rect x="50" y="275" width="800" height="120" class="internal-box"/>
+  <text x="450" y="302" text-anchor="middle" class="subtitle">② buildUrl() 실행</text>
+  
+  <text x="70" y="330" class="text">쿼리 파라미터를 URL에 추가</text>
+  <text x="85" y="353" class="code">buildUrl('/example', { id: 123 })  →  '/example?id=123'</text>
+  <text x="85" y="375" class="small-text">• URLSearchParams로 자동 변환 및 인코딩</text>
+
+  <!-- Arrow 2 -->
+  <path d="M 450 395 L 450 435" class="arrow"/>
+  <rect x="310" y="405" width="280" height="25" class="highlight"/>
+  <text x="450" y="423" text-anchor="middle" class="step">환경 체크</text>
+
+  <!-- Step 3: Environment Check -->
+  <rect x="50" y="445" width="800" height="80" class="note-box"/>
+  <text x="450" y="472" text-anchor="middle" class="subtitle">③ 실행 환경 감지</text>
+  
+  <text x="85" y="500" class="code">typeof window === 'undefined'  ?  서버  :  클라이언트</text>
+
+  <!-- Branching -->
+  <path d="M 450 525 L 245 575" class="arrow-server"/>
+  <path d="M 450 525 L 655 575" class="arrow-client"/>
+
+  <!-- Server Path -->
+  <rect x="50" y="575" width="390" height="310" class="server-box"/>
+  <text x="245" y="605" text-anchor="middle" class="subtitle">서버 환경 (Server Component)</text>
+  
+  <rect x="70" y="620" width="350" height="100" class="highlight"/>
+  <text x="245" y="647" text-anchor="middle" class="step">④-A Next.js redirect 사용</text>
+  <text x="85" y="670" class="code">redirect(finalUrl, RedirectType.push);</text>
+  <text x="85" y="690" class="small-text">• Next.js 서버 사이드 리다이렉트</text>
+  <text x="85" y="710" class="small-text">• RedirectType.push로 히스토리 추가</text>
+
+  <path d="M 245 720 L 245 750" class="arrow-server"/>
+
+  <rect x="70" y="750" width="350" height="115" class="feature-box"/>
+  <text x="245" y="777" text-anchor="middle" class="step">⑤-A 페이지 이동 완료</text>
+  <text x="85" y="800" class="small-text">• 서버에서 HTTP 리다이렉트 응답 전송</text>
+  <text x="85" y="820" class="small-text">• 브라우저가 새 URL로 이동</text>
+  <text x="85" y="840" class="small-text">• 히스토리 스택에 추가됨</text>
+  <text x="85" y="860" class="small-text">  (뒤로 가기로 이전 페이지 복귀 가능)</text>
+
+  <!-- Client Path -->
+  <rect x="460" y="575" width="390" height="310" class="client-box"/>
+  <text x="655" y="605" text-anchor="middle" class="subtitle">클라이언트 환경 (Client Component)</text>
+  
+  <rect x="480" y="620" width="350" height="100" class="highlight"/>
+  <text x="655" y="647" text-anchor="middle" class="step">④-B Next.js router 사용</text>
+  <text x="495" y="670" class="code">nextRouterInstance.push(</text>
+  <text x="495" y="690" class="code">  finalUrl, options);</text>
+
+  <path d="M 655 720 L 655 750" class="arrow-client"/>
+
+  <rect x="480" y="750" width="350" height="115" class="feature-box"/>
+  <text x="655" y="777" text-anchor="middle" class="step">⑤-B 페이지 이동 완료</text>
+  <text x="495" y="800" class="small-text">• useRouter()로 얻은 인스턴스 사용</text>
+  <text x="495" y="820" class="small-text">• 클라이언트 사이드 네비게이션</text>
+  <text x="495" y="840" class="small-text">• SPA 방식으로 즉시 페이지 전환</text>
+  <text x="495" y="860" class="small-text">• scroll 옵션으로 스크롤 위치 제어</text>
+
+  <!-- Key Concepts -->
+  <rect x="50" y="905" width="800" height="225" class="note-box"/>
+  <text x="450" y="935" text-anchor="middle" class="subtitle">핵심 개념</text>
+  
+  <text x="70" y="965" class="text">• 유니버설 API: Server Component와 Client Component 모두에서 동일한 API 사용</text>
+  <text x="70" y="990" class="text">• 자동 환경 감지: typeof window 체크로 서버/클라이언트 자동 판단</text>
+  <text x="70" y="1015" class="text">• 쿼리 파라미터 자동 처리: buildUrl()로 params 객체를 URL 쿼리로 변환</text>
+  <text x="70" y="1040" class="text">• 싱글톤 패턴: 전역 변수 nextRouterInstance로 라우터 인스턴스 관리</text>
+  <text x="70" y="1065" class="text">• RouterProvider: 클라이언트 컴포넌트로 앱 초기화 시 Next.js router 연결</text>
+  <text x="70" y="1090" class="text">• 히스토리 추가: push()는 뒤로 가기 시 이전 페이지로 복귀 가능 (replace()와 차이점)</text>
+  
+</svg>

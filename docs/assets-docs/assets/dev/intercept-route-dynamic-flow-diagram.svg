@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1450">
+  <defs>
+    <style>
+      .title { font: bold 24px sans-serif; fill: #1a1a1a; }
+      .subtitle { font: bold 16px sans-serif; fill: #2563eb; }
+      .text { font: 15px sans-serif; fill: #374151; }
+      .small-text { font: 13px sans-serif; fill: #6b7280; }
+      .step { font: bold 16px sans-serif; fill: #dc2626; }
+      .box { fill: #f0f9ff; stroke: #2563eb; stroke-width: 2; rx: 8; }
+      .server-box { fill: #f0fdf4; stroke: #16a34a; stroke-width: 2; rx: 8; }
+      .internal-box { fill: #faf5ff; stroke: #9333ea; stroke-width: 2; rx: 8; }
+      .folder-box { fill: #fef3c7; stroke: #f59e0b; stroke-width: 2; rx: 8; }
+      .arrow { stroke: #2563eb; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .arrow-back { stroke: #16a34a; stroke-width: 2; fill: none; marker-end: url(#arrowhead-green); }
+      .arrow-direct { stroke: #dc2626; stroke-width: 2; fill: none; marker-end: url(#arrowhead-red); stroke-dasharray: 5,5; }
+      .note-box { fill: #fef3c7; stroke: #f59e0b; stroke-width: 1.5; rx: 4; }
+      .highlight { fill: #dbeafe; stroke: #3b82f6; stroke-width: 1; rx: 4; }
+      .feature-box { fill: #ecfdf5; stroke: #10b981; stroke-width: 1.5; rx: 4; }
+      .code { font: 13px 'Courier New', monospace; fill: #1e40af; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#2563eb" />
+    </marker>
+    <marker id="arrowhead-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#16a34a" />
+    </marker>
+    <marker id="arrowhead-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#dc2626" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" class="title">Intercept Route Modal 동작 흐름도 (동적 라우트)</text>
+  <text x="450" y="58" text-anchor="middle" class="small-text">(Parallel Routes + Intercepting Routes + Dynamic Route)</text>
+  
+  <!-- Folder Structure -->
+  <rect x="50" y="85" width="800" height="220" class="folder-box"/>
+  <text x="450" y="112" text-anchor="middle" class="subtitle">폴더 구조</text>
+  
+  <text x="70" y="140" class="code">intercept-modal-demo2/</text>
+  <text x="90" y="162" class="code">├── page.tsx                 ← 메인 페이지</text>
+  <text x="90" y="182" class="code">├── layout.tsx               ← Parallel Route 레이아웃</text>
+  <text x="90" y="202" class="code">├── @postModal/              ← Parallel Slot</text>
+  <text x="110" y="222" class="code">│   ├── default.tsx         ← 기본 상태 (null 반환)</text>
+  <text x="110" y="242" class="code">│   └── (.)post/[id]/page.tsx  ← Intercepted 동적 라우트 (모달)</text>
+  <text x="90" y="262" class="code">└── post/[id]/page.tsx       ← 실제 페이지 (직접 접근시)</text>
+  
+  <!-- Scenario 1: Click Link (Modal) -->
+  <rect x="50" y="330" width="390" height="830" class="box"/>
+  <text x="245" y="360" text-anchor="middle" class="subtitle">시나리오 1: 링크 클릭 (모달 표시)</text>
+  
+  <!-- Step 1: User on Page -->
+  <rect x="70" y="380" width="350" height="80" class="feature-box"/>
+  <text x="245" y="407" text-anchor="middle" class="step">① 사용자가 메인 페이지에 있음</text>
+  <text x="85" y="430" class="small-text">• page.tsx 렌더링</text>
+  <text x="85" y="450" class="small-text">• 포스트 리스트 표시 (Link 컴포넌트)</text>
+  
+  <!-- Arrow 1 -->
+  <path d="M 245 460 L 245 490" class="arrow"/>
+  
+  <!-- Step 2: Click Link -->
+  <rect x="70" y="490" width="350" height="80" class="highlight"/>
+  <text x="245" y="517" text-anchor="middle" class="step">② 포스트 링크 클릭</text>
+  <text x="85" y="540" class="small-text">• href: /intercept-modal-demo2/post/1</text>
+  <text x="85" y="560" class="small-text">• 동적 라우트 파라미터 사용 (params.id)</text>
+  
+  <!-- Arrow 2 -->
+  <path d="M 245 570 L 245 600" class="arrow"/>
+  
+  <!-- Step 3: Next.js Checks Intercept Route -->
+  <rect x="70" y="600" width="350" height="100" class="internal-box"/>
+  <text x="245" y="627" text-anchor="middle" class="step">③ Next.js가 Intercept Route 확인</text>
+  <text x="85" y="650" class="small-text">• @postModal/(.)post/[id]/page.tsx 존재 확인</text>
+  <text x="85" y="670" class="small-text">• (.) = 같은 레벨의 경로를 인터셉트</text>
+  <text x="85" y="690" class="small-text">• [id] = 동적 세그먼트 매칭</text>
+  
+  <!-- Arrow 3 -->
+  <path d="M 245 700 L 245 730" class="arrow"/>
+  
+  <!-- Step 4: Layout Renders Both -->
+  <rect x="70" y="730" width="350" height="100" class="server-box"/>
+  <text x="245" y="757" text-anchor="middle" class="step">④ layout.tsx가 렌더링</text>
+  <text x="85" y="780" class="code">&lt;Layout&gt;</text>
+  <text x="85" y="800" class="code">  {children}    ← 기존 페이지</text>
+  <text x="85" y="820" class="code">  {postModal}   ← 모달 (인터셉트)</text>
+  
+  <!-- Arrow 4 -->
+  <path d="M 245 830 L 245 860" class="arrow"/>
+  
+  <!-- Step 5: Modal Renders -->
+  <rect x="70" y="860" width="350" height="120" class="box"/>
+  <text x="245" y="887" text-anchor="middle" class="step">⑤ @postModal 슬롯 렌더링</text>
+  <text x="85" y="910" class="small-text">• (.)post/[id]/page.tsx 실행</text>
+  <text x="85" y="930" class="small-text">• params = { id: '1' } 전달</text>
+  <text x="85" y="950" class="small-text">• PostDetailModal 컴포넌트 반환</text>
+  <text x="85" y="970" class="small-text">• serverApi로 데이터 페치</text>
+  
+  <!-- Arrow 5 -->
+  <path d="M 245 980 L 245 1010" class="arrow-back"/>
+  
+  <!-- Step 6: Modal Displayed -->
+  <rect x="70" y="1010" width="350" height="130" class="feature-box"/>
+  <text x="245" y="1037" text-anchor="middle" class="step">⑥ 모달 화면에 표시</text>
+  <text x="85" y="1060" class="small-text">• 기존 페이지 위에 모달 오버레이</text>
+  <text x="85" y="1080" class="small-text">• URL은 /post/1로 변경 (동적 파라미터)</text>
+  <text x="85" y="1100" class="small-text">• router.back()으로 모달 닫기 가능</text>
+  <text x="85" y="1120" class="small-text">• params.id로 동적 데이터 접근</text>
+  
+  <!-- Scenario 2: Direct Access -->
+  <rect x="460" y="330" width="390" height="830" class="box"/>
+  <text x="655" y="360" text-anchor="middle" class="subtitle">시나리오 2: 직접 URL 접근 (전체 페이지)</text>
+  
+  <!-- Step 1: Direct Access -->
+  <rect x="480" y="380" width="350" height="100" class="highlight"/>
+  <text x="655" y="407" text-anchor="middle" class="step">① 사용자가 URL 직접 입력 또는 새로고침</text>
+  <text x="495" y="430" class="small-text">• /intercept-modal-demo2/post/1</text>
+  <text x="495" y="450" class="small-text">• 서버 사이드 렌더링 (SSR)</text>
+  <text x="495" y="470" class="small-text">• 브라우저 새로고침 또는 직접 접근</text>
+  
+  <!-- Arrow 1 -->
+  <path d="M 655 480 L 655 510" class="arrow-direct"/>
+  
+  <!-- Step 2: Next.js Routing -->
+  <rect x="480" y="510" width="350" height="120" class="internal-box"/>
+  <text x="655" y="537" text-anchor="middle" class="step">② Next.js가 실제 경로로 라우팅</text>
+  <text x="495" y="560" class="small-text">• Intercept Route 적용 안됨</text>
+  <text x="495" y="580" class="small-text">• post/[id]/page.tsx를 직접 렌더링</text>
+  <text x="495" y="600" class="small-text">• Parallel Slot 사용 안함</text>
+  <text x="495" y="620" class="small-text">• params.id 동적 파라미터 추출</text>
+  
+  <!-- Arrow 2 -->
+  <path d="M 655 630 L 655 660" class="arrow-direct"/>
+  
+  <!-- Step 3: Full Page Renders -->
+  <rect x="480" y="660" width="350" height="120" class="server-box"/>
+  <text x="655" y="687" text-anchor="middle" class="step">③ post/[id]/page.tsx 렌더링</text>
+  <text x="495" y="710" class="small-text">• InterceptModalDemo2Page 렌더링</text>
+  <text x="495" y="730" class="small-text">• PostDetailModal 렌더링</text>
+  <text x="495" y="750" class="small-text">• serverApi로 데이터 페치 (params.id)</text>
+  <text x="495" y="770" class="small-text">• 전체 페이지로 표시 (모달 아님)</text>
+  
+  <!-- Arrow 3 -->
+  <path d="M 655 780 L 655 810" class="arrow-direct"/>
+  
+  <!-- Step 4: Full Page Displayed -->
+  <rect x="480" y="810" width="350" height="120" class="feature-box"/>
+  <text x="655" y="837" text-anchor="middle" class="step">④ 전체 페이지로 표시</text>
+  <text x="495" y="860" class="small-text">• 메인 페이지 + 상세 내용 모두 표시</text>
+  <text x="495" y="880" class="small-text">• InterceptModal은 여전히 렌더링되지만</text>
+  <text x="495" y="900" class="small-text">  레이아웃 컨텍스트가 다름</text>
+  <text x="495" y="920" class="small-text">• 동적 라우트 파라미터 활용</text>
+  
+  <!-- Key Concepts -->
+  <rect x="50" y="1180" width="800" height="240" class="note-box"/>
+  <text x="450" y="1210" text-anchor="middle" class="subtitle">핵심 개념 및 차이점</text>
+  
+  <text x="70" y="1240" class="text">• 동적 라우트 사용: [id] 세그먼트로 URL 파라미터를 경로의 일부로 처리</text>
+  <text x="70" y="1265" class="text">• params vs searchParams: demo1은 searchParams(?id=1), demo2는 params([id]) 사용</text>
+  <text x="70" y="1290" class="text">• 인터셉트 경로: (.)post/[id]는 같은 레벨의 post/[id]를 가로챔</text>
+  <text x="70" y="1315" class="text">• Parallel Routes (@postModal): 레이아웃에서 여러 페이지 동시 렌더링</text>
+  <text x="70" y="1340" class="text">• SEO 친화적: /post/1 형태의 깔끔한 URL 구조</text>
+  <text x="70" y="1365" class="text">• 동적 세그먼트: [id], [slug] 등 다양한 패턴 적용 가능</text>
+  <text x="70" y="1390" class="text">• 클라이언트 네비게이션 시 인터셉트, 직접 접근 시 전체 페이지 렌더링</text>
+  
+</svg>

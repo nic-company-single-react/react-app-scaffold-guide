@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1080">
+  <defs>
+    <style>
+      .title { font: bold 24px sans-serif; fill: #1a1a1a; }
+      .subtitle { font: bold 16px sans-serif; fill: #2563eb; }
+      .text { font: 15px sans-serif; fill: #374151; }
+      .small-text { font: 13px sans-serif; fill: #6b7280; }
+      .step { font: bold 16px sans-serif; fill: #dc2626; }
+      .box { fill: #f0f9ff; stroke: #2563eb; stroke-width: 2; rx: 8; }
+      .server-box { fill: #f0fdf4; stroke: #16a34a; stroke-width: 2; rx: 8; }
+      .internal-box { fill: #faf5ff; stroke: #9333ea; stroke-width: 2; rx: 8; }
+      .action-box { fill: #fff7ed; stroke: #f97316; stroke-width: 2; rx: 8; }
+      .arrow { stroke: #2563eb; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .arrow-back { stroke: #16a34a; stroke-width: 2; fill: none; marker-end: url(#arrowhead-green); }
+      .note-box { fill: #fef3c7; stroke: #f59e0b; stroke-width: 1.5; rx: 4; }
+      .highlight { fill: #dbeafe; stroke: #3b82f6; stroke-width: 1; rx: 4; }
+      .feature-box { fill: #ecfdf5; stroke: #10b981; stroke-width: 1.5; rx: 4; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#2563eb" />
+    </marker>
+    <marker id="arrowhead-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#16a34a" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" class="title">Server Action을 통한 Form 제출 흐름도</text>
+  <text x="400" y="58" text-anchor="middle" class="small-text">(Server Component + Server Action)</text>
+  
+  <!-- Server Component (Form) -->
+  <rect x="100" y="85" width="600" height="130" class="box"/>
+  <text x="400" y="112" text-anchor="middle" class="subtitle">Server Component (Form)</text>
+  <text x="120" y="138" class="text">&lt;form action={todosAction}&gt;</text>
+  <text x="120" y="160" class="small-text">- 입력 필드: id, title, content</text>
+  <text x="120" y="180" class="small-text">- 제출 시 자동으로 FormData 생성</text>
+  <text x="120" y="200" class="small-text">- Server Action 함수로 직접 전달</text>
+
+  <!-- Arrow 1: Form Submit -->
+  <path d="M 400 215 L 400 275" class="arrow"/>
+  <rect x="250" y="235" width="300" height="25" class="highlight"/>
+  <text x="400" y="255" text-anchor="middle" class="step">① Form 제출 (FormData)</text>
+  
+  <!-- Server Action -->
+  <rect x="100" y="285" width="600" height="150" class="action-box"/>
+  <text x="400" y="312" text-anchor="middle" class="subtitle">Server Action (todosAction)</text>
+  <text x="120" y="338" class="small-text">• 'use server' 지시어로 서버에서만 실행</text>
+  <text x="120" y="358" class="small-text">• FormData 파싱:</text>
+  <text x="140" y="378" class="small-text">- const title = formData.get('title')</text>
+  <text x="140" y="398" class="small-text">- const content = formData.get('content')</text>
+  <text x="140" y="418" class="small-text">- const id = formData.get('id')</text>
+  
+  <!-- Arrow 2: Call serverApi -->
+  <path d="M 400 435 L 400 495" class="arrow"/>
+  <rect x="240" y="455" width="320" height="25" class="highlight"/>
+  <text x="400" y="475" text-anchor="middle" class="step">② serverApi 함수 호출</text>
+  
+  <!-- serverApi Processing -->
+  <rect x="100" y="505" width="600" height="130" class="internal-box"/>
+  <text x="400" y="532" text-anchor="middle" class="subtitle">serverApi (내부 처리)</text>
+  <text x="120" y="558" class="small-text">• FormData를 HTTP Body에 포함</text>
+  <text x="120" y="578" class="small-text">• Content-Type: multipart/form-data 자동 설정</text>
+  <text x="120" y="598" class="small-text">• fetch() API로 HTTP POST 요청 실행</text>
+  <text x="120" y="618" class="small-text">• cache: 'no-store' 옵션으로 캐시 무효화</text>
+  
+  <!-- Arrow 3: HTTP Request -->
+  <path d="M 400 635 L 400 695" class="arrow"/>
+  <rect x="260" y="655" width="280" height="25" class="highlight"/>
+  <text x="400" y="675" text-anchor="middle" class="step">③ HTTP POST Request</text>
+  
+  <!-- External API Server -->
+  <rect x="100" y="705" width="600" height="120" class="server-box"/>
+  <text x="400" y="735" text-anchor="middle" class="subtitle">External API Server</text>
+  <text x="120" y="760" class="text">https://jsonplaceholder.typicode.com/todos</text>
+  
+  <rect x="120" y="780" width="560" height="35" class="note-box"/>
+  <text x="140" y="805" class="small-text">• 폼 데이터 처리, 비즈니스 로직 실행, JSON 응답 생성</text>
+  
+  <!-- Arrow 4: Response -->
+  <path d="M 400 825 L 400 875" class="arrow-back"/>
+  <rect x="260" y="840" width="280" height="25" class="highlight"/>
+  <text x="400" y="860" text-anchor="middle" class="step">④ HTTP Response (JSON)</text>
+  
+  <!-- Response Processing in Server Action -->
+  <rect x="100" y="885" width="600" height="130" class="action-box"/>
+  <text x="400" y="912" text-anchor="middle" class="subtitle">Server Action 응답 처리</text>
+  <text x="120" y="938" class="small-text">• API 응답 데이터를 Cookie에 저장:</text>
+  <text x="140" y="958" class="small-text">cookies().set('result_todos', JSON.stringify(res))</text>
+  <text x="120" y="978" class="small-text">• URLSearchParams로 query parameter 생성</text>
+  <text x="120" y="998" class="small-text">• redirect()로 현재 페이지로 이동 (결과 전달)</text>
+  
+  <!-- Arrow 5: Redirect -->
+  <path d="M 400 1015 L 400 1035" class="arrow-back"/>
+  
+  <!-- Final Result -->
+  <rect x="100" y="1045" width="600" height="25" class="feature-box"/>
+  <text x="400" y="1062" text-anchor="middle" class="text" style="fill: #065f46;">⑤ Server Component에서 Cookie/Query Parameter로 결과 표시</text>
+  
+</svg>

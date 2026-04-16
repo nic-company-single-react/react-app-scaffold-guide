@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1200">
+  <defs>
+    <style>
+      .title { font: bold 24px sans-serif; fill: #1a1a1a; }
+      .subtitle { font: bold 16px sans-serif; fill: #2563eb; }
+      .text { font: 15px sans-serif; fill: #374151; }
+      .small-text { font: 13px sans-serif; fill: #6b7280; }
+      .step { font: bold 16px sans-serif; fill: #dc2626; }
+      .box { fill: #f0f9ff; stroke: #2563eb; stroke-width: 2; rx: 8; }
+      .server-box { fill: #f0fdf4; stroke: #16a34a; stroke-width: 2; rx: 8; }
+      .action-box { fill: #fef3c7; stroke: #f59e0b; stroke-width: 2; rx: 8; }
+      .arrow { stroke: #2563eb; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .arrow-back { stroke: #16a34a; stroke-width: 2; fill: none; marker-end: url(#arrowhead-green); }
+      .arrow-callback { stroke: #8b5cf6; stroke-width: 2; fill: none; stroke-dasharray: 5,5; marker-end: url(#arrowhead-purple); }
+      .note-box { fill: #fef3c7; stroke: #f59e0b; stroke-width: 1.5; rx: 4; }
+      .warning-box { fill: #fee2e2; stroke: #dc2626; stroke-width: 2.5; rx: 6; }
+      .warning-text { font: bold 14px sans-serif; fill: #dc2626; }
+      .highlight { fill: #dbeafe; stroke: #3b82f6; stroke-width: 1; rx: 4; }
+      .success-box { fill: #d1fae5; stroke: #10b981; stroke-width: 1.5; rx: 4; }
+      .mutation-box { fill: #f3e8ff; stroke: #8b5cf6; stroke-width: 2; rx: 8; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#2563eb" />
+    </marker>
+    <marker id="arrowhead-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#16a34a" />
+    </marker>
+    <marker id="arrowhead-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#8b5cf6" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" class="title">useApiMutation 훅 동작 흐름도</text>
+  <text x="400" y="58" text-anchor="middle" class="small-text">(TanStack Query useMutation 기반 데이터 변경)</text>
+  
+  <!-- Step 1: Component Initial Setup -->
+  <rect x="100" y="85" width="600" height="145" class="box"/>
+  <text x="400" y="112" text-anchor="middle" class="subtitle">Client Component (초기 설정)</text>
+  <text x="120" y="138" class="text">const mutation = useApiMutation&lt;Post, CreatePostInput&gt;('/posts', {</text>
+  <text x="140" y="158" class="small-text">method: 'POST',</text>
+  <text x="140" y="178" class="small-text">mutationOptions: {</text>
+  <text x="160" y="198" class="small-text">onSuccess: (data) => console.log('성공:', data),</text>
+  <text x="160" y="218" class="small-text">onError: (error) => console.error('실패:', error)</text>
+  <text x="140" y="238" class="small-text">}</text>
+  <text x="120" y="258" class="text">});</text>
+
+  <!-- Arrow: Wait for User Action -->
+  <path d="M 400 230 L 400 290" class="arrow"/>
+  <rect x="255" y="240" width="290" height="25" class="highlight"/>
+  <text x="400" y="260" text-anchor="middle" class="step">대기 상태 (사용자 액션 기다림)</text>
+
+  <!-- Step 2: User Action -->
+  <rect x="100" y="295" width="600" height="119" class="action-box"/>
+  <text x="400" y="322" text-anchor="middle" class="subtitle">① 사용자 액션 (버튼 클릭, 폼 제출 등)</text>
+  <text x="120" y="348" class="text">&lt;button onClick={() => mutation.mutate({ title, content })}&gt;</text>
+  <text x="140" y="368" class="small-text">Create Post</text>
+  <text x="120" y="388" class="text">&lt;/button&gt;</text>
+  <text x="120" y="405" class="small-text">• isPending: false → true (로딩 시작)</text>
+
+  <!-- Arrow: API Request -->
+  <path d="M 400 415 L 400 475" class="arrow"/>
+  <rect x="220" y="425" width="360" height="25" class="highlight"/>
+  <text x="400" y="445" text-anchor="middle" class="step">② HTTP Request (POST/PUT/DELETE/PATCH)</text>
+
+  <!-- Step 3: API Server Processing -->
+  <rect x="100" y="485" width="600" height="180" class="server-box"/>
+  <text x="400" y="515" text-anchor="middle" class="subtitle">API Server</text>
+  <text x="120" y="540" class="text">Route Handler, 내외부 API</text>
+  
+  <rect x="120" y="560" width="560" height="95" class="note-box"/>
+  <text x="140" y="585" class="step">③ 데이터 처리</text>
+  <text x="140" y="607" class="small-text">• DB 저장/수정/삭제 (예: INSERT INTO posts ...)</text>
+  <text x="140" y="627" class="small-text">• 비즈니스 로직 실행 (유효성 검증, 권한 체크)</text>
+  <text x="140" y="647" class="small-text">• 응답 데이터 생성 (생성/수정된 리소스 반환)</text>
+
+  <!-- Arrow: Response -->
+  <path d="M 400 665 L 400 735" class="arrow-back"/>
+  <rect x="260" y="685" width="280" height="25" class="highlight"/>
+  <text x="400" y="705" text-anchor="middle" class="step">④ HTTP Response (JSON)</text>
+
+  <!-- Step 4: Response Handling -->
+  <rect x="100" y="745" width="600" height="180" class="mutation-box"/>
+  <text x="400" y="775" text-anchor="middle" class="subtitle">Mutation 상태 업데이트</text>
+  
+  <rect x="120" y="795" width="560" height="120" class="highlight"/>
+  <text x="140" y="818" class="step">⑤ 성공 시 상태 변경</text>
+  <text x="140" y="835" class="small-text">• isPending: true → false</text>
+  <text x="140" y="852" class="small-text">• isSuccess: false → true</text>
+  <text x="140" y="869" class="small-text">• data: 응답 데이터 저장 (예: { id: 1, title: '...', ... })</text>
+  <text x="140" y="886" class="small-text">• error: null</text>
+  <text x="140" y="903" class="small-text">또는 ⑤-1 실패 시: isError: true, error: Error 객체</text>
+
+  <!-- Arrow: Callback -->
+  <path d="M 400 925 L 400 985" class="arrow-callback"/>
+  <rect x="280" y="940" width="240" height="25" class="highlight"/>
+  <text x="400" y="960" text-anchor="middle" class="step">⑥ 콜백 함수 실행</text>
+
+  <!-- Step 5: Callbacks -->
+  <rect x="100" y="995" width="600" height="100" class="box"/>
+  <text x="400" y="1022" text-anchor="middle" class="subtitle">콜백 처리</text>
+  <text x="120" y="1048" class="small-text">• onSuccess(data) 실행 → 성공 메시지 표시, 페이지 이동 등</text>
+  <text x="120" y="1068" class="small-text">• onError(error) 실행 → 에러 메시지 표시</text>
+  <text x="120" y="1088" class="small-text">• onSettled() 실행 → 성공/실패 관계없이 항상 실행</text>
+
+  <!-- Warning Box: Cache Invalidation -->
+  <rect x="80" y="1110" width="640" height="65" class="warning-box"/>
+  <text x="400" y="1132" text-anchor="middle" class="warning-text">⚠️ 중요: 캐시 무효화 (선택적) ⚠️</text>
+  <text x="400" y="1150" text-anchor="middle" class="small-text">onSuccess에서 queryClient.invalidateQueries(['posts'])를 호출하여</text>
+  <text x="400" y="1165" text-anchor="middle" class="small-text">관련된 useApi/useApiData의 캐시를 무효화하고 자동 refetch 트리거</text>
+
+</svg>
