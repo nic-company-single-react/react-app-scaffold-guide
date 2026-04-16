@@ -190,7 +190,7 @@ const sidebars: SidebarsConfig = {
     'task/intro',
     {
       type: 'category',
-      label: '◉ 첫 작업과정 정리',
+      label: '◉ React 프로젝트 준비',
       collapsed: true,
       collapsible: true,
       items: [

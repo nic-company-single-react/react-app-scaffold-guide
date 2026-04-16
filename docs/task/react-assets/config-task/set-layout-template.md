@@ -1,11 +1,11 @@
 ---
 sidebar_position: 1
 displayed_sidebar: "taskDocSidebar"
-title: "react-app-boilerplate 레이아웃템플릿적용"
+title: "react-app-scaffold 레이아웃템플릿적용"
 ---
 
-# react-app-boilerplate 레이아웃 템플릿 적용
-* Tailwind CSS 로 만들어진 템플릿 다운 받아서 **react-app-boilerplate** 프로젝트에 적용하기 위한 작업 진행 내용을 정리합니다.
+# react-app-scaffold 레이아웃 템플릿 적용
+* Tailwind CSS 로 만들어진 템플릿 다운 받아서 **react-app-scaffold** 프로젝트에 적용하기 위한 작업 진행 내용을 정리합니다.
 
 
 
@@ -75,7 +75,7 @@ title: "react-app-boilerplate 레이아웃템플릿적용"
 			name="viewport"
 			content="width=device-width, initial-scale=1.0"
 		/>
-		<title>react-app-boilerplate</title>
+		<title>react-app-scaffold</title>
 	</head>
 	<body>
 		<div id="root"></div>

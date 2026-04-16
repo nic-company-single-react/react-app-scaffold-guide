@@ -1,28 +1,214 @@
 ---
 sidebar_position: 1
 displayed_sidebar: "taskDocSidebar"
-title: "react-app-boilerplate 세팅과정정리"
+title: "react-app-scaffold 최초프로젝트세팅"
 ---
 
-# react-app-boilerplate 세팅과정정리
+# React 초기 프로젝트 세팅
 
-- react-app-boilerplate 프로젝트 셋팅과정을 정리합니다.
+- <span class="react-color">Frontend (react-app-scaffold)</span> 프로젝트 최초 세팅 과정을 정리합니다.
 
 
 
-## React 프로젝트 (shadcn)생성하기
-- 앱 최초 셋팅시작은 [Shadcn UI 사이트의 create 페이지](https://ui.shadcn.com/create)에서 시작합니다.
-- 이 페이지에서 원하는 프로젝트 템플릿을 선택하고 셋팅을 시작합니다.
-- 셋팅 과정은 다음과 같습니다.
-  - preset : Vega / Lucide / Inter
-  - Component Library : Base UI
-  - Style : Vega
-  - 나머지는 모두 기본 세팅값으로 두고 최종 **Create Project** 버튼을 클릭합니다.
-- Create Project 팝업창에서 **Vite**를 선택하고 `npm` 명령어로 프로젝트 생성 값을 복사합니다.
-  ![Shadcn UI 프로젝트 생성 팝업창](../assets/config-task/shadcn-create-task01.png)
-- 작업하려고 하는 폴더 위치로 이동하여 복사한 명령어를 실행하여 다음과 같이 프로젝트를 생성합니다.
-  - 생성과정에 **프로젝트 명(react-app-boilerplate)** 을 입력하고 최종 생성된 프로젝트 폴더로 이동하면 프로젝트 파일들이 생성되어 있습니다.
-  ![Shadcn UI 프로젝트 생성 명령창](../assets/config-task/shadcn-create-task02.png)
+## React 프로젝트 생성하기
+---
+:::info <span class="admonition-title">Vite</span>를 통해 프로젝트를 생성합니다.
+  * [Vite공식문서: https://ko.vitejs.dev/](https://ko.vitejs.dev/)
+:::
+:::tip <span class="admonition-title">Frontend</span> 패키지 이름 명명 규칙
+* 추 후 프로젝트를 생성한 다음 `package.json` 파일에서 패키지 이름을 다음 규칙에 맞게 변경합니다.
+* 패키지 이름 예시
+    - **애플리케이션 이름**: @company/react-app-\{프로젝트 명\} (예: @axiom/react-app-project1)
+* 네이밍 규칙
+    - **@company**: 조직 스코프 (프로젝트에 맞게 변경)
+    - **react**: React 프로젝트
+    - **app-**: Application 앱 접두사
+    - **\{프로젝트 명\}**: 해당 프로젝트 도메인 명 (kebab-case)
+:::
+
+* **react-app-scaffold** Frontend 프로젝트는 **Vite React** 프로젝트로 생성합니다.  
+개인 PC에서 작업할 폴더로 이동하여 다음 명령어를 실행합니다.
+    ```sh
+    npm create vite@latest react-app-scaffold -- --template react-ts
+    ```
+* 생성 후 폴더 이동:
+    ```sh
+    cd react-app-scaffold
+    ```
+* 생성된 프로젝트를 VSCode로 열어 프로젝트 파일들을 확인합니다.
+![React 프로젝트 생성 후 폴더 구조](../assets/config-task/set-first01.png)
+
+
+
+
+
+
+
+## 생성된 폴더 구조
+---
+* 최초 생성된 폴더 구조는 다음과 같습니다.
+    ```sh
+    react-app-scaffold/
+    ├── public/
+    ├── src/
+    ├── .gitignore
+    ├── eslint.config.js
+    ├── index.html
+    ├── package.json
+    ├── README.md
+    ├── tsconfig.app.json
+    ├── tsconfig.json
+    ├── tsconfig.node.json
+    └── vite.config.ts
+    ```
+
+
+
+
+
+
+
+## 패키지 명 변경
+---
+* `package.json` 파일에 **프로젝트 명**을 프로젝트 명명 규칙에 맞게 변경합니다. 아래 예제에서는 `@axiom/react-app-scaffold`로 하였습니다.
+    - `@회사및조직/react-app-{업무명}`
+    - 예시
+    ```json
+    {
+        "name": "@axiom/react-app-scaffold",
+    }
+    ```
+
+
+
+
+
+
+
+
+## 생성한 프로젝트 확인하기
+---
+* 최초 생성된 프로젝트에는 **의존성 라이브러리**가 설치되어 있지 않아서 **node_modules** 폴더가 없습니다. 따라서 생성한 `@axiom/react-app-scaffold` 프로젝트의 루트 디렉토리에서 `npm install` 명령어를 실행하여 의존성 라이브러리를 설치합니다.
+    ```sh
+    npm install
+    ```
+* 의존성 라이브러리 설치 후 폴더 구조는 다음과 같습니다.
+    ```sh
+    @axiom/react-app-scaffold/
+    // highlight-start
+    ├── node_modules/    # 의존성 라이브러리 설치 후 생성됨
+    // highlight-end
+    ├── public/
+    ├── src/
+    ├── .gitignore
+    ├── eslint.config.js
+    ├── index.html
+    ├── package.json
+    ├── README.md
+    ├── tsconfig.app.json
+    ├── tsconfig.json
+    ├── tsconfig.node.json
+    └── vite.config.ts
+    ```
+* 로컬 서버를 띄우기 위해 `npm run dev` 명령어를 실행하여 로컬 서버를 띄웁니다.
+    ```sh
+    npm run dev
+    ```
+* 로컬 서버가 띄워지면 브라우저에서 `http://localhost:5173` 접속하여 확인합니다. 포트는 다를 수 있습니다.
+![프로젝트 최초 브라우저에서 확인 예시](../assets/config-task/shadcn-create-task03.png)
+
+
+
+
+
+
+
+
+
+
+## Tailwind CSS 설치 (여기부터 작업해야함. 실제react-app-scaffold 프로젝트에서도 작업해야함)
+---
+* `@axiom/react-app-scaffold` 프로젝트는 기본으로 **Tailwind CSS**를 제공할 것입니다. 따라서 **Tailwind CSS**를 설치해야 합니다.
+    ```sh
+    npm install -D tailwindcss @tailwindcss/vite tw-animate-css
+    ```
+:::info <span class="admonition-title">Tailwind CSS</span>의 동작 원리
+    - Tailwind는 런타임 CSS-in-JS 라이브러리가 아니라, **빌드 타임**에 소스코드를 **스캔**해서 실제로 사용된 유틸리티 클래스만 CSS 파일로 생성하는 방식입니다.
+    ```
+    소스코드 스캔 → 사용된 클래스 추출 → CSS 파일 생성
+    ```
+:::
+
+
+* `vite.config.ts` 파일에 **Tailwind 플러그인** 추가 및 **@ alias 구성**
+    ```ts
+    import { defineConfig } from 'vite'
+    import react from '@vitejs/plugin-react'
+    // highlight-start
+    import tailwindcss from '@tailwindcss/vite'
+    import { resolve } from 'path'
+    // highlight-end
+    export default defineConfig({
+        plugins: [
+            react(),
+            // highlight-start
+            tailwindcss(),   // ← 추가
+            // highlight-end
+        ],
+        // highlight-start
+        resolve: {
+            alias: {
+            '@': resolve(__dirname, 'src'),
+            },
+        },
+        // highlight-end
+        server: {
+            port: 5173,
+        },
+    })
+    ```
+* CSS 파일 재구성
+    - 기존 `src/index.css`와 `src/App.css`를 삭제하고, `src/assets/styles/app.css`로 통합합니다.
+    - `src/assets/styles/app.css` 신규 생성
+        - **핵심 포인트**: Tailwind v4는 tailwind.config.js 없이 CSS 파일의 @import 'tailwindcss' 한 줄로 동작합니다. content 경로 설정도 CSS 파일 내 @source 디렉티브로 처리합니다.
+    ```css
+    /* Tailwind 엔진 (v4 방식) */
+    @import 'tailwindcss';
+    /* tw-animate-css 사용 시 */
+    @import 'tw-animate-css';
+    ```
+* `src/main.tsx` CSS 파일 import 경로 수정
+    ```tsx
+    import { StrictMode } from 'react'
+    import { createRoot } from 'react-dom/client'
+    // highlight-start
+    import './assets/styles/app.css'   // ← index.css → assets/styles/app.css로 변경
+    // highlight-end
+    import App from './App.tsx'
+
+    createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+    )
+    ```
+* `src/App.tsx` 파일 내 CSS 삭제
+    ```tsx
+    import { useState } from 'react'
+    import reactLogo from './assets/react.svg'
+    import viteLogo from './assets/vite.svg'
+    import heroImg from './assets/hero.png'
+    // highlight-start
+    // import './App.css'
+    // highlight-end
+
+    // ...
+    ```
+
+
+
+
+
 
 
 
@@ -32,17 +218,17 @@ title: "react-app-boilerplate 세팅과정정리"
 ## Git 연결하기
 ---
 
-- 생성한 프로젝트를 Git 저장소에 연결합니다. 저장소는 `http://211.208.101.192:4043/2026react/react-app-boilerplate.git` 입니다.
+- 생성한 프로젝트를 Git 저장소에 연결합니다. 저장소는 `https://github.com/nic-company-single-react/react-app-scaffold` 입니다. Git저장소는 프로젝트 상황에 따라 다르게 설정합니다.
   - 연결 명령어
   ```sh
   git init # 초기화
   git add . # 스테이징
   git commit -m "initial commit" # 커밋
-  git branch -M main # 브랜치 명 변경
-  git remote add origin http://211.208.101.192:4043/2026react/react-app-boilerplate.git # 저장소 연결
+  git branch -M main # 브랜치 명 main으로 변경
+  git remote add origin https://github.com/nic-company-single-react/react-app-scaffold.git # 저장소 연결
   git push -u origin main # 푸시
   ```
-  - 연결 과정에 Git push 버퍼가 작아 push가 안되는 상황이 생겨서 버퍼를 늘려주고 push 했습니다.
+  - 연결 과정에 Git push 버퍼가 작아 push가 안되는 상황이 생기면 버퍼를 늘려주고 push 합니다.
   ```sh
   # 버퍼 524MB로 설정
   git config --global http.postBuffer 524288000
@@ -757,7 +943,7 @@ cross-env NODE_ENV=production ... ...
 :::
 
 ### TailwindCSS 설치
-* **react-app-boilerplate** 프로젝트는 최초 설치 시 이미 **TailwindCSS**가 설치 되어있습니다. 따라서 별도의 설정이 필요없습니다.
+* **react-app-scaffold** 프로젝트는 최초 설치 시 이미 **TailwindCSS**가 설치 되어있습니다. 따라서 별도의 설정이 필요없습니다.
 
 
 
@@ -773,13 +959,13 @@ cross-env NODE_ENV=production ... ...
   ✔ Updating CSS variables in src\app\globals.css
   ✔ Installing dependencies.
   ```
-  * **react-app-boilerplate** 프로젝트는 최초 설치 시 이미 **Shadcn/ui**가 설치 되어있습니다. 따라서 위와같이 최초 프로젝트 설치 과정은 하지 않아도 됩니다.
+  * **react-app-scaffold** 프로젝트는 최초 설치 시 이미 **Shadcn/ui**가 설치 되어있습니다. 따라서 위와같이 최초 프로젝트 설치 과정은 하지 않아도 됩니다.
   
   :::info <span class="admonition-title">src/index.css 대신 app.css</span> 파일을 프로젝트 루트 스타일 파일로 수정
   * 현재 프로젝트는 기본으로 `src/index.css` 파일이 기본 루트 스타일파일로 생성됩니다. 이것을 **app.css** 파일로 수정하여 `/src/assets/styles/app.css` 위치에 `app.css` 파일을 생성하고 `src/index.css`에 있는 내용을 모두 옮깁니다. `src/index.css`파일은 이제 삭제해도 됩니다.
   :::
 * **shadcn** 설치 후 루트에 생성된 `components.json` 설정파일을 수정합니다.
-  - **shadcn** 컴포넌트를 관리 할 폴더를 재정의 해서 원하는 폴더 위치로 세팅합니다. **react-app-boilerplate** 프로젝트에서는 다음과 같은 위치로 **shadcn** 경로를 `components.json`파일에서 변경하였습니다.
+  - **shadcn** 컴포넌트를 관리 할 폴더를 재정의 해서 원하는 폴더 위치로 세팅합니다. **react-app-scaffold** 프로젝트에서는 다음과 같은 위치로 **shadcn** 경로를 `components.json`파일에서 변경하였습니다.
     ```js
     {
       "$schema": "https://ui.shadcn.com/schema.json",
@@ -862,8 +1048,8 @@ cross-env NODE_ENV=production ... ...
 ## 현재까지 폴더 구조
 ---
 ```sh
-# 현재까지의 폴더구조 입니다. react-app-boilerplate에 맞게 구조를 변경할 것입니다.
-react-app-boilerplate
+# 현재까지의 폴더구조 입니다. react-app-scaffold에 맞게 구조를 변경할 것입니다.
+react-app-scaffold
 ├── README.md
 ├── components.json
 ├── eslint.config.js
@@ -893,7 +1079,7 @@ react-app-boilerplate
 * 최근 Vite 버전에서 `vite-env.d.ts`파일이 기본으로 생성되지 않는 이유는 **TypeScript**의 타입 정의 방식이 개선되고 표준화되었기 때문입니다.
   - 최근변경된방식 : `tsconfig.app.json`의 `compilerOptions.types`에 `vite/client` 값이 설정됩니다.
   - 필요하다면 수동으로 프로젝트 루트에 `vite-env.d.ts`파일을 생성하고 다음내용을 추가하면 됩니다.
-* 현재 **react-app-boilerplate** 프로젝트는 `vite-env.d.ts`파일을 생성해놓은 상태이며, 예전 `@types`폴더 사용 방식은 사용하지 않습니다.
+* 현재 **react-app-scaffold** 프로젝트는 `vite-env.d.ts`파일을 생성해놓은 상태이며, 예전 `@types`폴더 사용 방식은 사용하지 않습니다.
   ```ts
   /// <reference types="vite/client" />
   //import type { IRouter } from '@/app/types/router';
@@ -919,7 +1105,7 @@ react-app-boilerplate
 
 
 
-### react-app-boilerplate 프로젝트 폴더 구조 만들기
+### react-app-scaffold 프로젝트 폴더 구조 만들기
 * 최초 프로젝트 기본 폴더 구조를 생성하기 위해 필요없는 폴더, 파일들을 삭제하고 가장 기본이 되는 다음과 같은 폴더 구조로 레이아웃을 만듭니다. **src** 폴더 구조만 설명합니다.
 * **router, redux** 등 기본으로 필요한 라이브러리는 아래쪽 기본 코드 진행 하면서 설치 합니다.
 
@@ -984,7 +1170,7 @@ src
 
 ## Sass 설치
 ---
-* **react-app-boilerplate** 프로젝트는 최초 설치 시 이미 **TailwindCSS**가 설치 되어있습니다.
+* **react-app-scaffold** 프로젝트는 최초 설치 시 이미 **TailwindCSS**가 설치 되어있습니다.
 * 하지만 상황에 따라 Tailwind CSS를 사용하지 않고 Sass, Emotion, CSS Modules 등 원하는 어떤 스타일링 기술을 사용하든 쉽게 적용 가능합니다. 
 * 프로젝트에서 `.scss`, `.sass` 파일을 사용하기 위해서 **Sass** npm 패키지를 설치합니다.
   ```sh
@@ -1008,7 +1194,7 @@ src
     - 빠른 설치, 간단한 프로젝트: sass 추천
     - 대부분의 일반적인 프로젝트: sass면 충분함
   :::
-* **react-app-boilerplate** 프로젝트에서는 `sass`를 설치할 것입니다. 설치도 빠르고 성능 차이도 실무에서 체감하기 어렵기 때문입니다.
+* **react-app-scaffold** 프로젝트에서는 `sass`를 설치할 것입니다. 설치도 빠르고 성능 차이도 실무에서 체감하기 어렵기 때문입니다.
 * **Sass**는 프로젝트 상황에 따라 사용할 수도 있고 사용하지 않아도 상관없습니다. **TailwindCSS + shadcn/ui** 사용으로 `.scss` `.sass`이 아닌. `.css`를 우선 사용할 것입니다.
 
 
@@ -1054,7 +1240,7 @@ src
 :::
 
 ### 설치
-* **react-app-boilerplate** 에서는 라우터를 **Data 모드** 형식으로 **RouterProvider** 와 **createBrowserRouter, createHashRouter**를 사용할 것입니다.
+* **react-app-scaffold** 에서는 라우터를 **Data 모드** 형식으로 **RouterProvider** 와 **createBrowserRouter, createHashRouter**를 사용할 것입니다.
   ```sh
   npm i react-router
   ```
@@ -1299,7 +1485,7 @@ export default router;
 
 ## provider 통합설정
 ---
-* **react-app-boilerplate** 프로젝트에서는 **provider**를 통합하여 관리하기 위하여 `src/core/common/providers` 폴더를 생성하고 다음과 같이 `AppProviders.tsx` 파일을 생성하여 관리 합니다.
+* **react-app-scaffold** 프로젝트에서는 **provider**를 통합하여 관리하기 위하여 `src/core/common/providers` 폴더를 생성하고 다음과 같이 `AppProviders.tsx` 파일을 생성하여 관리 합니다.
   - `src/main.tsx`
   ```tsx
   import { createRoot } from 'react-dom/client';
@@ -1392,7 +1578,7 @@ export default router;
 ## 여기까지 진행함 ======================================================
 
 
-## react-app-boilerplate 기본 레이아웃 구성하기
+## react-app-scaffold 기본 레이아웃 구성하기
 ---
 * 기본 레이아웃을 구성하기 위하여 https://ui.shadcn.com/blocks/sidebar 에서 다음 명령어로 **shadcn**의 **Blocks sidebar** 레이아웃을 사용할 것입니다.
   ```sh

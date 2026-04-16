@@ -5,8 +5,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'react-app-boilerplate Guide',
-  tagline: 'react-app-boilerplate를 활용한 Frontend React 개발 가이드',
+  title: 'react-app-scaffold Guide',
+  tagline: 'react-app-scaffold를 활용한 Frontend React 개발 가이드',
   favicon: 'img/logo.ico',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -75,9 +75,9 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'react-app-boilerplate',
+      title: 'react-app-scaffold',
       logo: {
-        alt: 'react-app-boilerplate Guide',
+        alt: 'react-app-scaffold Guide',
         src: 'img/logo.png',
         // src: 'img/logo.svg',
       },
@@ -112,7 +112,7 @@ const config: Config = {
           sidebarId: 'nextjsTrainingSidebar',
         },
         {
-          label: '작업과정정리',
+          label: '프로젝트준비(공통영역)',
           type: 'docSidebar',
           position: 'right',
           sidebarId: 'taskDocSidebar',
@@ -131,7 +131,7 @@ const config: Config = {
         // },
         // {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: 'http://211.208.101.192:4043/2026react/react-app-boilerplate.git',
+          href: 'https://github.com/nic-company-single-react/react-app-scaffold',
           label: 'GitHub',
           position: 'right',
         },
@@ -191,11 +191,11 @@ const config: Config = {
             },
             {
               label: '예제 소스 GitHub',
-              href: 'http://211.208.101.192:4043/2026react/react-app-boilerplate.git',
+              href: 'http://211.208.101.192:4043/2026react/react-app-scaffold.git',
             },
             {
               label: 'Guide GitHub',
-              href: 'http://211.208.101.192:4043/2026react/react-app-boilerplate-guide.git',
+              href: 'http://211.208.101.192:4043/2026react/react-app-scaffold-guide.git',
             },
           ],
         },
