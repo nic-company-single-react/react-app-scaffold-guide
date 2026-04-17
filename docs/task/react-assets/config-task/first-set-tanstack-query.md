@@ -1,10 +1,10 @@
 ---
 sidebar_position: 1
 displayed_sidebar: "taskDocSidebar"
-title: "Tanstack Query 초기세팅정리"
+title: "Tanstack Query 초기 세팅"
 ---
 
-# Tanstack Query(react-query) 초기 세팅 정리
+# Tanstack Query(react-query) 초기 세팅
 
 :::info <span class="admonition-title">Tanstack Query(react-query)</span>란?
 * **TanStack Query**는 **React**애플리케이션의 서버 상태 관리 라이브러리 입니다.
