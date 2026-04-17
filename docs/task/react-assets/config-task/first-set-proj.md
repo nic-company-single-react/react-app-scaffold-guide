@@ -1170,12 +1170,12 @@ VITE_EXTERNAL_API_BASE_URL1=https://koreanjson.com
 
 ## provider 통합설정
 ---
-* **react-app-scaffold** 프로젝트에서는 **provider**를 통합하여 관리하기 위하여 `src/core/common/providers` 폴더를 생성하고 다음과 같이 `AppProviders.tsx` 파일을 생성하여 관리 합니다.
+* **react-app-scaffold** 프로젝트에서는 **provider**를 통합하여 관리하기 위하여 `src/core/providers` 폴더를 생성하고 다음과 같이 `AppProviders.tsx` 파일을 생성하여 관리 합니다.
   - `src/main.tsx`
   ```tsx
   import { createRoot } from 'react-dom/client';
   // highlight-start
-  import { AppProviders } from '@/core/common/providers/AppProviders';
+  import { AppProviders } from '@/core/providers/AppProviders';
   // highlight-end
   import App from './App.tsx';
   import '@/assets/styles/app.css';
@@ -1188,7 +1188,7 @@ VITE_EXTERNAL_API_BASE_URL1=https://koreanjson.com
     // highlight-end
   );
   ```
-  - `src/core/common/providers/AppProviders.tsx`
+  - `src/core/providers/AppProviders.tsx`
     - 현재는 provider가 비어있지만 추 후 여기에 추가할 것입니다.
   ```tsx
   import type { ReactNode } from 'react';

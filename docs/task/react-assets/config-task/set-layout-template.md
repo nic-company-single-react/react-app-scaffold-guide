@@ -20,11 +20,13 @@ title: "react-app-scaffold 레이아웃템플릿"
 ![아무것도 적용되어있느 않은 레이아웃 예시](../assets/config-task/first-config-layout03.png)
 
 
-* `RootLayout.tsx` 컴포넌트에 다음과 같이 레이아웃 일부에서 사용할 Context API Provider와 레이아웃을 구성할 `LayoutContent.tsx` 컴포넌트를 추가합니다.
+* `RootLayout.tsx` 컴포넌트에 다음과 같이 레이아웃 일부에서 사용할 Context API Provider와 레이아웃을 구성할 `RootLayoutContent.tsx` 컴포넌트를 추가합니다.
   ```tsx
-  // src/shared/components/layout/RootLayout.tsx ==============
-  import { SidebarProvider } from '@/shared/context/layout/SidebarContext';
-  import LayoutContent from './LayoutContent';
+  import RootLayoutContent from './RootLayoutContent';
+
+  // default template ===============================
+  import LayoutDefaultSidebarProvider from '@/core/providers/layout/default/LayoutDefaultSidebarProvider';
+  // default template ===============================
 
   interface IRootLayoutProps {
     //
@@ -32,20 +34,20 @@ title: "react-app-scaffold 레이아웃템플릿"
 
   export default function RootLayout({}: IRootLayoutProps): React.ReactNode {
     return (
-      <SidebarProvider>
-        <LayoutContent />
-      </SidebarProvider>
+      <LayoutDefaultSidebarProvider>
+        <RootLayoutContent />
+      </LayoutDefaultSidebarProvider>
     );
   }
   ```
-  - `src/shared/context/layout/SidebarContext.tsx` 파일은 레이아웃에서 사용하는 여러가지 Context API를 정의하고 있습니다.
-  - `src/shared/context/layout/SidebarContext.tsx` 파일은 레이아웃의 구조가 구성되어 있습니다.
-* 그 외 레이아웃 관련 파일들을 `src/shared/components/layout` 폴더 아래에 생성하였습니다.
+  - `src/core/providers/layout/default/LayoutDefaultSidebarProvider.tsx` 파일은 기본 제공 레이아웃에서 사용하는 여러가지 Context API를 정의하고 있습니다.
+
 
 
 
 ## google fonts 적용 warning 해결
 ---
+* 기본 레이아웃 css는 `src/assets/styles/layout/default/layout.css` 파일에 정의되어 있습니다.
 * google fonts 적용 시 다음과 같은 warning 메시지가 발생할 수 있습니다.
 ```sh
 [vite:css][postcss] @import must precede all other statements (besides @charset or empty @layer)
@@ -57,7 +59,7 @@ title: "react-app-scaffold 레이아웃템플릿"
 3212 |  @layer theme;
 ```
 * 이 경우 다음과 같이 해결합니다.
-  - `src/assets/styles/layout/layout.css` 파일의 다음 코드를 삭제합니다.
+  - `src/assets/styles/layout/default/layout.css` 파일의 다음 코드를 삭제합니다.
   ```css
   @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap') layer(base);
   ```
