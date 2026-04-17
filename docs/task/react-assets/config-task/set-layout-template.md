@@ -1,18 +1,25 @@
 ---
 sidebar_position: 1
 displayed_sidebar: "taskDocSidebar"
-title: "react-app-scaffold 레이아웃템플릿적용"
+title: "react-app-scaffold 레이아웃템플릿"
 ---
 
 # react-app-scaffold 레이아웃 템플릿 적용
-* Tailwind CSS 로 만들어진 템플릿 다운 받아서 **react-app-scaffold** 프로젝트에 적용하기 위한 작업 진행 내용을 정리합니다.
 
+## 기본 레이아웃 템플릿
 
-
+* **첫 프로젝트 세팅**을 마치면 **기본 레이아웃**이 이미 적용된 상태에서 시작합니다.
+* 이 레이아웃은 **Tailwind CSS**와 **shadcn/ui**로 구성되어 있습니다.
+* 이후 프로젝트·디자인 요구에 맞게 레이아웃을 바꾼 뒤, 그 위에서 화면을 이어가면 됩니다.
 
 ## RootLayout.tsx 수정
 ---
 * 공통 라우터 파일인 `src/shared/router.index.tsx` 파일에는 전체 공통 레이아웃으로 `RootLayout.tsx` 컴포넌트를 사용하고 있습니다. 모든 페이지는 `RootLayout.tsx` 컴포넌트를 감싸서 렌더링 될 것입니다.
+
+* 프로젝트가 처음 세팅되면 아무것도 적용되지 않은 상태에서 시작합니다.
+![아무것도 적용되어있느 않은 레이아웃 예시](../assets/config-task/first-config-layout03.png)
+
+
 * `RootLayout.tsx` 컴포넌트에 다음과 같이 레이아웃 일부에서 사용할 Context API Provider와 레이아웃을 구성할 `LayoutContent.tsx` 컴포넌트를 추가합니다.
   ```tsx
   // src/shared/components/layout/RootLayout.tsx ==============
