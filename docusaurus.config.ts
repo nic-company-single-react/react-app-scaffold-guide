@@ -18,7 +18,7 @@ const config: Config = {
   url: 'http://redsky0212.dothome.co.kr',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/2026/react/single-guide/',
+  baseUrl: '/axiom/react-guide/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
