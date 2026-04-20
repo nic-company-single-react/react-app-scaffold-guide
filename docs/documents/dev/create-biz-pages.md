@@ -189,11 +189,10 @@ export default routes;
 ## account 화면 브라우저에서 확인
 ---
 * 위에서 만든 **account**업무관련 화면과 라우터 연결이 되었으면, 로컬(Frontend)서버를 띄우고 브라우저로 확인해 봅니다.  
-* 로컬(Frontend)서버 띄우는 방법은 [Frontend 개발 환경 구성/VSCode에서 Frontend 서버 띄우고 브라우저로 확인해 보기 ](../../started/getting-started/set-dev-env-config#vscode에서-로컬-서버-띄우고-브라우저로-확인해-보기수정필요) 부분을 참조 하세요.
-* 브라우저를 열고 **localhost:포트/\{리모트앱\}/account/account-page**를 입력하면 생성한 계좌메인 화면이 보입니다.
+* 로컬(Frontend)서버 띄우는 방법은 [Frontend 개발 환경 구성/VSCode에서 Frontend 서버 띄우고 브라우저로 확인해 보기 ](../../started/getting-started/set-dev-env-config#vscode에서-로컬-서버-띄우고-브라우저로-확인해-보기) 부분을 참조 하세요.
+* 브라우저를 열고 **localhost:포트/#/account/account-page**를 입력하면 생성한 계좌메인 화면이 보입니다.
 ![Chrome브라우저에서 account페이지 확인하기](../assets/create-page01.png)
-* 만약 페이지 컴포넌트 HTML 코드를 디테일하게 작업한다면 다음과 같은 구체적인 화면을 만들 수 있습니다.
-![Chrome브라우저에서 구체적인 계좌메인화면 보기기](../assets/create-page02.png)
+
 :star: 여기까지 했으면 해당 업무의 코딩 준비가 완료 되었습니다. 필요에 따라 기능을 추가하고 페이지 작업을 진행하면 됩니다.
 
 
