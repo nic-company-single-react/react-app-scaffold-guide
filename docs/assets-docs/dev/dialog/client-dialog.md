@@ -6,7 +6,7 @@ title: "⋮ 레이어팝업(Dialog) ☑️"
 
 # Client Component 레이어팝업
 
-**next-app-boilerplate**에서는 내장된 `$ui.dialog()` 함수를 활용하여 레이어 팝업(Dialog)을 쉽고 효율적으로 띄울 수 있습니다.  
+**react-app-scaffold**에서는 내장된 `$ui.dialog()` 함수를 활용하여 레이어 팝업(Dialog)을 쉽고 효율적으로 띄울 수 있습니다.  
 `$ui.dialog()` 함수는 **Client Component** 전용 레이어 팝업입니다.
 * 전역적으로 제공되는 함수이므로 별도의 **import** 없이 바로 사용할 수 있습니다.
 
@@ -21,7 +21,7 @@ title: "⋮ 레이어팝업(Dialog) ☑️"
 
 ## 사용 예제
 ---
-[실제 동작 예제 보기: https://next-app-boilerplate.vercel.app/example/docs-examples/layer-popup](https://next-app-boilerplate.vercel.app/example/docs-examples/layer-popup)
+[실제 동작 예제 보기: https://react-app-scaffold.vercel.app/example/docs-examples/layer-popup](https://react-app-scaffold.vercel.app/example/docs-examples/layer-popup)
 
 
 ```tsx

@@ -20,7 +20,7 @@ title: '⋮ useApiData'
 
 ## 사용 예제
 ---
-* [실제 동작 예제 보기: https://next-app-boilerplate.vercel.app/example/library-api/hooks/use-api-data](https://next-app-boilerplate.vercel.app/example/library-api/hooks/use-api-data)
+* [실제 동작 예제 보기: https://react-app-scaffold.vercel.app/example/library-api/hooks/use-api-data](https://react-app-scaffold.vercel.app/example/library-api/hooks/use-api-data)
 ```tsx
 'use client';
 

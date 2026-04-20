@@ -88,7 +88,7 @@ import TabItem from '@theme/TabItem';
 
 ## API 참조
 ---
-**next-app-boilerplate**의 **Alert** 컴포넌트는 **[shadcn/ui](https://ui.shadcn.com/)** 의 Alert 컴포넌트를 래핑(wrap)한 컴포넌트 세트입니다.
+**react-app-scaffold**의 **Alert** 컴포넌트는 **[shadcn/ui](https://ui.shadcn.com/)** 의 Alert 컴포넌트를 래핑(wrap)한 컴포넌트 세트입니다.
 
 | Component           | 설명                                                         |
 | :------------------ | :---------------------------------------------------------- |

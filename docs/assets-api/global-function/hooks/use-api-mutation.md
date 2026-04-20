@@ -19,7 +19,7 @@ title: '⋮ useApiMutation'
 
 ## 사용 예제
 ---
-* [실제 동작 예제 보기: https://next-app-boilerplate.vercel.app/example/library-api/hooks/use-api-mutation](https://next-app-boilerplate.vercel.app/example/library-api/hooks/use-api-mutation)
+* [실제 동작 예제 보기: https://react-app-scaffold.vercel.app/example/library-api/hooks/use-api-mutation](https://react-app-scaffold.vercel.app/example/library-api/hooks/use-api-mutation)
 ```tsx
 'use client';
 

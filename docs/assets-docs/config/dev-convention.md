@@ -20,9 +20,9 @@ title: "개발구조및규칙"
 
 
 
-### next-app-boilerplate 전체 폴더 구조
+### react-app-scaffold 전체 폴더 구조
 ```sh
-next-app-boilerplate
+react-app-scaffold
 ├── @types                # TypeScript 전역 타입 정의 (.d.ts 파일)
 ├── public                # 정적 파일 (이미지, 폰트 등, / 경로로 접근)
 ├── src
@@ -249,7 +249,7 @@ type TPerson = {
 
 
 ### Router convention
-* **next-app-boilerplate** 프로젝트는 **Next.js App Router**를 사용하므로, `src/app` 폴더 내부에 생성되는 폴더명이 URL에 영향을 미치게 됩니다. 따라서 폴더명은 모두 소문자 단일 이름으로 만들거나 두 단어 합성어이면 **kebab-case**로 만듭니다.
+* **react-app-scaffold** 프로젝트는 **Next.js App Router**를 사용하므로, `src/app` 폴더 내부에 생성되는 폴더명이 URL에 영향을 미치게 됩니다. 따라서 폴더명은 모두 소문자 단일 이름으로 만들거나 두 단어 합성어이면 **kebab-case**로 만듭니다.
   - 예를 들어 페이지 경로가 `src/app/(domains)/account/(pages)/main/page.tsx` 이라면, 실제 브라우저 주소창에는 `localhost:5174/account/main` 로 표시됩니다.
   - 예를 들어 페이지 경로가 `src/app/(domains)/account-biz/(pages)/main-index/page.tsx` 이라면, 실제 브라우저 주소창에는 `localhost:5174/account-biz/main-index` 로 표시됩니다.
 

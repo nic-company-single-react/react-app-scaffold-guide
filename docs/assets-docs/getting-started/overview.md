@@ -4,13 +4,13 @@ displayed_sidebar: "assetsDocSidebar"
 title: "개요"
 ---
 
-# next-app-boilerplate 개요
+# react-app-scaffold 개요
 
 
 ## 소개
 ---
 
-**next-app-boilerplate**는 **Next.js**와 **TypeScript**를 기반으로 하여, 실무에서 바로 사용할 수 있는 UI 컴포넌트와 유틸리티, 예제 코드를 제공하는 스타터 프로젝트입니다. 프로젝트의 초기 세팅과 개발을 빠르고 효율적으로 시작할 수 있도록 도와줍니다.<br /><br />
+**react-app-scaffold**는 **Next.js**와 **TypeScript**를 기반으로 하여, 실무에서 바로 사용할 수 있는 UI 컴포넌트와 유틸리티, 예제 코드를 제공하는 스타터 프로젝트입니다. 프로젝트의 초기 세팅과 개발을 빠르고 효율적으로 시작할 수 있도록 도와줍니다.<br /><br />
 업무 개발자는 실제로 동작하는 컴포넌트와 유틸리티를 미리 확인하고, 예제 코드를 복사하여 자신의 업무 코드에 바로 적용할 수 있습니다.
 
 ### 주요 목적
@@ -186,10 +186,10 @@ title: "개요"
 
 ### 프로젝트 구조
 
-**next-app-boilerplate** 프로젝트는 다음과 같은 구조로 구성되어 있습니다:
+**react-app-scaffold** 프로젝트는 다음과 같은 구조로 구성되어 있습니다:
 
 ```sh
-next-app-boilerplate
+react-app-scaffold
 ├── @types                # TypeScript 전역 타입 정의 (.d.ts 파일)
 ├── public                # 정적 파일 (이미지, 폰트 등, / 경로로 접근)
 ├── src

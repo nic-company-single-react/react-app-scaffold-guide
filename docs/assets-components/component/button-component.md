@@ -9,7 +9,7 @@ title: 'Button'
 **Button** 컴포넌트는 **Server Component, Client Component** 모두 사용할 수 있습니다. 상황에 맞게 사용하면 됩니다.
 
 :::info <span class="admonition-title">Button</span> 실제 구동 예제 확인해보기
-👉 [Button: https://next-app-boilerplate.vercel.app/example/components/button](https://next-app-boilerplate.vercel.app/example/components/button)
+👉 [Button: https://react-app-scaffold.vercel.app/example/components/button](https://react-app-scaffold.vercel.app/example/components/button)
 :::
 
 
@@ -51,7 +51,7 @@ export default function SamplePage({}: ISamplePageProps): JSX.Element {
 ![Button 컴포넌트 예제 이미지](../assets/button-component01.png)
 
 :::info <span class="admonition-title">설</span>명
-* **next-app-boilerplate** 공통 UI 컴포넌트 디렉토리(`@components/ui`)에서 **Button** 컴포넌트를 import하여 가져옵니다.
+* **react-app-scaffold** 공통 UI 컴포넌트 디렉토리(`@components/ui`)에서 **Button** 컴포넌트를 import하여 가져옵니다.
   ```tsx
   import { Button } from '@components/ui';
   ```
@@ -72,7 +72,7 @@ export default function SamplePage({}: ISamplePageProps): JSX.Element {
 
 ## API 참조
 ---
-**next-app-boilerplate**의 **Button** 컴포넌트는 **[shadcn/ui](https://ui.shadcn.com/)** 의 **Button** 컴포넌트를 래핑하여 사용합니다.
+**react-app-scaffold**의 **Button** 컴포넌트는 **[shadcn/ui](https://ui.shadcn.com/)** 의 **Button** 컴포넌트를 래핑하여 사용합니다.
 | Props     | default    | Type                         |
 | :-------- | :--------- | :--------------------------- |
 | `variant` | "default" | "default" \| "outline" \| "ghost" \| "destructive" \| "secondary" \| "link" \| "success" \| "warning" \| "info" \| "purple" \| "pink" \| "indigo" \| "teal" |

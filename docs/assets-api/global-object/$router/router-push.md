@@ -28,7 +28,7 @@ import { $router } from '@router';
 $router.push('/next-page');
 ```
 :::info <span class="admonition-title">$router.push()</span> 실제 구동 예제 확인해보기
-👉 [$router.push(): https://next-app-boilerplate.vercel.app/example/library-api/router/push](https://next-app-boilerplate.vercel.app/example/library-api/router/push)
+👉 [$router.push(): https://react-app-scaffold.vercel.app/example/library-api/router/push](https://react-app-scaffold.vercel.app/example/library-api/router/push)
 :::
 
 

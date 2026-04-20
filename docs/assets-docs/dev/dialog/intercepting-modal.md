@@ -116,10 +116,10 @@ title: "⋮ Intercepting Modal ☑️"
 ## 구현 예제
 ---
 * 첫번째 예제 모달 흐름도
-* [실제 동작 예제 보기: https://next-app-boilerplate.vercel.app/example/docs-examples/intercept-modal-demo](https://next-app-boilerplate.vercel.app/example/docs-examples/intercept-modal-demo)
+* [실제 동작 예제 보기: https://react-app-scaffold.vercel.app/example/docs-examples/intercept-modal-demo](https://react-app-scaffold.vercel.app/example/docs-examples/intercept-modal-demo)
 ![intercept-modal demo 예제 흐름도](../../assets/dev/intercept-route-flow-diagram.svg)
 * 두번째 예제 모달 흐름도
-* [실제 동작 예제 보기: https://next-app-boilerplate.vercel.app/example/docs-examples/intercept-modal-demo2](https://next-app-boilerplate.vercel.app/example/docs-examples/intercept-modal-demo2)
+* [실제 동작 예제 보기: https://react-app-scaffold.vercel.app/example/docs-examples/intercept-modal-demo2](https://react-app-scaffold.vercel.app/example/docs-examples/intercept-modal-demo2)
 ![intercept-modal demo2 예제 흐름도](../../assets/dev/intercept-route-dynamic-flow-diagram.svg)
 
 

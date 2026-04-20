@@ -58,7 +58,7 @@ title: '⋮ serverApi'
 
 ## 사용 예제
 ---
-* [실제 동작 예제 보기: https://next-app-boilerplate.vercel.app/example/library-api/common/server-api](https://next-app-boilerplate.vercel.app/example/library-api/common/server-api)
+* [실제 동작 예제 보기: https://react-app-scaffold.vercel.app/example/library-api/common/server-api](https://react-app-scaffold.vercel.app/example/library-api/common/server-api)
 ```tsx
 import { JSX } from 'react';
 import { serverApi } from '@fetch/api';

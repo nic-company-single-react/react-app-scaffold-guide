@@ -7,7 +7,7 @@ title: "데이터 가져오기"
 # 데이터 가져오기
 
 :::info 작업 내용
-* 각 업무(domain) 화면 컴포넌트에서 **next-app-boilerplate**가 제공하는 **클라이언트 환경용** **useApi()** hook과 **서버 환경용** **serverApi()** 함수를 통해 **REST API**를 호출하고 결과 데이터를 활용하는 방법을 설명합니다.
+* 각 업무(domain) 화면 컴포넌트에서 **react-app-scaffold**가 제공하는 **클라이언트 환경용** **useApi()** hook과 **서버 환경용** **serverApi()** 함수를 통해 **REST API**를 호출하고 결과 데이터를 활용하는 방법을 설명합니다.
 * **useApi()** 와 **serverApi()** 함수는 어떤 차이가 있고, 어떤 상황에서 사용하면 되는지 알아보겠습니다.
 :::
 
@@ -34,7 +34,7 @@ title: "데이터 가져오기"
 ### account(계좌)업무 폴더 구조
 * 개발해야할 업무가 "**계좌(account)**" 업무라고 가졍 했을 때 다음과 같이 폴더구조를 구성하고, 그 하위 구조를 만듭니다.
   - **account** 업무 폴더가 생성되면 하위 폴더로 <span class="text-blue-normal">**_action, _hooks, _styles, _components, _common, (pages), api, _types**</span>폴더를 가질 수 있습니다. 물론 사용되지 않는 폴더는 없어도 상관없습니다.
-  - 폴더 구성에 대한 자세한 설명은 [개발구조및규칙](../config/dev-convention#next-app-boilerplate-폴더-구조) 가이드를 참조하세요.
+  - 폴더 구성에 대한 자세한 설명은 [개발구조및규칙](../config/dev-convention#react-app-scaffold-폴더-구조) 가이드를 참조하세요.
 
   ```sh
   # 내가 작업할 업무가 "계좌(account)" 업무라고 가정한다면

@@ -219,11 +219,11 @@ React에서 사용하는 상태 관리 라이브러리 Redux의 상태 변경을
 
 
 
-## Frontend 개발 코드(next-app-boilerplate) 내려받기
+## Frontend 개발 코드(react-app-scaffold) 내려받기
 ---
-:::info <span class="admonition-title">Git 레포지토리(next-app-boilerplate)</span> url
-* [https://github.com/redsky-project/next-app-boilerplate](https://github.com/redsky-project/next-app-boilerplate)
-* 개발 코드(next-app-boilerplate)를 내려받기 위해서는 계정 및 권한이 필요합니다. (해당 권한은 담당자에게 요청)
+:::info <span class="admonition-title">Git 레포지토리(react-app-scaffold)</span> url
+* [https://github.com/redsky-project/react-app-scaffold](https://github.com/redsky-project/react-app-scaffold)
+* 개발 코드(react-app-scaffold)를 내려받기 위해서는 계정 및 권한이 필요합니다. (해당 권한은 담당자에게 요청)
 :::
 
 #### 작업 폴더 생성 및 Frontend 소스 코드 받기
@@ -234,9 +234,9 @@ React에서 사용하는 상태 관리 라이브러리 Redux의 상태 변경을
   mkdir frontend-next
   # D:\my\frontend-next 폴더가 생성 됨.
   ```
-* 생성한 **frontend-next** 폴더로 이동하여 `git clone`을 실행하여 **next-app-boilerplate** 코드를 내려 받습니다.
+* 생성한 **frontend-next** 폴더로 이동하여 `git clone`을 실행하여 **react-app-scaffold** 코드를 내려 받습니다.
   ```sh
-  git clone git@github.com:redsky-project/next-app-boilerplate.git
+  git clone git@github.com:redsky-project/react-app-scaffold.git
   ```
 * `git clone`하여 내려받은 소스를 확인해보면 아직 **node_modules**폴더가 없는상태입니다. 의존성 라이브러리를 설치면 **node_modules**폴더를 자동생성합니다.
   ```sh

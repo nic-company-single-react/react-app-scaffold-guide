@@ -5,7 +5,7 @@ title: 'hooks'
 ---
 
 # hooks
-**next-app-boilerplate** 프로젝트에서 공통으로 제공하는 **hook** 함수 목록입니다.
+**react-app-scaffold** 프로젝트에서 공통으로 제공하는 **hook** 함수 목록입니다.
 
 :::warning 공통 hook 함수 사용 시 주의사항
 * Hook 함수도 일반 Hook의 규칙을 따라야 합니다 (함수 컴포넌트 최상위에서만 호출 등).

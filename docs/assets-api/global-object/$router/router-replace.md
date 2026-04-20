@@ -32,7 +32,7 @@ import { $router } from '@router';
 $router.replace('/next-page');
 ```
 :::info <span class="admonition-title">$router.replace()</span> 실제 구동 예제 확인해보기
-👉 [$router.replace(): https://next-app-boilerplate.vercel.app/example/library-api/router/replace](https://next-app-boilerplate.vercel.app/example/library-api/router/replace)
+👉 [$router.replace(): https://react-app-scaffold.vercel.app/example/library-api/router/replace](https://react-app-scaffold.vercel.app/example/library-api/router/replace)
 :::
 
 

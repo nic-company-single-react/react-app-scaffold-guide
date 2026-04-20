@@ -18,7 +18,7 @@ title: "⋮ Client + Route Handler ☑️"
 
 ## 사용 예제
 ---
-* [실제 동작 예제 보기: https://next-app-boilerplate.vercel.app/example/docs-examples/client-form-routehandler](https://next-app-boilerplate.vercel.app/example/docs-examples/client-form-routehandler)
+* [실제 동작 예제 보기: https://react-app-scaffold.vercel.app/example/docs-examples/client-form-routehandler](https://react-app-scaffold.vercel.app/example/docs-examples/client-form-routehandler)
 * **TanStack Query**의 **useMutation**을 랩핑한 **useApiMutation**을 사용하여 **Route Handler**를 호출하고, 로딩 상태와 에러를 자동으로 관리합니다.
 
 :::info <span class="admonition-title">TanStack Query useApiMutation</span> 사용 장점.

@@ -47,17 +47,26 @@ npm i axios
 
 
 
-## Provider를 이용하여 애플리케이션 루트(`/src/app`)에 Tanstack Query 연결
+## Tanstack Query Provider 설정
 ---
 * `QueryProvider.tsx` 파일에 `<QueryClientProvider>`를 이용하여 연결합니다.
 * 디버깅 툴인 ReactQueryDevtools도 연결합니다.
+* 소스 코드 에서 `window.__TANSTACK_QUERY_CLIENT__` 전역 변수 타입 오류가 발생할 수도 있습니다. 따라서 `src/types/global.d.ts` 파일에 다음과 같이 정의합니다.
+```ts
+// global.d.ts 파일 코드
+declare global {
+  interface Window {
+    __TANSTACK_QUERY_CLIENT__: import('@tanstack/query-core').QueryClient;
+  }
+  const __TANSTACK_QUERY_CLIENT__: import('@tanstack/query-core').QueryClient;
+}
+```
 ```tsx showLineNumbers
-'use client';
-
+// QueryProvider.tsx 파일 코드
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { getQueryClient } from './query-client-config';
-import { ReactNode, useState, useEffect } from 'react';
+import { type ReactNode, useState, useEffect } from 'react';
 
 interface QueryProviderProps {
   children: ReactNode;
@@ -76,15 +85,16 @@ export function QueryProvider({ children }: QueryProviderProps) {
   return (
     <QueryClientProvider client={queryClient}>
       {children}
-      {process.env.NODE_ENV === 'development' && <ReactQueryDevtools initialIsOpen={false} />}
+      {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
     </QueryClientProvider>
   );
 }
 ```
 
-* **query-client-config.ts** 파일에 Tanstack Query 설정 코드를 작성합니다.
+
+* **query-client-config.ts** 파일에 Tanstack Query 설정 코드를 작성합니다. Tanstack Query 설정 코드는 모두 여기에 작성합니다.
 ```tsx showLineNumbers
-import { QueryClient, DefaultOptions } from '@tanstack/react-query';
+import { QueryClient, type DefaultOptions } from '@tanstack/react-query';
 
 // React Query 기본 옵션 설정
 const queryConfig: DefaultOptions = {
@@ -122,43 +132,36 @@ export function getQueryClient() {
 }
 ```
 
-* 생성한 **QueryProvider.tsx** 파일을 루트 **layout.tsx**파일에 연결합니다.
+* 생성한 **QueryProvider.tsx** 파일을 루트 **AppProviders.tsx**에 연결합니다.
 ```tsx showLineNumbers
-// 루트 layout.tsx 코드 일부
-// ...
+import type { ReactNode } from 'react';
 // highlight-start
-import { QueryProvider } from './QueryProvider';
+import { QueryProvider } from './query-client/QueryProvider';
 // highlight-end
-// ...
 
-const RootLayout: IComponent<IRootLayoutProps> = ({ children }) => {
-  return (
-    <html lang="en">
-      <body className="antialiased">
-        // highlight-start
-        <QueryProvider>
-        // highlight-end
-          <LayoutASideProvider>
-            <LayoutMainIndex>{children}</LayoutMainIndex>
-          </LayoutASideProvider>
-        // highlight-start
-        </QueryProvider>
-        // highlight-end
-      </body>
-    </html>
-  );
-};
+interface AppProvidersProps {
+	children: ReactNode;
+}
 
-RootLayout.displayName = 'RootLayout';
-export default RootLayout;
+/**
+ * 애플리케이션의 모든 Provider를 통합하는 컴포넌트
+ *
+ * 새로운 Provider 추가 시 이곳에서 관리합니다.
+ * Provider 순서는 의존성을 고려하여 배치합니다.
+ */
+export function AppProviders({ children }: AppProvidersProps) {
+  // highlight-start
+  return <QueryProvider>{children}</QueryProvider>;
+  // highlight-end
+}
 ```
 
 * 디버깅 화면 확인
 ![ReactQueryDevtools 화면예제1](../assets/r-query/react-query01.png)
-![ReactQueryDevtools 화면예제2](../assets/r-query/react-query02.png)
+
 
 ## TanStack Query DevTools (Chrome Extension)
 ---
 * 확장팩 URL : [https://chromewebstore.google.com/detail/tanstack-query-devtools/annajfchloimdhceglpgglpeepfghfai](https://chromewebstore.google.com/detail/tanstack-query-devtools/annajfchloimdhceglpgglpeepfghfai)
 
-![ReactQueryDevtools 화면예제3](../assets/r-query/react-query03.png)
+![ReactQueryDevtools 화면예제2](../assets/r-query/react-query02.png)

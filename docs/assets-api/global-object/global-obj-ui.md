@@ -5,7 +5,7 @@ title: '$ui'
 ---
 
 # $ui
-* **next-app-boilerplate**를 이용하여 애플리케이션 개발 시 사용할 수 있는 **$ui** 전역 객체입니다.
+* **react-app-scaffold**를 이용하여 애플리케이션 개발 시 사용할 수 있는 **$ui** 전역 객체입니다.
 * 전역 공통 객체이기 때문에 따로 **import** 하지 않고 바로 사용합니다.
 * **$ui** 객체는 업무 화면에 렌더링 해야할 **UI** 요소를 **JavaScript 코드**로 쉽게 구현할 수 있게 하기위한 객체입니다. ex) Alert, Confirm, Dialog 등.
 

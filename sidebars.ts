@@ -197,7 +197,6 @@ const sidebars: SidebarsConfig = {
         'task/react-assets/config-task/first-set-proj',
         'task/react-assets/config-task/set-layout-template',
         'task/react-assets/config-task/first-set-tanstack-query',
-        'task/react-assets/config-task/using-notion-api',
       ],
     },
     {

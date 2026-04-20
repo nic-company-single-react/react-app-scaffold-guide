@@ -4,9 +4,9 @@ displayed_sidebar: "assetsDocSidebar"
 title: "설치"
 ---
 
-# next-app-boilerplate 설치
+# react-app-scaffold 설치
 
-**next-app-boilerplate** 프로젝트를 로컬 개발 환경에 설치하고 실행하는 방법을 단계별로 안내합니다.
+**react-app-scaffold** 프로젝트를 로컬 개발 환경에 설치하고 실행하는 방법을 단계별로 안내합니다.
 
 
 
@@ -29,10 +29,10 @@ title: "설치"
 ## 전제 조건
 ---
 
-**next-app-boilerplate** 프로젝트를 설치하기 전에 다음 사항을 확인하세요:
+**react-app-scaffold** 프로젝트를 설치하기 전에 다음 사항을 확인하세요:
 
 ### 필수 소프트웨어
-* 기본 개발 환경 구성이 되어 있지 않다면 [next-app-boilerplate 개발 환경 구성](../config/set-dev-env-config.md) 을 참조하여 기본 개발 환경을 구성하세요.
+* 기본 개발 환경 구성이 되어 있지 않다면 [react-app-scaffold 개발 환경 구성](../config/set-dev-env-config.md) 을 참조하여 기본 개발 환경을 구성하세요.
 - **Node.js**: 버전 20.0 이상이 설치되어 있어야 합니다
 - **npm**: Node.js와 함께 설치되며, 버전 10.0 이상 권장
 - **Git**: 소스 코드를 클론하기 위해 필요합니다
@@ -42,7 +42,7 @@ title: "설치"
 ### 접근 권한
 
 :::info <span class="admonition-title">Git</span> 레포지토리 접근 권한
-- **레포지토리 URL**: [https://github.com/redsky-project/next-app-boilerplate](https://github.com/redsky-project/next-app-boilerplate)
+- **레포지토리 URL**: [https://github.com/redsky-project/react-app-scaffold](https://github.com/redsky-project/react-app-scaffold)
 - 개발 코드를 내려받기 위해서는 **Git 계정 및 레포지토리 접근 권한**이 필요합니다
 - 권한이 없는 경우 프로젝트 담당자에게 접근 권한을 요청하세요
 :::
@@ -120,15 +120,15 @@ cd ~/projects/frontend-next
 생성한 작업 폴더에서 Git을 사용하여 프로젝트를 클론합니다.
 
 ```bash
-git clone git@github.com:redsky-project/next-app-boilerplate.git
+git clone git@github.com:redsky-project/react-app-scaffold.git
 ```
 
-클론이 완료되면 `next-app-boilerplate` 폴더가 생성됩니다.
+클론이 완료되면 `react-app-scaffold` 폴더가 생성됩니다.
 
 ### 3단계: 클론된 프로젝트 디렉토리로 이동
 
 ```bash
-cd next-app-boilerplate
+cd react-app-scaffold
 ```
 
 ### 4단계: 프로젝트 구조 확인
@@ -145,7 +145,7 @@ ls -la
 
 디렉토리 구조:
 ```sh
-next-app-boilerplate
+react-app-scaffold
 ├── @types                # TypeScript 전역 타입 정의 (.d.ts 파일)
 ├── public                # 정적 파일 (이미지, 폰트 등, / 경로로 접근)
 ├── src
@@ -255,7 +255,7 @@ npm run dev
 명령어 실행 후 터미널에 다음과 유사한 메시지가 표시됩니다:
 
 ```
-> next-app-boilerplate@0.1.0 dev
+> react-app-scaffold@0.1.0 dev
 > next dev -p 5174
 
    ▲ Next.js 16.0.10 (Turbopack)

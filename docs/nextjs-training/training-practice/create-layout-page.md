@@ -47,7 +47,7 @@ title: "레이아웃, 페이지 만들기"
 ---
 * 프로젝트 폴더의 다음 위치에서 작업을 시작합니다.
 ```sh
-next-app-boilerplate
+react-app-scaffold
 ├── src
 │   └── app
 │       └── (domains)
@@ -175,7 +175,7 @@ export default function TrainingLayout({ children }: ITrainingLayoutProps): JSX.
   - `page.tsx` 파일에 퍼블리셔가 제공한 코드를 복사하여 붙여넣습니다.
   - `page.tsx`파일에 퍼블코드 붙여넣기 내용 중에 오류가 없는지 확인하고 수정합니다. 
   ```sh
-  next-app-boilerplate
+  react-app-scaffold
   ├── src
   │   └── app
   │       └── (domains)

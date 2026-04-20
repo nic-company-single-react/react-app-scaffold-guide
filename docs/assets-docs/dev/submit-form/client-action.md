@@ -21,7 +21,7 @@ title: "⋮ Client + Action ☑️"
 
 
 
-* [실제 동작 예제 보기: https://next-app-boilerplate.vercel.app/example/docs-examples/client-form](https://next-app-boilerplate.vercel.app/example/docs-examples/client-form)
+* [실제 동작 예제 보기: https://react-app-scaffold.vercel.app/example/docs-examples/client-form](https://react-app-scaffold.vercel.app/example/docs-examples/client-form)
 
 
 

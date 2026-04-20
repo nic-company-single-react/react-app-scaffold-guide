@@ -18,7 +18,7 @@ title: 'Accordion'
 - 또한 `collapsible` 옵션을 추가하면 열린 항목을 다시 클릭해서 모두 닫을 수도 있습니다.
 
 :::info <span class="admonition-title">Accordion</span> 실제 구동 예제 확인해보기
-👉 [Accordion: https://next-app-boilerplate.vercel.app/example/components/accordion](https://next-app-boilerplate.vercel.app/example/components/accordion)
+👉 [Accordion: https://react-app-scaffold.vercel.app/example/components/accordion](https://react-app-scaffold.vercel.app/example/components/accordion)
 :::
 
 
@@ -83,7 +83,7 @@ const SampleAccordionPage({}: ISampleAccordionPageProps): JSX.Element {
 ![accordion 컴포넌트 예제 이미지](../assets/accordion-component02.png)
 
 :::info <span class="admonition-title">설</span>명
-* **next-app-boilerplate** 공통 UI 컴포넌트 디렉토리(`@components/ui`)에서 **Accordion** 관련 컴포넌트들을 import하여 가져옵니다.
+* **react-app-scaffold** 공통 UI 컴포넌트 디렉토리(`@components/ui`)에서 **Accordion** 관련 컴포넌트들을 import하여 가져옵니다.
   ```tsx
   import {
     Accordion,

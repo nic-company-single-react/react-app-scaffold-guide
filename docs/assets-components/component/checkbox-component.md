@@ -73,7 +73,7 @@ import TabItem from '@theme/TabItem';
 
 ## API 참조
 ---
-**next-app-boilerplate**의 **Checkbox** 컴포넌트는 **[shadcn/ui](https://ui.shadcn.com/)** 의 **Checkbox** 컴포넌트를 사용하는 래퍼 컴포넌트입니다. 내부에는 **button** html element를 사용합니다.
+**react-app-scaffold**의 **Checkbox** 컴포넌트는 **[shadcn/ui](https://ui.shadcn.com/)** 의 **Checkbox** 컴포넌트를 사용하는 래퍼 컴포넌트입니다. 내부에는 **button** html element를 사용합니다.
 | Props     | Default | Type                         |
 | :-------- | :------- | :-------------------------- |
 | `asChild` | false   | boolean                     |

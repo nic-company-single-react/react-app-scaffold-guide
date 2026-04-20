@@ -5,7 +5,7 @@ title: 'Components'
 ---
 
 # Components
-**next-app-boilerplate** 프로젝트에서 사용할 수 있는 모든 컴포넌트입니다.
+**react-app-scaffold** 프로젝트에서 사용할 수 있는 모든 컴포넌트입니다.
 
 - [Accordion](./component/accordion-component.md)
 - [Alert & AlertDialog](./component/alert-component.md)

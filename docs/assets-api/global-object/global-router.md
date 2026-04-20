@@ -5,7 +5,7 @@ title: '$router'
 ---
 
 # $router
-* **next-app-boilerplate**를 이용하여 애플리케이션 개발 시 사용할 수 있는 **$router** 전역 객체입니다.
+* **react-app-scaffold**를 이용하여 애플리케이션 개발 시 사용할 수 있는 **$router** 전역 객체입니다.
 * 전역 공통 객체이기 때문에 따로 **import** 하지 않고 바로 사용합니다.
 * **$router** 객체는 내부적으로 **React Router**를 사용하는 전역 공통 객체입니다.
 
