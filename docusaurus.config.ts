@@ -145,15 +145,15 @@ const config: Config = {
           items: [
             {
               label: '소개',
-              to: '/docs/documents/getting-started/overview',
+              to: '/docs/started/getting-started/overview',
             },
             {
               label: '개발환경구성',
-              to: '/docs/documents/config/set-dev-env-config',
+              to: '/docs/started/getting-started/set-dev-env-config',
             },
             {
               label: '개발구조 및 규칙',
-              to: '/docs/documents/config/dev-convention',
+              to: '/docs/started/getting-started/dev-convention',
             },
             {
               label: '개발 가이드',
@@ -166,15 +166,15 @@ const config: Config = {
           items: [
             {
               label: 'Accordion',
-              href: '/docs/assets-components/component/accordion-component',
+              href: '/docs/components/ui/accordion-component',
             },
             {
               label: 'Alert Dialog',
-              href: '/docs/assets-components/component/alert-dialog-component',
+              href: '/docs/components/ui/accordion-component',
             },
             {
               label: 'Button',
-              href: '/docs/assets-components/component/button-component',
+              href: '/docs/components/ui/button-component',
             },
           ],
         },
@@ -183,11 +183,11 @@ const config: Config = {
           items: [
             {
               label: 'Functions',
-              to: '/docs/assets-api/global-function/hooks/use-api',
+              to: '/docs/apis/global-function/hooks/use-api',
             },
             {
               label: 'Objects',
-              href: '/docs/assets-api/global-object/$ui/ui-alert',
+              href: '/docs/apis/service-objects/ui/alert-ui',
             },
             {
               label: '예제 소스 GitHub',

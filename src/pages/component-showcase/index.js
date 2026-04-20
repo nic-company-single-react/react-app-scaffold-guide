@@ -192,7 +192,7 @@ export default function ComponentShowcase() {
                     <ul className="theme-doc-sidebar-menu">
                       <li className="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2">
                         <a
-                          href="/docs/assets-components/component/accordion-component"
+                          href="/docs/components/ui/accordion-component"
                           className="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__link"
                         >
                           Accordion
@@ -200,7 +200,7 @@ export default function ComponentShowcase() {
                       </li>
                       <li className="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2">
                         <a
-                          href="/docs/assets-components/component/alert-dialog-component"
+                          href="/docs/components/ui/alert-dialog-component"
                           className="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__link"
                         >
                           Alert Dialog
@@ -208,7 +208,7 @@ export default function ComponentShowcase() {
                       </li>
                       <li className="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2">
                         <a
-                          href="/docs/assets-components/component/alert-component"
+                          href="/docs/components/ui/alert-component"
                           className="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__link"
                         >
                           Alert
@@ -216,7 +216,7 @@ export default function ComponentShowcase() {
                       </li>
                       <li className="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2">
                         <a
-                          href="/docs/assets-components/component/badge-component"
+                          href="/docs/components/ui/badge-component"
                           className="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__link"
                         >
                           Badge
@@ -224,7 +224,7 @@ export default function ComponentShowcase() {
                       </li>
                       <li className="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2">
                         <a
-                          href="/docs/assets-components/component/button-component"
+                          href="/docs/components/ui/button-component"
                           className="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__link"
                         >
                           Button
@@ -232,7 +232,7 @@ export default function ComponentShowcase() {
                       </li>
                       <li className="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2">
                         <a
-                          href="/docs/assets-components/component/checkbox-component"
+                          href="/docs/components/ui/checkbox-component"
                           className="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__link"
                         >
                           Checkbox
