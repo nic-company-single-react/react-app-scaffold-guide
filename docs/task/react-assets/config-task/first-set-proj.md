@@ -88,7 +88,8 @@ title: "react-app-scaffold 최초 세팅"
 
 ## 생성한 프로젝트 확인하기
 ---
-* 최초 생성된 프로젝트에는 **의존성 라이브러리**가 설치되어 있지 않아서 **node_modules** 폴더가 없습니다. 따라서 생성한 `@axiom/react-app-scaffold` 프로젝트의 루트 디렉토리에서 `npm install` 명령어를 실행하여 의존성 라이브러리를 설치합니다.
+* 생성한 `@axiom/react-app-scaffold` 프로젝트에 `node_modules` 폴더가 존재한다면, **의존성 라이브러리**가 이미 설치된 상태이므로 `npm run dev` 명령어로 바로 로컬 서버를 실행할 수 있습니다.
+* 반대로 `node_modules` 폴더가 없다면, 먼저 `npm install` 명령어를 실행하여 **의존성 라이브러리**를 설치해야 합니다.
     ```sh
     npm install
     ```
@@ -128,7 +129,7 @@ title: "react-app-scaffold 최초 세팅"
 
 ## Tailwind CSS 설치
 ---
-* `@axiom/react-app-scaffold` 프로젝트는 기본으로 **Tailwind CSS**를 제공할 것입니다. 따라서 **Tailwind CSS**를 설치해야 합니다.
+* `@axiom/react-app-scaffold` 프로젝트는 기본적으로 **Tailwind CSS**를 제공합니다. 따라서 **Tailwind CSS**를 설치해야 합니다.
     ```sh
     npm install -D tailwindcss @tailwindcss/vite tw-animate-css
     ```
@@ -674,8 +675,8 @@ cross-env NODE_ENV=production ... ...
 |----------|----------|
 | Vite `resolve.alias` | 개발 서버·Rollup이 실제로 @/... 경로를 어디로 풀지 결정 |
 | `compilerOptions.paths` | tsc/언어 서버가 @/...를 모듈로 인식하고, 자동완성·정의로 이동·타입 검사를 하게 함 |
-* `tsconfig.json` 파일에도 설정을 해야 하는 이유
-  - Shadcn CLI 가 설치 시 기본 설정파일인 `tsconfig.json`을 읽게 되어있기 때문.
+* &#8251; Shadcn CLI 사용 시 `tsconfig.json` 파일에도 똑같이 설정합니다. 그 이유는 Shadcn CLI 가 설치 시 기본 설정파일인 `tsconfig.json`을 읽게 되어있기 때문입니다.
+  
 
 
 
@@ -691,7 +692,7 @@ cross-env NODE_ENV=production ... ...
 * [React Router 공식문서: https://reactrouter.com/home](https://reactrouter.com/home)
 
 
-:::info <span class="admonition-title">Router 모드</span>에 대하여
+:::info <span class="admonition-title">Router 모드</span>에 대하여 우선 알기
 * React Router는 3가지 모드를 지원합니다.
   * **Declarative(선언적) 모드** : React Router의 가장 기본적이고 전통적인 방식입니다. `<Routes>`와 `<Route>` 컴포넌트를 사용하며, **UI구조**에 라우팅 로직이 직접 포함됩니다.
     ```tsx
@@ -843,7 +844,7 @@ cross-env NODE_ENV=production ... ...
 
 ## RootLayout 컴포넌트 생성
 ---
-* **루트 레이아웃**은 모든 페이지의 공통 레이아웃을 정의하는 컴포넌트입니다.
+* **루트 레이아웃(RootLayout)** 은 모든 페이지의 공통 레이아웃을 정의하는 기본 제공 레이아웃 컴포넌트입니다. 최초 프로젝트 레이아웃을 구성하기 위하여 생성합니다.
 * `src/shared/components/layout/RootLayout.tsx` 파일이 없기 때문에 신규 생성합니다.
   ```tsx
   import LayoutContent from './LayoutContent';
@@ -856,7 +857,7 @@ cross-env NODE_ENV=production ... ...
     return <LayoutContent />;
   }
   ```
-* `src/shared/components/layout/LayoutContent.tsx` 파일이 없기 때문에 신규 생성합니다.
+* `src/shared/components/layout/RootLayoutContent.tsx` 파일이 없기 때문에 신규 생성합니다.
   - 우선 간단하게 구현하고 추후 레이아웃 구조에 맞게 수정 될 것입니다.
   ```tsx
   import { Outlet } from 'react-router';
@@ -962,6 +963,7 @@ npm run dev
 
 
 ## shadcn/ui 설치
+* **shadcn/ui** 는 `@axiom/react-app-scaffold` 프로젝트에서 기본 제공하는 UI 컴포넌트 라이브러리입니다. 최초 프로젝트 구성 시 설치합니다.
 ---
 * 설치 명령어 실행
 ```sh
@@ -1043,7 +1045,7 @@ You may now add components.
 
 ## 환경변수 파일 구성
 ---
-애플리케이션 URL등 여러 환경변수를 관리하는 env 파일을 다음과 같이 구성합니다.
+.env 파일은 애플리케이션에서 사용할 **환경변수를 저장**하는 텍스트 파일입니다. 아래와 같이 필요한 변수들을 KEY=VALUE 형태로 작성합니다.
 * `.env` — 환경 변수 파일(default)
 * `.env.local` — 로컬 개발용
 * `.env.development` — 개발 서버용
@@ -1168,7 +1170,7 @@ VITE_EXTERNAL_API_BASE_URL1=https://koreanjson.com
 
 
 
-## provider 통합설정
+## provider 통합설정(AppProviders)
 ---
 * **react-app-scaffold** 프로젝트에서는 **provider**를 통합하여 관리하기 위하여 `src/core/providers` 폴더를 생성하고 다음과 같이 `AppProviders.tsx` 파일을 생성하여 관리 합니다.
   - `src/main.tsx`
