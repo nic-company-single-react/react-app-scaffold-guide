@@ -6,7 +6,7 @@ title: 'API Reference'
 
 # API
 
-`mfe-lib-shared`에서 제공하는 훅·Service Object API입니다. 아래 목록에서 항목을 선택하면 각 문서로 이동합니다.
+`react-app-scaffold`에서 제공하는 훅·Service Object API입니다. 아래 목록에서 항목을 선택하면 각 문서로 이동합니다.
 
 ## Functions
 ---

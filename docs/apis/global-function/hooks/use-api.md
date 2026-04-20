@@ -51,9 +51,9 @@ HTTP Method에 따라 **자동으로 동작 방식이 결정**됩니다.
 
 ## 기본 사용 예제
 ---
-* `useApi` 훅을 공유 라이브러리(`mfe-lib-shared`)에서 import 합니다.
+* `useApi` 훅을 `@axiom/hooks`에서 import 합니다.
 ```ts
-import { useApi } from '@axiom/mfe-lib-shared/hooks';
+import { useApi } from '@axiom/hooks';
 ```
 
 * **Client Component** 최상위에서 **useApi()** 훅 사용을 위한 코드를 작성합니다.
