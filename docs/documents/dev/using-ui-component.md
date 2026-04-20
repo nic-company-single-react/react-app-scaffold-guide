@@ -46,9 +46,9 @@ title: "UI 컴포넌트 사용하기"
 
 ## 기본 예제
 ---
-* `@axiom/mfe-lib-shared` 에서 제공하는 기본 UI 컴포넌트 중 **Button** 컴포넌트를 import 합니다.
+* `react-app-scaffold` 에서 제공하는 기본 UI 컴포넌트 중 **Button** 컴포넌트를 import 합니다.
 ```tsx
-import { Button } from '@axiom/mfe-lib-shared/components/ui';
+import { Button } from '@axiom/components/ui';
 ```
 * **Client Component** 에서 사용 시 다음과 같이 사용할 수 있습니다.
 ```tsx
