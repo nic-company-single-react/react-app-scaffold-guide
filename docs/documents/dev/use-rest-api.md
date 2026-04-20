@@ -8,7 +8,7 @@ title: "REST API 데이터 활용하기"
 # 데이터 가져오기
 
 :::info 작업 내용
-* 각 업무(domain) **화면 컴포넌트**에서 **mfe-app-boilerplate**가 제공하는 **useApi()** 훅을 통해 **REST API**를 호출하여 데이터를 가져오는 방법을 설명합니다.
+* 각 업무(domain) **화면 컴포넌트**에서 **react-app-scaffold**가 제공하는 **useApi()** 훅을 통해 **REST API**를 호출하여 데이터를 가져오는 방법을 설명합니다.
 :::
 
 :::tip 데이터 조회, 업데이트 방법의 차이
@@ -34,7 +34,7 @@ title: "REST API 데이터 활용하기"
 * 화면 컴포넌트가 마운트되면 **useApi()** 함수가 자동으로 요청을 실행합니다.
 ```tsx
 // highlight-start
-import { useApi } from '@axiom/mfe-lib-shared/hooks';
+import { useApi } from '@hooks';
 // highlight-end
 
 interface IPost {
