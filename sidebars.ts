@@ -21,6 +21,9 @@ const sidebars: SidebarsConfig = {
       collapsible: true,
       items: [
         'started/getting-started/overview',
+        'started/getting-started/set-dev-env-config',
+        'started/getting-started/dev-convention',
+        'started/getting-started/react-style-guide',
       ],
     },
     {
