@@ -287,7 +287,7 @@ function useApi<TData = unknown, TVariables = Record<string, unknown>>(
 
 ### 버튼 클릭 시 데이터 요청하기
 ```tsx
-import { useApi } from '@axiom/mfe-lib-shared/hooks';
+import { useApi } from '@axiom/hooks';
 
 export default function SamplePage(): React.ReactNode {
     // useApi 훅 사용 코드 작성
@@ -321,7 +321,7 @@ export default function SamplePage(): React.ReactNode {
 
 ### params 옵션으로 쿼리스트링 전달
 ```tsx
-import { useApi } from '@axiom/mfe-lib-shared/hooks';
+import { useApi } from '@axiom/hooks';
 
 export default function SamplePage(): React.ReactNode {
     const { data } = useApi<IPost[]>('/posts', { params: { page: 1, limit: 10 } });
@@ -338,7 +338,7 @@ export default function SamplePage(): React.ReactNode {
 
 ### POST mutation — 데이터 생성, 업데이트
 ```tsx
-import { useApi } from '@axiom/mfe-lib-shared/hooks';
+import { useApi } from '@axiom/hooks';
 
 export default function SamplePage(): React.ReactNode {
     // highlight-start
