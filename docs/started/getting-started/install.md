@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-displayed_sidebar: "assetsDocSidebar"
+displayed_sidebar: "startDocSidebar"
 title: "설치"
 ---
 
@@ -32,7 +32,7 @@ title: "설치"
 **react-app-scaffold** 프로젝트를 설치하기 전에 다음 사항을 확인하세요:
 
 ### 필수 소프트웨어
-* 기본 개발 환경 구성이 되어 있지 않다면 [react-app-scaffold 개발 환경 구성](../config/set-dev-env-config.md) 을 참조하여 기본 개발 환경을 구성하세요.
+* 기본 개발 환경 구성이 되어 있지 않다면 [react-app-scaffold 개발 환경 구성]() 을 참조하여 기본 개발 환경을 구성하세요.
 - **Node.js**: 버전 20.0 이상이 설치되어 있어야 합니다
 - **npm**: Node.js와 함께 설치되며, 버전 10.0 이상 권장
 - **Git**: 소스 코드를 클론하기 위해 필요합니다
@@ -267,7 +267,7 @@ npm run dev
  ✓ Ready in 492ms
 ```
 
-![npm run dev 예시 이미지](../assets/config/vscode_env01.png)
+<!-- ![npm run dev 예시 이미지](../assets/config/vscode_env01.png) -->
 
 ### 3단계: 브라우저에서 확인
 
@@ -277,7 +277,7 @@ npm run dev
 2. **주소 입력**: 주소창에 `http://localhost:5174` 입력
 3. **페이지 확인**: 애플리케이션이 정상적으로 로드되는지 확인
 
-![npm run dev 브라우저 확인 예시 이미지](../assets/config/vscode_env02.png)
+<!-- ![npm run dev 브라우저 확인 예시 이미지](../assets/config/vscode_env02.png) -->
 
 :::info 개발 서버 특징
 

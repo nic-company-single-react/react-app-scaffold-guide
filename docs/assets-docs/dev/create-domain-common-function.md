@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-displayed_sidebar: "assetsDocSidebar"
+displayed_sidebar: "documentDocSidebar"
 title: "각 업무 공통함수만들기"
 ---
 

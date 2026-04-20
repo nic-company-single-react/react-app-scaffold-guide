@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-displayed_sidebar: "assetsDocSidebar"
+displayed_sidebar: "startDocSidebar"
 title: "개요"
 ---
 
@@ -10,8 +10,8 @@ title: "개요"
 ## 소개
 ---
 
-**react-app-scaffold**는 **Next.js**와 **TypeScript**를 기반으로 하여, 실무에서 바로 사용할 수 있는 UI 컴포넌트와 유틸리티, 예제 코드를 제공하는 스타터 프로젝트입니다. 프로젝트의 초기 세팅과 개발을 빠르고 효율적으로 시작할 수 있도록 도와줍니다.<br /><br />
-업무 개발자는 실제로 동작하는 컴포넌트와 유틸리티를 미리 확인하고, 예제 코드를 복사하여 자신의 업무 코드에 바로 적용할 수 있습니다.
+**react-app-scaffold**는 **React.js**와 **TypeScript**를 기반으로 하여, 실무에서 바로 사용할 수 있는 UI 컴포넌트와 유틸리티, 예제 코드를 제공하는 스타터 프로젝트입니다. 프로젝트의 초기 세팅과 개발을 빠르고 효율적으로 시작할 수 있도록 도와줍니다.<br /><br />
+업무 개발자는 실제로 동작하는 컴포넌트와 유틸리티를 미리 확인하고, 예제 코드를 복사하여 자신의 업무 코드에 바로 적용할 수 있습니다. 또한, 프로젝트 상황에 맞게 스타일의 유연성과 커스터마이징 용이성 측면에서도 매우 큰 장점이 있습니다.
 
 ### 주요 목적
 
@@ -23,7 +23,7 @@ title: "개요"
 
 ### 제공 UI 컴포넌트
 
-현재 제공되는 주요 컴포넌트는 다음과 같습니다. (계속 추가 중)
+현재 제공되는 주요 컴포넌트는 다음과 같습니다. (필요 시 계속 추가)
 
 - **Accordion**: 접이식 콘텐츠 패널
 - **Alert & AlertDialog**: 알림 및 확인 다이얼로그
@@ -41,7 +41,7 @@ title: "개요"
 
 ### 제공 유틸리티
 
-현재 제공되는 주요 유틸리티는 다음과 같습니다. (지속적으로 추가 중)
+현재 제공되는 주요 유틸리티는 다음과 같습니다. (필요 시 계속 추가)
 
 - **API Helper**: Axios 기반의 API 통신 함수 및 공통 request/error 핸들러
 - **Date Utils**: 날짜 포맷 변환, 상대 날짜 계산 등 날짜 처리 함수
@@ -55,10 +55,6 @@ title: "개요"
 
 
 
-
-
-
-
 ## 장점
 ---
 
@@ -67,7 +63,6 @@ title: "개요"
 - **즉시 사용 가능한 UI 컴포넌트**: 자주 사용하는 UI 컴포넌트를 제공하므로 import하여 바로 사용할 수 있어 개발 시간을 크게 단축할 수 있습니다. 또한, 프로젝트 상황에 맞게 스타일의 유연성과 커스터마이징 용이성 측면에서도 매우 큰 장점이 있습니다.
 - **일관된 디자인 시스템**: 통일된 디자인 가이드라인을 따르는 컴포넌트로 일관성 있는 UI를 구축할 수 있습니다.
 - **코드 예제 제공**: 각 컴포넌트마다 실제 사용 예제와 코드를 제공하여 학습 곡선을 낮추고, 개발 생산성을 향상시킵니다.
-- **Next.js의 강력한 기능**: App Router 기반 라우팅, 자동 코드 스플리팅, 이미지 최적화 등 Next.js의 기본 기능을 활용하여 개발 속도를 향상시킵니다.
 
 ### 타입 안정성
 
@@ -94,12 +89,10 @@ title: "개요"
 
 ### 현대적인 아키텍처
 
-- **Next.js App Router**: 최신 Next.js 아키텍처를 활용한 파일 기반 라우팅 시스템
-- **Server & Client Components**: 서버와 클라이언트 컴포넌트를 적절히 분리하여 성능 최적화
-- **도메인 기반 구조(DDD)**: 기능 또는 업무별로 도메인을 분리하여 소스코드의 복잡도와 충돌가능성을 낮추고, 유지보수성과 확장성을 크게 향상시켰습니다.
-- **Route Groups**: Next.js의 Route Groups 기능을 활용하여 URL 경로에 영향 없이 도메인별로 프로젝트를 구조화
+- **도메인 기반 구조(DDD)**: 기능 또는 업무별로 도메인을 분리하여 소스코드의 복잡도와 충돌 가능성을 낮추고, 유지보수성과 확장성을 크게 향상시켰습니다.
 - **재사용 가능한 유틸리티**: 공통 API 모듈, 유틸리티 함수, 상태 관리 로직을 제공합니다.
 - **모듈화된 설계**: 각 컴포넌트가 독립적으로 동작하며 필요한 부분만 선택적으로 사용할 수 있습니다.
+- **React Router 기반 라우팅**: 파일 기반이 아닌 선언형 라우팅으로 유연한 페이지 구조를 구성할 수 있습니다.
 
 ### 상태 관리 및 서버 상태 관리
 
@@ -111,21 +104,16 @@ title: "개요"
 
 ### 성능 최적화
 
-- **서버 사이드 렌더링(SSR)**: 초기 페이지 로딩 속도를 크게 향상시키고 SEO를 개선합니다.
-- **정적 사이트 생성(SSG)**: 빌드 타임에 페이지를 미리 생성하여 최상의 성능을 제공합니다.
-- **증분 정적 재생성(ISR)**: 정적 페이지를 주기적으로 업데이트하여 콘텐츠 신선도를 유지합니다.
-- **자동 이미지 최적화**: Next.js Image 컴포넌트를 통한 자동 이미지 최적화 및 지연 로딩
-- **자동 코드 스플리팅**: 페이지별로 필요한 코드만 로드하여 초기 번들 크기를 최소화합니다.
+- **코드 스플리팅**: React의 `lazy()` + `Suspense`를 활용하여 페이지별로 필요한 코드만 로드, 초기 번들 크기를 최소화합니다.
+- **컴포넌트 메모이제이션**: `React.memo`, `useMemo`, `useCallback`을 통해 불필요한 리렌더링을 방지합니다.
+- **빠른 빌드 및 HMR**: Vite 기반의 초고속 개발 서버와 Hot Module Replacement(HMR)로 빠른 피드백 루프를 제공합니다.
+- **트리 셰이킹**: 사용하지 않는 코드를 자동으로 제거하여 번들 크기를 최소화합니다.
 
 ### 개발자 경험 (DX)
 
 - **인터랙티브 문서**: UI 컴포넌트를 직접 조작해보며 동작을 확인할 수 있는 라이브 데모를 제공합니다.
-- **전역 유틸리티 객체**: `$router`, `$util`, `$ui` 등의 객체을 통해 편리한 전역 접근을 제공하고, 자주 사용하는 로직을 구현할 필요없이 바로 사용할 수 있습니다.
-- **빠른 개발 환경**: Turbopack을 활용한 초고속 Hot Module Replacement(HMR)로 빠른 피드백 루프를 제공합니다.
-
-
-
-
+- **전역 유틸리티 객체**: `$router`, `$util`, `$ui` 등의 객체를 통해 편리한 전역 접근을 제공하고, 자주 사용하는 로직을 구현할 필요없이 바로 사용할 수 있습니다.
+- **빠른 개발 환경**: Vite를 활용한 초고속 Hot Module Replacement(HMR)로 코드 수정 결과를 즉시 확인할 수 있습니다.
 
 
 
@@ -134,9 +122,9 @@ title: "개요"
 
 ### 핵심 프레임워크 및 라이브러리
 
-- **Next.js 16.x**: React 기반의 풀스택 프레임워크로 서버 사이드 렌더링(SSR), 정적 사이트 생성(SSG), App Router 등을 지원합니다.
 - **React 19.x**: 최신 버전의 React를 사용하여 최신 기능과 성능 최적화를 활용합니다.
 - **TypeScript 5.x**: 정적 타입 검사를 통한 안정적인 코드 작성.
+- **Vite**: 빠른 개발 서버와 최적화된 프로덕션 빌드를 제공하는 차세대 프론트엔드 빌드 도구.
 
 
 ### UI 프레임워크 및 스타일링
@@ -145,7 +133,6 @@ title: "개요"
 - **shadcn/ui (Radix UI)**: 접근성을 고려한 헤드리스 UI 프리미티브 라이브러리
 - **Lucide React**: 현대적이고 일관된 아이콘 세트
 - **class-variance-authority**: 컴포넌트 variant 관리를 위한 유틸리티
-- **Next.js와의 완벽한 통합**: Tailwind CSS와 Next.js의 최적화된 통합 지원
 
 ### 상태 관리 및 데이터 페칭
 
@@ -158,16 +145,13 @@ title: "개요"
   - 인터셉터를 통한 요청/응답 처리
   - 중복 요청 방지 메커니즘
   - 에러 핸들링
-- **Next.js와의 통합**: Server Components와 Client Components에서 모두 사용 가능한 유연한 데이터 페칭 전략
 - **Zustand (선택적)**: 간단한 클라이언트 상태 관리를 위한 경량 상태 관리 라이브러리
 
-### 라우팅 및 렌더링
+### 라우팅
 
-- **Next.js App Router**: 파일 시스템 기반 라우팅으로 직관적인 페이지 구조
-- **Server Components**: 서버에서 렌더링되어 초기 로딩 속도 향상
-- **Client Components**: 인터랙티브한 UI를 위한 클라이언트 컴포넌트
-- **자동 코드 스플리팅**: Next.js가 자동으로 코드를 분할하여 성능 최적화
-- **Route Groups**: 도메인 기반 프로젝트 구조화를 위한 라우트 그룹 활용
+- **React Router**: 선언형 클라이언트 사이드 라우팅 라이브러리
+- **중첩 라우팅**: 레이아웃과 페이지 컴포넌트를 유연하게 조합
+- **코드 스플리팅 연동**: `lazy()` 기반의 라우트별 번들 분리로 성능 최적화
 
 ### 날짜 및 시간 처리
 
@@ -179,9 +163,7 @@ title: "개요"
 
 - **ESLint**: 코드 품질 및 일관성 검사
 - **Prettier**: 코드 포맷팅
-- **TypeScript ESLint**: TypeScript 전용 린팅 규칙
-- **Turbopack**: Next.js의 고성능 번들러로 빠른 개발 서버 제공
-- **SWC**: Rust 기반의 초고속 컴파일러로 빌드 속도 향상 -->
+- **TypeScript ESLint**: TypeScript 전용 린팅 규칙 -->
 
 
 ### 프로젝트 구조
@@ -190,34 +172,44 @@ title: "개요"
 
 ```sh
 react-app-scaffold
-├── @types                # TypeScript 전역 타입 정의 (.d.ts 파일)
+├── .vscode               # vscode 설정 파일
+│   └── settings.json     # vscode 설정 파일
 ├── public                # 정적 파일 (이미지, 폰트 등, / 경로로 접근)
 ├── src
-│   ├── app               # Next.js App Router 핵심 폴더
-│   │   ├── (domains)     # 프로젝트 업무(domain) 그룹 (URL에 영향 없이 구조화)
-│   │   │   ├── example   # example 도메인 업무
-│   │   │   ├── main      # main 도메인 업무
-│   │   │   └── ...       # 도메인 업무를 계속 추가할 수 있음
-│   │   ├── favicon.ico   # 사이트 파비콘
-│   │   └── layout.tsx    # 전역 레이아웃 컴포넌트
 │   ├── assets            # 정적 리소스 관리
+│   │   ├── images        # 정적 이미지 파일
 │   │   └── styles        # 스타일 파일
 │   │       └── app.css   # 전역 CSS
-│   ├── core              # 프로젝트 핵심 비즈니스 로직
+│   ├── core              # 프로젝트 핵심 공통 코어 로직 (업무 개발자 미작업 공간)
 │   │   ├── components    # 공통 컴포넌트
+│   │   ├── types         # 공통 비즈니스 로직 타입 정의
+│   │   └── ...           # hooks, utils, api, etc. 등 공통 코드
+│   ├── domains           # 프로젝트 업무(domain) 그룹
+│   │   ├── example       # example 도메인 업무
+│   │   ├── main          # main 도메인 업무
+│   │   └── ...           # (도메인 업무를 계속 추가할 수 있음)
+│   ├── shared            # 전역 공유 코드
+│   │   ├── components    # 전역 공유 공통 컴포넌트
 │   │   │   ├── ui        # 공통 UI 컴포넌트 (Button, Input 등)
 │   │   │   └── ...
-│   │   └── types         # 공통 비즈니스 로직 타입 정의
-│   └── shared            # 전역 공유 코드
-│       ├── components    # 전역 공유 공통 컴포넌트
-│       └── constants     # 전역 상수 (API 엔드포인트, 설정값 등)
-├── tsconfig.json         # TypeScript 컴파일러 설정
-├── eslint.config.mjs     # ESLint 린팅 규칙
-├── next.config.ts        # Next.js 프레임워크 설정
-├── tailwind.config.ts    # Tailwind CSS 설정
-├── postcss.config.mjs    # PostCSS 설정
+│   │   ├── router        # React Router 라우팅 설정
+│   │   └── ...           # hooks, utils, api, etc. 등 공유 코드
+│   ├── types             # TypeScript 전역 타입 정의
+│   │   └── global.d.ts    # 전역 타입 정의 (.d.ts 파일)
+│   ├── App.tsx           # 앱 루트 컴포넌트
+│   └── main.tsx          # 앱 메인 컴포넌트
+├── .env                  # 환경 변수
+├── .env.local             # 환경 변수 (local)
+├── .env.development       # 환경 변수 (development)
+├── .env.production        # 환경 변수 (production)
+├── .gitignore            # git 무시 파일
+├── components.json       # shadcn/ui 설정
+├── eslint.config.js     # ESLint 린팅 규칙
+├── index.html            # 루트 HTML 파일
 ├── package.json          # 의존성 및 스크립트 관리
 └── prettier.config.js    # 코드 포매팅 규칙
+├── tsconfig.app.json     # TypeScript 컴파일러 설정 (App)
+├── tsconfig.node.json    # TypeScript 컴파일러 설정 (Node)
+├── tsconfig.json         # TypeScript 컴파일러 설정
+└── vite.config.ts        # Vite 빌드 설정
 ```
-
-<!-- 이러한 기술 스택과 구조를 통해 **entec-next-assets**는 현대적이고 확장 가능하며 유지보수가 용이한 Next.js 애플리케이션 개발을 지원합니다. -->

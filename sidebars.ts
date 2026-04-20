@@ -13,20 +13,27 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
  Create as many sidebars as you want.
  */
 const sidebars: SidebarsConfig = {
-  assetsDocSidebar: [
+  startDocSidebar: [
     {
-      type: 'category',
-      label: '◉ 시작하기',
+      type: "category",
+      label: "◉ 시작하기",
       collapsed: false,
       collapsible: true,
       items: [
-        'assets-docs/getting-started/overview',
-        'assets-docs/config/set-dev-env-config',
-        'assets-docs/getting-started/install',
-        'assets-docs/config/dev-convention',
-        'assets-docs/config/react-style-guide',
+        'started/getting-started/overview',
       ],
     },
+    {
+      type: "category",
+      label: "◉ 참조",
+      collapsed: false,
+      collapsible: true,
+      items: [
+        'started/getting-started/overview',
+      ],
+    },
+  ],
+  documentDocSidebar: [
     {
       type: 'category',
       label: '◉ 개발 가이드',

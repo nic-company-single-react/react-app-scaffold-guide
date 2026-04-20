@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-displayed_sidebar: "assetsDocSidebar"
+displayed_sidebar: "documentDocSidebar"
 title: "페이지 이동하기"
 ---
 

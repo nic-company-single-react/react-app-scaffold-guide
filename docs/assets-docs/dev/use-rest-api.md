@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-displayed_sidebar: "assetsDocSidebar"
+displayed_sidebar: "documentDocSidebar"
 title: "데이터 가져오기"
 ---
 

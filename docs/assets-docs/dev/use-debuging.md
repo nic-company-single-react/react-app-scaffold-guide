@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-displayed_sidebar: "assetsDocSidebar"
+displayed_sidebar: "documentDocSidebar"
 title: "디버깅하기"
 ---
 

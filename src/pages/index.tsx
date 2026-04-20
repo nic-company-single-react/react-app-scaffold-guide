@@ -20,7 +20,7 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/assets-docs/getting-started/overview">
+            to="/docs/started/getting-started/overview">
             시작하기
           </Link>
         </div>

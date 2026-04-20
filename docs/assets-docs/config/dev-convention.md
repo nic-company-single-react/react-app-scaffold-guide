@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-displayed_sidebar: "assetsDocSidebar"
+displayed_sidebar: "documentDocSidebar"
 title: "개발구조및규칙"
 ---
 

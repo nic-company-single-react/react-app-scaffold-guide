@@ -83,10 +83,16 @@ const config: Config = {
       },
       items: [
         {
+          label: "Getting Started",
+          type: "docSidebar",
+          position: "left",
+          sidebarId: "startDocSidebar",
+        },
+        {
           label: 'Docs',
           type: 'docSidebar',
           position: 'left',
-          sidebarId: 'assetsDocSidebar',
+          sidebarId: 'documentDocSidebar',
         },
         {
           label: 'Components',

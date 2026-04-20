@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-displayed_sidebar: "assetsDocSidebar"
+displayed_sidebar: "documentDocSidebar"
 title: "UI 컴포넌트 사용해보기"
 ---
 

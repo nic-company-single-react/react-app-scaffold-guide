@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-displayed_sidebar: "assetsDocSidebar"
+displayed_sidebar: "documentDocSidebar"
 title: "빌드하기"
 ---
 
