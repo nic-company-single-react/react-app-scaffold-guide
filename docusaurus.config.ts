@@ -112,12 +112,6 @@ const config: Config = {
           position: 'left',
         },
         {
-          label: 'Training',
-          type: 'docSidebar',
-          position: 'left',
-          sidebarId: 'nextjsTrainingSidebar',
-        },
-        {
           label: '프로젝트준비(공통영역)',
           type: 'docSidebar',
           position: 'right',
@@ -151,19 +145,19 @@ const config: Config = {
           items: [
             {
               label: '소개',
-              to: '/docs/assets-docs/getting-started/overview',
+              to: '/docs/documents/getting-started/overview',
             },
             {
               label: '개발환경구성',
-              to: '/docs/assets-docs/config/set-dev-env-config',
+              to: '/docs/documents/config/set-dev-env-config',
             },
             {
               label: '개발구조 및 규칙',
-              to: '/docs/assets-docs/config/dev-convention',
+              to: '/docs/documents/config/dev-convention',
             },
             {
               label: '개발 가이드',
-              to: '/docs/assets-docs/dev/create-biz-pages',
+              to: '/docs/documents/dev/create-biz-pages',
             },
           ],
         },
