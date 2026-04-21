@@ -1,0 +1,8 @@
+---
+sidebar_position: 1
+displayed_sidebar: "documentDocSidebar"
+title: "테스트 자동화(작업중)"
+---
+
+# React 컴포넌트 테스트 자동화(작업중)
+* Vite 기반 React  →  Vitest  +  @testing-library/react  +  @testing-library/user-event

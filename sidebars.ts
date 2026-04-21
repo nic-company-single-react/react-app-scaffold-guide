@@ -58,6 +58,9 @@ const sidebars: SidebarsConfig = {
       collapsible: true,
       items: [
         "documents/etc/how-to-storybook",
+        "documents/etc/component-documentation",
+        "documents/etc/test-automation",
+        "documents/etc/seo-optimization",
       ],
     },
   ],
