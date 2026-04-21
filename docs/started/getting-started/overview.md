@@ -43,14 +43,18 @@ title: "개요"
 
 현재 제공되는 주요 유틸리티는 다음과 같습니다. (필요 시 계속 추가)
 
-- **API Helper**: Axios 기반의 API 통신 함수 및 공통 request/error 핸들러
-- **Date Utils**: 날짜 포맷 변환, 상대 날짜 계산 등 날짜 처리 함수
-- **Array/Object Utils**: 배열, 객체 조작을 위한 다양한 헬퍼 함수 (정렬, 필터, 딥 클론 등)
-- **Data Formatter**: 통화, 숫자, 퍼센트 등 각종 데이터 포맷 변환 함수
-- **Validation Utils**: 이메일, 휴대폰 번호, 숫자 등 다양한 입력값 유효성 검사 함수
-- **Storage Utils**: 로컬스토리지, 세션스토리지 편의 함수
-- **String Utils**: 문자열 변환, 치환, 대소문자 변경 관련 함수
-- **Clipboard Utils**: 텍스트, 객체 클립보드 복사 함수 및 지원 여부 체크
+- **API Helper**: Axios 기반의 API 통신 함수 및 공통 request/error 핸들러 (useApi)
+- **Page Router**: 페이지 이동 함수 ($router)
+- **Date Utils**: 날짜 포맷 변환, 상대 날짜 계산 등 날짜 처리 함수 ($util.date)
+- **String Utils**: 문자열 변환, 치환, 대소문자 변경 관련 함수 ($util.string)
+- **Number Utils**: 숫자 포맷 변환, 숫자 조작 관련 함수 ($util.number)
+- **Data Formatter**: 통화, 숫자, 퍼센트 등 각종 데이터 포맷 변환 함수 ($util.formatter)
+- **Custom Hooks**: 커스텀 훅 모음 (useApi, useClientState 등등)
+- **그 외 추가 예정**
+  - **Array/Object Utils**: 배열, 객체 조작을 위한 다양한 헬퍼 함수 (정렬, 필터, 딥 클론 등)
+  - **Validation Utils**: 이메일, 휴대폰 번호, 숫자 등 다양한 입력값 유효성 검사 함수
+  - **Storage Utils**: 로컬스토리지, 세션스토리지 편의 함수
+  - **Clipboard Utils**: 텍스트, 객체 클립보드 복사 함수 및 지원 여부 체크
 
 
 
@@ -61,6 +65,8 @@ title: "개요"
 ### 개발 생산성 향상
 
 - **즉시 사용 가능한 UI 컴포넌트**: 자주 사용하는 UI 컴포넌트를 제공하므로 import하여 바로 사용할 수 있어 개발 시간을 크게 단축할 수 있습니다. 또한, 프로젝트 상황에 맞게 스타일의 유연성과 커스터마이징 용이성 측면에서도 매우 큰 장점이 있습니다.
+- **다양한 유틸리티 함수**: 자주 사용하는 유틸리티 함수를 제공하므로 import하여 바로 사용할 수 있어 개발 시간을 크게 단축할 수 있습니다.
+- **커스텀 훅**: 자주 사용하는 커스텀 훅을 제공하므로 import하여 바로 사용할 수 있어 개발 시간을 크게 단축할 수 있습니다.
 - **일관된 디자인 시스템**: 통일된 디자인 가이드라인을 따르는 컴포넌트로 일관성 있는 UI를 구축할 수 있습니다.
 - **코드 예제 제공**: 각 컴포넌트마다 실제 사용 예제와 코드를 제공하여 학습 곡선을 낮추고, 개발 생산성을 향상시킵니다.
 
@@ -97,6 +103,7 @@ title: "개요"
 ### 상태 관리 및 서버 상태 관리
 
 - **TanStack Query (React Query) 통합**: 서버 상태 관리를 위한 강력한 라이브러리로 데이터 페칭, 캐싱, 동기화를 자동으로 처리합니다.
+- **Zustand 통합**: 간단한 클라이언트 상태 관리를 위한 경량 상태 관리 라이브러리로 데이터 캐싱, 동기화를 자동으로 처리합니다.
 - **자동 캐싱 및 리페칭**: API 응답을 자동으로 캐싱하고 백그라운드에서 데이터를 최신 상태로 유지합니다.
 - **낙관적 업데이트**: UI를 즉시 업데이트하고 백그라운드에서 서버와 동기화하여 빠른 사용자 경험을 제공합니다.
 - **중복 요청 방지**: 동일한 데이터에 대한 중복 요청을 자동으로 방지하고 하나의 요청으로 통합합니다.
@@ -104,7 +111,7 @@ title: "개요"
 
 ### 성능 최적화
 
-- **코드 스플리팅**: React의 `lazy()` + `Suspense`를 활용하여 페이지별로 필요한 코드만 로드, 초기 번들 크기를 최소화합니다.
+- **코드 스플리팅**: React의 `lazy()` + `Suspense`를 활용하여 페이지별로 필요한 코드만 로드, 초기 번들 크기를 최소화합니다. 또한 `@loadable/component`를 활용하여 코드 스플리팅을 더욱 효과적으로 구현할 수 있습니다.
 - **컴포넌트 메모이제이션**: `React.memo`, `useMemo`, `useCallback`을 통해 불필요한 리렌더링을 방지합니다.
 - **빠른 빌드 및 HMR**: Vite 기반의 초고속 개발 서버와 Hot Module Replacement(HMR)로 빠른 피드백 루프를 제공합니다.
 - **트리 셰이킹**: 사용하지 않는 코드를 자동으로 제거하여 번들 크기를 최소화합니다.
@@ -123,9 +130,13 @@ title: "개요"
 ### 핵심 프레임워크 및 라이브러리
 
 - **React 19.x**: 최신 버전의 React를 사용하여 최신 기능과 성능 최적화를 활용합니다.
-- **TypeScript 5.x**: 정적 타입 검사를 통한 안정적인 코드 작성.
+- **TypeScript 6.x**: 정적 타입 검사를 통한 안정적인 코드 작성.
 - **Vite**: 빠른 개발 서버와 최적화된 프로덕션 빌드를 제공하는 차세대 프론트엔드 빌드 도구.
 
+### 코드 품질 도구
+
+- **ESLint** (`eslint.config.js`): 문법 오류, 잠재적 버그, 잘못된 Hook 사용 등을 정적 분석하여 코드 품질과 팀 컨벤션을 유지합니다.
+- **Prettier** (`prettier.config.js`): 저장 시 코드 스타일을 자동으로 통일하여 스타일 논쟁 없이 로직에만 집중할 수 있습니다.
 
 ### UI 프레임워크 및 스타일링
 
@@ -159,12 +170,6 @@ title: "개요"
 - **dayjs**: 경량 날짜 라이브러리
 - **react-day-picker**: React용 날짜 선택 컴포넌트
 
-<!-- ### 개발 도구
-
-- **ESLint**: 코드 품질 및 일관성 검사
-- **Prettier**: 코드 포맷팅
-- **TypeScript ESLint**: TypeScript 전용 린팅 규칙 -->
-
 
 ### 프로젝트 구조
 
@@ -172,44 +177,56 @@ title: "개요"
 
 ```sh
 react-app-scaffold
-├── .vscode               # vscode 설정 파일
-│   └── settings.json     # vscode 설정 파일
-├── public                # 정적 파일 (이미지, 폰트 등, / 경로로 접근)
+├── .vscode                          # VSCode 설정
+│   └── settings.json                # 에디터 설정 (Format on Save 등)
+├── public                           # 정적 파일 (/ 경로로 접근)
 ├── src
-│   ├── assets            # 정적 리소스 관리
-│   │   ├── images        # 정적 이미지 파일
-│   │   └── styles        # 스타일 파일
-│   │       └── app.css   # 전역 CSS
-│   ├── core              # 프로젝트 핵심 공통 코어 로직 (업무 개발자 미작업 공간)
-│   │   ├── components    # 공통 컴포넌트
-│   │   ├── types         # 공통 비즈니스 로직 타입 정의
-│   │   └── ...           # hooks, utils, api, etc. 등 공통 코드
-│   ├── domains           # 프로젝트 업무(domain) 그룹
-│   │   ├── example       # example 도메인 업무
-│   │   ├── main          # main 도메인 업무
-│   │   └── ...           # (도메인 업무를 계속 추가할 수 있음)
-│   ├── shared            # 전역 공유 코드
-│   │   ├── components    # 전역 공유 공통 컴포넌트
-│   │   │   ├── ui        # 공통 UI 컴포넌트 (Button, Input 등)
-│   │   │   └── ...
-│   │   ├── router        # React Router 라우팅 설정
-│   │   └── ...           # hooks, utils, api, etc. 등 공유 코드
-│   ├── types             # TypeScript 전역 타입 정의
-│   │   └── global.d.ts    # 전역 타입 정의 (.d.ts 파일)
-│   ├── App.tsx           # 앱 루트 컴포넌트
-│   └── main.tsx          # 앱 메인 컴포넌트
-├── .env                  # 환경 변수
-├── .env.local             # 환경 변수 (local)
-├── .env.development       # 환경 변수 (development)
-├── .env.production        # 환경 변수 (production)
-├── .gitignore            # git 무시 파일
-├── components.json       # shadcn/ui 설정
-├── eslint.config.js     # ESLint 린팅 규칙
-├── index.html            # 루트 HTML 파일
-├── package.json          # 의존성 및 스크립트 관리
-└── prettier.config.js    # 코드 포매팅 규칙
-├── tsconfig.app.json     # TypeScript 컴파일러 설정 (App)
-├── tsconfig.node.json    # TypeScript 컴파일러 설정 (Node)
-├── tsconfig.json         # TypeScript 컴파일러 설정
-└── vite.config.ts        # Vite 빌드 설정
+│   ├── assets                       # 정적 리소스
+│   │   ├── images
+│   │   └── styles
+│   │       └── app.css              # 전역 CSS
+│   ├── core                         # 핵심 공통 코어 (업무 개발자 미작업 영역)
+│   │   ├── api                      # Axios 기반 공통 API 클라이언트
+│   │   ├── context                  # 공통 컨텍스트 컴포넌트
+│   │   ├── hooks                    # 공통 커스텀 훅
+│   │   ├── providers                # 전역 Provider 모음
+│   │   ├── query                    # TanStack Query 설정
+│   │   ├── router                   # 앱 공통 라우터 설정
+│   │   ├── types                    # 공통 타입 정의
+│   │   └── utils                    # 공통 유틸리티 함수
+│   ├── domains                      # 업무(Domain) 그룹
+│   │   ├── example                  # example 도메인
+│   │   │   ├── components           # example 도메인 컴포넌트 모음
+│   │   │   ├── common               # example 도메인 공통 컴포넌트 모음
+│   │   │   ├── pages                # example 도메인 페이지 모음
+│   │   │   ├── router               # example 도메인 라우팅 설정
+│   │   │   └── types                # example 도메인 타입 정의
+│   │   ├── main                     # main 도메인
+│   │   │   ├── components           # main 도메인 컴포넌트 모음
+│   │   │   ├── common               # main 도메인 공통 컴포넌트 모음
+│   │   │   ├── pages                # main 도메인 페이지 모음
+│   │   │   ├── router               # main 도메인 라우팅 설정
+│   │   │   └── types                # main 도메인 타입 정의
+│   │   └── ...                      # (신규 도메인 추가)
+│   ├── shared                       # 전역 공유 코드
+│   │   ├── components
+│   │   │   ├── layout               # 레이아웃 컴포넌트
+│   │   │   ├── shadcn               # shadcn/ui 원본 컴포넌트
+│   │   │   └── ui                   # 공통 UI 컴포넌트
+│   │   └── router                   # 전체 라우팅 통합 설정
+│   ├── types                        # TypeScript 전역 타입
+│   ├── App.tsx                      # 앱 루트 컴포넌트
+│   └── main.tsx                     # 앱 진입점
+├── .env                             # 공통 환경 변수
+├── .env.production                  # 프로덕션 환경 변수
+├── .gitignore
+├── components.json                  # shadcn/ui CLI 설정
+├── eslint.config.js                 # ESLint 린팅 규칙
+├── index.html                       # 루트 HTML
+├── package.json                     # 의존성 및 스크립트
+├── prettier.config.js               # Prettier 포매팅 규칙
+├── tsconfig.json                    # TypeScript 설정 (루트)
+├── tsconfig.app.json                # TypeScript 설정 (App)
+├── tsconfig.node.json               # TypeScript 설정 (Node)
+└── vite.config.ts                   # Vite 빌드 설정
 ```
