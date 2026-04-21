@@ -5,8 +5,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'react-app-scaffold Guide',
-  tagline: 'react-app-scaffold를 활용한 Frontend React 개발 가이드',
+  title: 'react-app-scaffold',
+  tagline: 'react-app-scaffold는 실무에 즉시 적용 가능한 컴포넌트, 유틸리티, 예제 코드를 제공하여 React 프로젝트의 빠르고 유연한 개발을 돕는 실전형 스타터 프로젝트입니다.',
   favicon: 'img/logo.ico',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future

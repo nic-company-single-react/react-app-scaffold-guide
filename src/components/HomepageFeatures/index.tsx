@@ -15,7 +15,7 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/app_documents.svg').default,
     description: (
       <>
-        react-app-scaffold를 활용한 프론트엔드 개발 시 초기 세팅 방법, 개발 규칙, 코딩 컨벤션 가이드뿐만 아니라 다양한 업무 개발 방법과 체계적인 작성 가이드를 제공합니다.
+        react-app-scaffold 아키텍처를 빠르게 파악하고 실전에 적용할 수 있는 기술 가이드를 제공합니다.
       </>
     ),
   },
@@ -24,7 +24,7 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/ui_component.svg').default,
     description: (
       <>
-        업무 화면에서 사용할 수 있는 다양한 UI 컴포넌트를 사용법과 예제코드로 사용하기 쉽게 제공합니다.
+        Form, Grid, Modal, Chart 등 업무 화면에 최적화된 UI 컴포넌트를 Props 명세, 사용 예제, 실전 코드 스니펫과 함께 제공합니다. 컴포넌트 조합만으로 복잡한 화면도 빠르게 구현할 수 있습니다.
       </>
     ),
   },
@@ -33,7 +33,7 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/api_reference.svg').default,
     description: (
       <>
-        react-app-scaffold에서 제공하는 공통함수, 객체 등과 유틸 함수들의 상세한 API 문서를 제공합니다.
+        커스텀 Hook, 서비스 객체, 유틸리티 함수 등 react-app-scaffold 내장 API의 시그니처, 파라미터, 반환값, 사용 예제를 체계적으로 정리한 레퍼런스 문서입니다.
       </>
     ),
   },
