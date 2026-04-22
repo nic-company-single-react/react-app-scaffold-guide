@@ -210,9 +210,11 @@ react-app-scaffold
 │   │   └── ...                      # (신규 도메인 추가)
 │   ├── shared                       # 전역 공유 코드
 │   │   ├── components
-│   │   │   ├── layout               # 레이아웃 컴포넌트
+│   │   │   └── layout               # 레이아웃 컴포넌트
+│   │   ├── lib
 │   │   │   ├── shadcn               # shadcn/ui 원본 컴포넌트
-│   │   │   └── ui                   # 공통 UI 컴포넌트
+│   │   │   │   └── ui                   # shadcn/ui UI 컴포넌트 모음
+│   │   │   └── utils.ts                 # shadcn/ui 유틸리티 함수 모음
 │   │   └── router                   # 전체 라우팅 통합 설정
 │   ├── types                        # TypeScript 전역 타입
 │   ├── App.tsx                      # 앱 루트 컴포넌트
