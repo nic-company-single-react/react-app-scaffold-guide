@@ -156,8 +156,8 @@ const config: Config = {
               to: '/docs/started/getting-started/dev-convention',
             },
             {
-              label: '개발 가이드',
-              to: '/docs/documents/dev/create-biz-pages',
+              label: '코딩 스타일',
+              to: '/docs/started/getting-started/react-style-guide',
             },
           ],
         },
@@ -169,12 +169,12 @@ const config: Config = {
               href: '/docs/components/ui/accordion-component',
             },
             {
-              label: 'Alert Dialog',
-              href: '/docs/components/ui/accordion-component',
-            },
-            {
               label: 'Button',
               href: '/docs/components/ui/button-component',
+            },
+            {
+              label: 'Dialog',
+              href: '/docs/components/ui/dialog-component',
             },
           ],
         },
@@ -186,16 +186,16 @@ const config: Config = {
               to: '/docs/apis/global-function/hooks/use-api',
             },
             {
-              label: 'Objects',
+              label: 'Service Objects',
               href: '/docs/apis/service-objects/ui/alert-ui',
             },
             {
               label: '예제 소스 GitHub',
-              href: 'http://211.208.101.192:4043/2026react/react-app-scaffold.git',
+              href: 'https://github.com/nic-company-single-react/react-app-scaffold',
             },
             {
               label: 'Guide GitHub',
-              href: 'http://211.208.101.192:4043/2026react/react-app-scaffold-guide.git',
+              href: 'https://github.com/nic-company-single-react/react-app-scaffold-guide',
             },
           ],
         },
