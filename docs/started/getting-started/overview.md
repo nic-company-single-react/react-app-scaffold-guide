@@ -177,10 +177,12 @@ title: "개요"
 
 ```sh
 react-app-scaffold
+├── .storybook                       # Storybook 설정
 ├── .vscode                          # VSCode 설정
 │   └── settings.json                # 에디터 설정 (Format on Save 등)
 ├── public                           # 정적 파일 (/ 경로로 접근)
 ├── src
+│   ├── __stories__                  # Storybook 소스 코드 모음
 │   ├── assets                       # 정적 리소스
 │   │   ├── images
 │   │   └── styles
@@ -230,5 +232,6 @@ react-app-scaffold
 ├── tsconfig.json                    # TypeScript 설정 (루트)
 ├── tsconfig.app.json                # TypeScript 설정 (App)
 ├── tsconfig.node.json               # TypeScript 설정 (Node)
+├── tsconfig.stories.json            # TypeScript 설정 (Storybook)
 └── vite.config.ts                   # Vite 빌드 설정
 ```
