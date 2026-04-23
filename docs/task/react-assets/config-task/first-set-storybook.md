@@ -45,7 +45,7 @@ npm create storybook@latest
 - `package.json`에 `storybook`, `build-storybook` 스크립트 추가됨
 - 자동 생성된 예시 스토리 파일(`src/stories/` 폴더)은 **삭제**
 
-### Step 2: [.storybook/main.ts](.storybook/main.ts) 수정
+### Step 2: `.storybook/main.ts` 수정
 
 stories 경로를 `src/__stories__/`로 변경:
 
@@ -121,7 +121,7 @@ export default config;
 
 > path alias(`@/`, `@axiom/*`)는 `@storybook/react-vite`가 `vite.config.ts`를 자동으로 읽어 적용되므로 별도 `viteFinal` 설정 불필요.
 
-### Step 3: [.storybook/preview.ts](.storybook/preview.ts) 수정
+### Step 3: `.storybook/preview.ts` 수정
 
 Tailwind CSS 연결 + QueryClientProvider 글로벌 Decorator 추가:
 
@@ -155,7 +155,7 @@ export default preview;
 
 > 기존 `QueryProvider`를 재사용하므로 별도 QueryClient 설정 없이 프로젝트 설정과 동일한 환경으로 스토리 실행.
 
-### Step 4: [tsconfig.app.json](tsconfig.app.json) 수정
+### Step 4: `tsconfig.app.json` 수정
 
 프로덕션 빌드에서 `__stories__` 제외:
 
