@@ -63,6 +63,16 @@ const sidebars: SidebarsConfig = {
         "documents/etc/seo-optimization",
       ],
     },
+    {
+      type: 'category',
+      label: '◉ AI-assisted development ',
+      collapsed: false,
+      collapsible: true,
+      items: [
+        "documents/ai/what-rag",
+        "documents/ai/axiom-ai-reg-flow",
+      ],
+    },
   ],
   componentsDocSidebar: [
     'components/index',
