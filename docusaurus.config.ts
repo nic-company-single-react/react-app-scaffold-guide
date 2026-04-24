@@ -107,7 +107,7 @@ const config: Config = {
           sidebarId: 'apiDocSidebar',
         },
         {
-          href: 'http://redsky0212.dothome.co.kr/2026/react/single-guide/example',
+          href: 'http://redsky0212.dothome.co.kr/axiom/react/',
           label: 'Example',
           position: 'left',
         },
