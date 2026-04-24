@@ -13,6 +13,22 @@ title: "개요"
 **react-app-scaffold**는 **React.js**와 **TypeScript**를 기반으로 하여, 실무에서 바로 사용할 수 있는 UI 컴포넌트와 유틸리티, 예제 코드를 제공하는 스타터 프로젝트입니다. 프로젝트의 초기 세팅과 개발을 빠르고 효율적으로 시작할 수 있도록 도와줍니다.<br /><br />
 업무 개발자는 실제로 동작하는 컴포넌트와 유틸리티를 미리 확인하고, 예제 코드를 복사하여 자신의 업무 코드에 바로 적용할 수 있습니다. 또한, 프로젝트 상황에 맞게 스타일의 유연성과 커스터마이징 용이성 측면에서도 매우 큰 장점이 있습니다.
 
+
+
+
+
+
+## 소개 자료
+---
+* <a href="http://redsky0212.dothome.co.kr/axiom/react-guide/axiom-docs/react-app-scaffold_axiom-ai.mp4" target="_blank">react-app-scaffold 소개 동영상 자료</a>
+* <a href="http://redsky0212.dothome.co.kr/axiom/react-guide/axiom-docs/scaffold_presentation.pdf" target="_blank">react-app-scaffold 소개 슬라이드 자료</a>
+
+
+
+
+
+
+
 ### 주요 목적
 
 - **UI 컴포넌트 제공**: `shadcn/ui` 기반의 UI 컴포넌트를 래핑(wrap)한 자체 컴포넌트들을 제공합니다.
