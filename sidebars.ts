@@ -53,6 +53,15 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: '◉ 디자인 시스템',
+      collapsed: false,
+      collapsible: true,
+      items: [
+        "documents/design-system/create-design-tokens",
+      ],
+    },
+    {
+      type: 'category',
       label: '◉ 기타 가이드',
       collapsed: false,
       collapsible: true,
