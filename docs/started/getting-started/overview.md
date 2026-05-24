@@ -73,6 +73,28 @@ title: "개요"
   - **Clipboard Utils**: 텍스트, 객체 클립보드 복사 함수 및 지원 여부 체크
 
 
+### 디자인 시스템
+
+**react-app-scaffold**는 [Style Dictionary](https://amzn.github.io/style-dictionary/) 기반의 **디자인 토큰 시스템**을 내장하고 있어, 색상·타이포그래피·그림자 등 디자인 값을 JSON으로 일원 관리하고 CSS 변수로 자동 생성합니다.
+
+토큰은 **2계층** 구조로 관리됩니다.
+
+| 계층 | 역할 | 위치 |
+|------|------|------|
+| **primitive** | 실제 hex, px 등 원시값 | `src/design-tokens/primitive/*.json` |
+| **semantic** | primitive를 참조하는 의미값 (라이트/다크 분리) | `src/design-tokens/semantic/light.json`, `dark.json` |
+
+- JSON 파일만 수정하면 `npm run build:tokens` 실행 후 CSS 변수가 자동으로 갱신됩니다.
+- **Tailwind 클래스**(`bg-brand-500`)와 **CSS 변수**(`var(--color-brand-500)`) 두 방식으로 토큰을 화면에 적용할 수 있습니다.
+- semantic 토큰을 사용하면 `.dark` 클래스 추가만으로 다크모드가 자동 대응됩니다.
+- SI 프로젝트 투입 시 `src/assets/styles/themes/theme-[project].css` 파일을 만들어 브랜드 색상만 override하면 됩니다. (기본 파일 수정 불필요)
+- 퍼블리셔는 `src/publishing/` 폴더에서 디자인 토큰을 활용한 컴포넌트를 작성하고 Storybook으로 팀에 공유합니다.
+
+:::info 디자인 토큰 상세 가이드
+토큰 수정, 신규 추가, SI 브랜드 적용 방법의 전체 내용은 **[디자인 시스템 > CSS Token 작업방법](/docs/documents/design-system/create-design-tokens)** 페이지를 참고하세요.
+:::
+
+
 
 
 ## 장점
@@ -193,16 +215,32 @@ title: "개요"
 
 ```sh
 react-app-scaffold
+├── .axiom                           # SDD 방법론 개발을 위한 스펙 md파일들의 모음 폴더
 ├── .storybook                       # Storybook 설정
 ├── .vscode                          # VSCode 설정
 │   └── settings.json                # 에디터 설정 (Format on Save 등)
 ├── public                           # 정적 파일 (/ 경로로 접근)
 ├── src
 │   ├── __stories__                  # Storybook 소스 코드 모음
+│   ├── design-tokens                # style-dictionary 라이브러리를 통한 디자인 토큰 생성용 json 작업 폴더
 │   ├── assets                       # 정적 리소스
 │   │   ├── images
 │   │   └── styles
-│   │       └── app.css              # 전역 CSS
+│   │       ├── tokens/                  ← (신규, 자동생성) Style Dictionary 출력물
+│   │       │   ├── primitive.css        ← ⚠ 직접 편집 금지 (generated)
+│   │       │   ├── theme-dark.css
+│   │       │   └── theme-light.css
+│   │       ├── themes/                  ← (신규) 프로젝트 브랜드 테마
+│   │       │   ├── theme-default.css
+│   │       │   └── theme-example-project.css  ← 투입 시 참고용 예시
+│   │       ├── base/                    ← (신규) 전역 초기화·유틸
+│   │       │   ├── reset.css
+│   │       │   ├── typography.css
+│   │       │   ├── layout.css
+│   │       │   └── utilities.css
+│   │       ├── layout/
+│   │       │   └── default/layout.css   ← 기존, 서드파티 오버라이드만 남김
+│   │       └── app.css                  ← @import 진입점
 │   ├── core                         # 핵심 공통 코어 (업무 개발자 미작업 영역)
 │   │   ├── api                      # Axios 기반 공통 API 클라이언트
 │   │   ├── context                  # 공통 컨텍스트 컴포넌트
@@ -226,6 +264,20 @@ react-app-scaffold
 │   │   │   ├── router               # main 도메인 라우팅 설정
 │   │   │   └── types                # main 도메인 타입 정의
 │   │   └── ...                      # (신규 도메인 추가)
+│   ├── publishing                   # 퍼블리셔가 작업하여 제공하는 폴더.(업무별로 폴더를 생성)
+│   │   ├── example                  # example 도메인 업무
+│   │   │   ├── components           # example 도메인 컴포넌트 모음
+│   │   │   ├── common               # example 도메인 공통 컴포넌트 모음
+│   │   │   ├── pages                # example 도메인 페이지 모음
+│   │   │   ├── router               # example 도메인 라우팅 설정
+│   │   │   └── types                # example 도메인 타입 정의
+│   │   ├── main                     # main 도메인 업무
+│   │   │   ├── components           # main 도메인 컴포넌트 모음
+│   │   │   ├── common               # main 도메인 공통 컴포넌트 모음
+│   │   │   ├── pages                # main 도메인 페이지 모음
+│   │   │   ├── router               # main 도메인 라우팅 설정
+│   │   │   └── types                # main 도메인 타입 정의
+│   │   └── ...                      # (신규 도메인 업무 계속 추가하여 작업)
 │   ├── shared                       # 전역 공유 코드
 │   │   ├── components
 │   │   │   └── layout               # 레이아웃 컴포넌트
