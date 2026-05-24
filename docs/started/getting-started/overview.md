@@ -95,6 +95,33 @@ title: "개요"
 :::
 
 
+### 퍼블리싱 작업 공간
+
+**react-app-scaffold**는 퍼블리셔 전용 작업 공간인 `src/publishing/` 폴더를 별도로 제공합니다. 퍼블리셔는 이 폴더 안에서 디자인 토큰과 Tailwind 유틸리티 클래스를 활용해 React 컴포넌트를 자유롭게 작성하고, Storybook을 통해 팀에 공유할 수 있습니다.
+
+```
+src/
+├── publishing                   # 퍼블리셔가 작업하여 제공하는 폴더.(업무별로 폴더를 생성)
+│   ├── example                  # example 도메인 업무
+│   │   ├── components           # example 도메인 컴포넌트 모음
+│   │   ├── common               # example 도메인 공통 컴포넌트 모음
+│   │   ├── pages                # example 도메인 페이지 모음
+│   │   ├── router               # example 도메인 라우팅 설정
+│   │   └── types                # example 도메인 타입 정의
+│   ├── main                     # main 도메인 업무
+│   │   ├── components           # main 도메인 컴포넌트 모음
+│   │   ├── common               # main 도메인 공통 컴포넌트 모음
+│   │   ├── pages                # main 도메인 페이지 모음
+│   │   ├── router               # main 도메인 라우팅 설정
+│   │   └── types                # main 도메인 타입 정의
+│   └── ...                      # (신규 도메인 업무 계속 추가하여 작업)
+```
+
+- 업무 도메인별로 폴더를 나눠 작업합니다.
+- 작업이 완료되면 개발자가 `src/domains/` 또는 `src/shared/`로 이동하여 실제 서비스에 연결합니다.
+- 퍼블리셔와 개발자 간의 **핸드오프 기준점**이 되는 공간입니다.
+
+
 
 
 ## 장점
