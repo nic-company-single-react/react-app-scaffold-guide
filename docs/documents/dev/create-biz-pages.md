@@ -150,37 +150,77 @@ export default routes;
 ```
 :star: account업무의 **router/index.tsx** 파일 작업이 완료 되면 해당 업무 라우터를 전체 router에도 연결 해줘야 합니다.
 * **src/shared/router/index.tsx**파일에 **추가된 account 업무 라우터**를 연결합니다.
-  ```tsx showLineNumbers
-  import type { TAppRoute } from '@axiom/mfe-mf-shared-library/types';
-  
-  // root layout 가져오기 -----------
-  import RootLayout from '@/shared/components/layout/RootLayout';
-  // main router 가져오기 ----------------
-  import MainRouter from '@/domains/main/router';
-  // account 업무 router 가져오기 ----------------
-  // highlight-start
-  import accountRouter from '@/domains/account/router';
-  // highlight-end
+  - <span class="text-color-red">업무 라우터 연결 전 확인할 사항:</span>
+    - 인증 필요 라우트(로그인 필요): <span class="text-color-red">ProtectedRoute</span> 컴포넌트를 사용한 라우트 영역내부에 업무 라우터를 추가합니다.
+    ```tsx showLineNumbers
+    import type { TAppRoute } from '@axiom/mfe-mf-shared-library/types';
+    // 인증 컴포넌트 ------------------------------
+    import ProtectedRoute from '@/shared/components/router/ProtectedRoute';
 
-  const routes: TAppRoute[] = [
-    {
-      path: '/',
-      element: <RootLayout />,
-      children: mainRouter,
-    },
-    // 새롭게 생성된 domain업무의 라우터를 여기에 계속 추가한다.
-    // account관련 라우터를 연결한다.
+    // root layout 가져오기 -----------
+    import RootLayout from '@/shared/components/layout/RootLayout';
+    
+    // account 업무 router 가져오기 ----------------
     // highlight-start
-    {
-      path: '/account', // 원하는 path명을 정하여 입력.
-      element: <RootLayout />,  // 레이아웃 공통 컴포넌트를 연결.
-      children: accountRouter,  // import 해온 업무 라우터를 children에 연결.
-    },
+    import accountRouter from '@/domains/account/router';
     // highlight-end
-  ];
 
-  export default routes;
-  ```
+    const routes: TAppRoute[] = [
+      {
+        element: <ProtectedRoute />,
+        children: [
+          { path: '/', element: <RootLayout />, children: MainRouter },
+          // 로그인 인증이 필요한 domain업무의 라우터를 여기에 계속 추가한다.
+          // account관련 라우터를 연결한다.
+          // highlight-start
+          {
+            path: '/account', // 원하는 path명을 정하여 입력.
+            element: <RootLayout />,  // 레이아웃 공통 컴포넌트를 연결.
+            children: accountRouter,  // import 해온 업무 라우터를 children에 연결.
+          },
+          // highlight-end
+        ],
+      },
+      //...
+    ];
+
+    export default routes;
+    ```
+    - 인증 불필요한 라우트(로그인 불필요):<span class="text-color-red">ProtectedRoute</span> 컴포넌트를 사용한 라우트 영역 외부에 업무 라우터를 추가합니다.
+    ```tsx showLineNumbers
+    import type { TAppRoute } from '@axiom/mfe-mf-shared-library/types';
+    // 인증 컴포넌트 ------------------------------
+    import ProtectedRoute from '@/shared/components/router/ProtectedRoute';
+    
+    // root layout 가져오기 -----------
+    import RootLayout from '@/shared/components/layout/RootLayout';
+    
+    // account 업무 router 가져오기 ----------------
+    // highlight-start
+    import accountRouter from '@/domains/account/router';
+    // highlight-end
+
+    const routes: TAppRoute[] = [
+      {
+        element: <ProtectedRoute />,
+        children: [
+          //... 인증 필요한 라우트 영역
+        ],
+      },
+      // 로그인 인증이 필요없는는 domain업무의 라우터를 여기에 계속 추가한다.
+      // account관련 라우터를 연결한다.
+      // highlight-start
+      {
+        path: '/account', // 원하는 path명을 정하여 입력.
+        element: <RootLayout />,  // 레이아웃 공통 컴포넌트를 연결.
+        children: accountRouter,  // import 해온 업무 라우터를 children에 연결.
+      },
+      // highlight-end
+    ];
+
+    export default routes;
+    ```
+  
 
 
 
