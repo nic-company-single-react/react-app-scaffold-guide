@@ -275,7 +275,8 @@ title: "react-app-scaffold 최초 세팅"
   "telemetry.telemetryLevel": "off",
   "extensions.autoUpdate": false,
   "extensions.autoCheckUpdates": false,
-  "axiom-ai.sdd.axiomFolder": ".axiom"
+  "axiom-ai.sdd.axiomFolder": ".axiom",
+  "axiom-ai.llm.maxTokens": 8192
 }
 ```
 
