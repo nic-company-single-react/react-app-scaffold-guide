@@ -276,7 +276,9 @@ title: "react-app-scaffold 최초 세팅"
   "extensions.autoUpdate": false,
   "extensions.autoCheckUpdates": false,
   "axiom-ai.sdd.axiomFolder": ".axiom",
-  "axiom-ai.llm.maxTokens": 16384
+  "axiom-ai.llm.maxTokens": 16384,
+  "axiom-ai.debug.logSystemPrompt": true,
+  "axiom-ai.llm.provider": "ollama",
 }
 ```
 
