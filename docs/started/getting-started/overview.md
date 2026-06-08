@@ -39,35 +39,42 @@ title: "개요"
 
 ### 제공 UI 컴포넌트
 
-현재 제공되는 주요 컴포넌트는 다음과 같습니다. (필요 시 계속 추가)
+`shadcn/ui`를 래핑한 자체 컴포넌트를 `@/shared/ui` 한 곳에서 import하여 사용합니다. 현재 제공되는 주요 컴포넌트는 다음과 같습니다. (필요 시 계속 추가)
 
 - **Accordion**: 접이식 콘텐츠 패널
-- **Alert & AlertDialog**: 알림 및 확인 다이얼로그
+- **Alert**: 알림 메시지
 - **Badge**: 상태 표시 배지
 - **Button**: 다양한 스타일의 버튼
-- **Calendar**: 날짜 선택 캘린더
+- **Calendar**: 날짜 선택 캘린더 (`react-day-picker` 기반)
+- **Card**: 콘텐츠 카드 컨테이너
 - **Checkbox**: 체크박스 입력
-- **Dialog**: 모달 다이얼로그
-- **Icon**: 아이콘 컴포넌트
+- **Combobox**: 검색 가능한 드롭다운 선택
+- **Dropdown Menu**: 드롭다운 메뉴
 - **Input**: 텍스트 입력 필드
+- **Label**: 폼 라벨
 - **Select**: 드롭다운 선택
-- **Spinner**: 로딩 스피너
-- **Table**: 데이터 테이블
+- **Skeleton**: 로딩 스켈레톤(placeholder)
+- **Table**: 데이터 테이블 (`@tanstack/react-table` 기반)
+- **CodeBlock**: `Shiki` 기반 코드 하이라이팅 + 복사 기능 블록
+
+:::note 준비 중인 컴포넌트
+**Carousel**(embla/swiper), **Textarea**, **Input Group** 등은 컴포넌트가 추가되어 통합 export(`@/shared/ui`) 연결을 진행 중이며, **Dialog**, **Tooltip**, **Popover** 등도 순차적으로 추가될 예정입니다.
+:::
 
 
 ### 제공 유틸리티
 
-현재 제공되는 주요 유틸리티는 다음과 같습니다. (필요 시 계속 추가)
+전역 객체 `$util`·`$router`와 커스텀 훅으로 제공됩니다. 현재 제공되는 주요 유틸리티는 다음과 같습니다. (필요 시 계속 추가)
 
-- **API Helper**: Axios 기반의 API 통신 함수 및 공통 request/error 핸들러 (useApi)
-- **Page Router**: 페이지 이동 함수 ($router)
-- **Date Utils**: 날짜 포맷 변환, 상대 날짜 계산 등 날짜 처리 함수 ($util.date)
-- **String Utils**: 문자열 변환, 치환, 대소문자 변경 관련 함수 ($util.string)
-- **Number Utils**: 숫자 포맷 변환, 숫자 조작 관련 함수 ($util.number)
-- **Data Formatter**: 통화, 숫자, 퍼센트 등 각종 데이터 포맷 변환 함수 ($util.formatter)
-- **Custom Hooks**: 커스텀 훅 모음 (useApi, useClientState 등등)
+- **API Helper**: Axios 기반의 API 통신 함수 및 공통 request/error 핸들러 (`useApi`)
+- **Page Router**: 페이지 이동 함수 (`$router`)
+- **Date Utils**: 날짜 포맷 변환, 상대 날짜 계산 등 날짜 처리 함수 (`$util.date`)
+- **String Utils**: 문자열 변환, 치환, 대소문자 변경 관련 함수 (`$util.string`)
+- **Number Utils**: 천 단위 콤마(`comma`), 반올림(`round`), 범위 제한(`clamp`), 숫자 변환(`toNumber`), 퍼센트(`percent`) 등 숫자 포맷·조작 함수 (`$util.number`)
+- **Custom Hooks**: 커스텀 훅 모음 (`useApi`, `useClientState`, `useSidebar` 등)
 - **그 외 추가 예정**
-  - **Array/Object Utils**: 배열, 객체 조작을 위한 다양한 헬퍼 함수 (정렬, 필터, 딥 클론 등)
+  - **Data Formatter**: 통화·숫자·퍼센트 등 각종 데이터 포맷 변환을 묶은 전용 객체 (`$util.formatter`)
+  - **Array/Object Utils**: 배열, 객체 조작을 위한 다양한 헬퍼 함수 (정렬, 필터, 딥 클론 등 — `lodash` 활용)
   - **Validation Utils**: 이메일, 휴대폰 번호, 숫자 등 다양한 입력값 유효성 검사 함수
   - **Storage Utils**: 로컬스토리지, 세션스토리지 편의 함수
   - **Clipboard Utils**: 텍스트, 객체 클립보드 복사 함수 및 지원 여부 체크
@@ -196,19 +203,38 @@ src/
 
 - **React 19.x**: 최신 버전의 React를 사용하여 최신 기능과 성능 최적화를 활용합니다.
 - **TypeScript 6.x**: 정적 타입 검사를 통한 안정적인 코드 작성.
-- **Vite**: 빠른 개발 서버와 최적화된 프로덕션 빌드를 제공하는 차세대 프론트엔드 빌드 도구.
+- **Vite 8.x**: 빠른 개발 서버와 최적화된 프로덕션 빌드를 제공하는 차세대 프론트엔드 빌드 도구.
 
 ### 코드 품질 도구
 
-- **ESLint** (`eslint.config.js`): 문법 오류, 잠재적 버그, 잘못된 Hook 사용 등을 정적 분석하여 코드 품질과 팀 컨벤션을 유지합니다.
+- **ESLint** (`eslint.config.js`): 문법 오류, 잠재적 버그, 잘못된 Hook 사용 등을 정적 분석하여 코드 품질과 팀 컨벤션을 유지합니다. (`typescript-eslint`, `eslint-plugin-react-hooks`, `@tanstack/eslint-plugin-query` 등 적용)
 - **Prettier** (`prettier.config.js`): 저장 시 코드 스타일을 자동으로 통일하여 스타일 논쟁 없이 로직에만 집중할 수 있습니다.
+
+### 테스트
+
+- **Vitest**: Vite 기반의 초고속 단위/컴포넌트 테스트 러너로, 개발 서버와 동일한 설정을 공유합니다.
+- **Playwright (Browser Mode)**: 실제 브라우저 환경에서 컴포넌트를 렌더링하여 검증하는 `@vitest/browser-playwright` 기반 테스트를 지원합니다.
+- **Storybook Vitest / a11y Addon**: `@storybook/addon-vitest`로 스토리를 그대로 테스트로 실행하고, `@storybook/addon-a11y`로 접근성을 자동 점검합니다.
+- **커버리지 측정**: `@vitest/coverage-v8`를 통한 코드 커버리지 리포트를 제공합니다.
 
 ### UI 프레임워크 및 스타일링
 
-- **Tailwind CSS**: 유틸리티 우선 CSS 프레임워크로 빠르고 일관된 스타일링
-- **shadcn/ui (Radix UI)**: 접근성을 고려한 헤드리스 UI 프리미티브 라이브러리
+- **Tailwind CSS v4**: 유틸리티 우선 CSS 프레임워크로 빠르고 일관된 스타일링 (`@tailwindcss/vite` 플러그인 기반의 CSS-first 설정)
+- **shadcn/ui (Radix UI · Base UI)**: 접근성을 고려한 헤드리스 UI 프리미티브 라이브러리 (`radix-ui`, `@base-ui/react`)
 - **Lucide React**: 현대적이고 일관된 아이콘 세트
-- **class-variance-authority**: 컴포넌트 variant 관리를 위한 유틸리티
+- **class-variance-authority / clsx / tailwind-merge**: 컴포넌트 variant 관리 및 조건부 클래스 병합(`cn`) 유틸리티
+- **Shiki**: VS Code 수준의 문법 하이라이팅 엔진으로, `CodeBlock` 컴포넌트의 코드 표시에 사용됩니다.
+- **tw-animate-css / Geist 폰트**: 트랜지션 애니메이션 유틸과 가변 폰트(`@fontsource-variable/geist`)를 기본 제공합니다.
+
+### 애니메이션 및 미디어
+
+- **anime.js**: 가볍고 강력한 JavaScript 애니메이션 엔진으로 복잡한 모션을 구현합니다.
+- **Lottie (`lottie-react`)**: After Effects로 제작한 JSON 기반 벡터 애니메이션을 재생합니다.
+- **Carousel/Slider**: `embla-carousel-react`(+ autoplay)와 `swiper`로 다양한 형태의 캐러셀/슬라이더를 구성합니다.
+
+### SEO 및 메타 관리
+
+- **react-helmet-async**: 페이지별 `<title>`·메타 태그를 선언형으로 관리하여 SEO와 공유 미리보기를 최적화합니다.
 
 ### 상태 관리 및 데이터 페칭
 
