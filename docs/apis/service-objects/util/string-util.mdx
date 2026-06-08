@@ -5,3 +5,189 @@ title: '⋮ $util.string'
 ---
 
 # $util.string
+
+`react-app-scaffold`에서 전역으로 제공하는 **문자열(String) 유틸리티**입니다.
+빈 값 검사, 첫 글자 대문자 변환, 말줄임, 자릿수 채우기, 공백 제거, 마스킹 등 업무 화면에서 자주 쓰이는 문자열 처리 기능을 제공합니다.
+
+* 외부 라이브러리 의존 없이 순수 함수로 동작합니다.
+* 별도의 `import` 없이 전역 객체 `$util.string`으로 바로 사용합니다.
+
+```ts
+// 사용 형태
+$util.string.isEmpty('   ');             // true
+$util.string.capitalize('hello');        // 'Hello'
+$util.string.mask('01012345678', 3, 7);  // '010****5678'
+```
+
+---
+
+## isEmpty()
+
+값이 **비어 있는지** 검사합니다.
+
+| 인자 | 타입 | 필수 | 기본값 | 설명 |
+| --- | --- | :---: | --- | --- |
+| `value` | `unknown` | ✓ | | 검사할 값 |
+
+* **반환** : `boolean` — 비어 있으면 `true`, 아니면 `false`
+* `null`, `undefined` 는 `true`
+* 문자열은 **앞뒤 공백을 제거(trim)** 한 뒤 길이가 `0`이면 `true` (공백만 있는 문자열도 빈 값으로 간주)
+* 문자열이 아닌 그 외의 값은 `false`
+
+```ts
+$util.string.isEmpty(null);        // true
+$util.string.isEmpty(undefined);   // true
+$util.string.isEmpty('');          // true
+$util.string.isEmpty('   ');       // true (공백만 있으면 빈 값)
+$util.string.isEmpty('hello');     // false
+$util.string.isEmpty(0);           // false (문자열이 아닌 값)
+$util.string.isEmpty(false);       // false
+```
+
+---
+
+## capitalize()
+
+문자열의 **첫 글자를 대문자**로 변환합니다.
+
+| 인자 | 타입 | 필수 | 기본값 | 설명 |
+| --- | --- | :---: | --- | --- |
+| `value` | `string` | ✓ | | 변환할 문자열 |
+
+* **반환** : `string` — 첫 글자만 대문자로 바꾼 문자열. 나머지 글자는 그대로 유지
+* 빈 문자열이면 입력값을 그대로 반환합니다.
+
+```ts
+$util.string.capitalize('hello');      // 'Hello'
+$util.string.capitalize('hello world'); // 'Hello world' (첫 글자만)
+$util.string.capitalize('Hello');      // 'Hello'
+$util.string.capitalize('');           // ''
+```
+
+---
+
+## truncate()
+
+문자열이 지정한 길이를 넘으면 **잘라내고 말줄임 표시**를 붙입니다.
+
+| 인자 | 타입 | 필수 | 기본값 | 설명 |
+| --- | --- | :---: | --- | --- |
+| `value` | `string` | ✓ | | 대상 문자열 |
+| `length` | `number` | ✓ | | 잘라낼 기준 길이 |
+| `suffix` | `string` | | `'...'` | 잘린 뒤 붙일 접미사 |
+
+* **반환** : `string` — `length`보다 길면 잘라낸 뒤 `suffix`를 붙인 문자열, 그렇지 않으면 원본 그대로
+* 잘린 결과의 전체 길이는 `length + suffix.length` 가 됩니다.
+
+```ts
+$util.string.truncate('안녕하세요 반갑습니다', 5);        // '안녕하세요...'
+$util.string.truncate('hello', 10);                    // 'hello' (기준 이하라 그대로)
+$util.string.truncate('hello world', 5, '…');          // 'hello…'
+$util.string.truncate('hello', 5);                     // 'hello' (길이가 같으면 그대로)
+```
+
+---
+
+## padStart()
+
+문자열 **앞쪽을 채워** 지정한 길이를 맞춥니다.
+
+| 인자 | 타입 | 필수 | 기본값 | 설명 |
+| --- | --- | :---: | --- | --- |
+| `value` | `string \| number` | ✓ | | 대상 값 (숫자도 허용) |
+| `length` | `number` | ✓ | | 채운 뒤의 전체 길이 |
+| `fill` | `string` | | `'0'` | 앞쪽을 채울 문자 |
+
+* **반환** : `string` — `length`에 맞춰 앞쪽이 채워진 문자열. 이미 `length` 이상이면 원본 그대로
+* 숫자를 넘기면 내부적으로 문자열로 변환하여 처리합니다.
+
+```ts
+$util.string.padStart(7, 3);          // '007'
+$util.string.padStart('5', 2);        // '05'
+$util.string.padStart(1234, 3);       // '1234' (이미 길면 그대로)
+$util.string.padStart('A', 4, '-');   // '---A'
+```
+
+---
+
+## removeWhitespace()
+
+문자열 안의 **모든 공백을 제거**합니다.
+
+| 인자 | 타입 | 필수 | 기본값 | 설명 |
+| --- | --- | :---: | --- | --- |
+| `value` | `string` | ✓ | | 대상 문자열 |
+
+* **반환** : `string` — 공백(스페이스, 탭, 줄바꿈 등)이 모두 제거된 문자열
+* 앞뒤뿐 아니라 **문자열 중간의 공백까지** 모두 제거합니다.
+
+```ts
+$util.string.removeWhitespace('  hello  world  ');  // 'helloworld'
+$util.string.removeWhitespace('010 1234 5678');     // '01012345678'
+$util.string.removeWhitespace('a\tb\nc');           // 'abc'
+```
+
+:::note trim 과의 차이
+`String.trim()`은 **앞뒤 공백만** 제거하지만, `removeWhitespace()`는 **중간 공백까지** 모두 제거합니다.
+:::
+
+---
+
+## mask()
+
+문자열의 **특정 구간을 마스킹 문자로 가립니다**.
+
+| 인자 | 타입 | 필수 | 기본값 | 설명 |
+| --- | --- | :---: | --- | --- |
+| `value` | `string` | ✓ | | 대상 문자열 |
+| `start` | `number` | ✓ | | 마스킹 시작 인덱스 (0부터) |
+| `end` | `number` | ✓ | | 마스킹 끝 인덱스 (해당 위치 직전까지) |
+| `maskChar` | `string` | | `'*'` | 가릴 때 사용할 문자 |
+
+* **반환** : `string` — `start`부터 `end` 직전까지를 `maskChar`로 가린 문자열
+* `start`는 `0` 미만이면 `0`으로, `end`는 문자열 길이를 넘으면 길이로 보정됩니다.
+* `start >= end` 이면 가릴 구간이 없으므로 원본을 그대로 반환합니다.
+* 빈 문자열이면 입력값을 그대로 반환합니다.
+
+```ts
+$util.string.mask('01012345678', 3, 7);   // '010****5678'
+$util.string.mask('홍길동', 1, 2);          // '홍*동'
+$util.string.mask('test@email.com', 1, 4); // 't***@email.com'
+$util.string.mask('1234', 2, 4, '#');      // '12##'
+$util.string.mask('hello', 3, 1);          // 'hello' (start >= end → 원본)
+```
+
+---
+
+## 활용 예시
+
+여러 함수를 조합한 실제 업무 활용 예시입니다.
+
+```ts
+// 1) 휴대폰 번호 마스킹 (입력값 공백 제거 후)
+const phone = $util.string.removeWhitespace('010 1234 5678');
+$util.string.mask(phone, 3, 7);   // '010****5678'
+
+// 2) 목록 셀에서 긴 텍스트 말줄임 표시
+const title = '아주 긴 게시글 제목입니다 이 부분은 잘립니다';
+$util.string.truncate(title, 10); // '아주 긴 게시글 제목입...'
+
+// 3) 빈 값 검증 후 기본값 처리
+const name = '   ';
+const displayName = $util.string.isEmpty(name) ? '이름 없음' : name.trim();
+// '이름 없음'
+
+// 4) 번호를 자릿수 맞춰 표시
+$util.string.padStart(7, 4);      // '0007'
+```
+
+:::info 요약
+| 함수 | 반환 타입 | 설명 |
+| --- | --- | --- |
+| `isEmpty(value)` | `boolean` | 비어 있는지(null/undefined/공백) 검사 |
+| `capitalize(value)` | `string` | 첫 글자를 대문자로 변환 |
+| `truncate(value, length, suffix?)` | `string` | 길이 초과 시 잘라내고 말줄임 추가 |
+| `padStart(value, length, fill?)` | `string` | 앞쪽을 채워 길이 맞춤 |
+| `removeWhitespace(value)` | `string` | 모든 공백 제거 |
+| `mask(value, start, end, maskChar?)` | `string` | 특정 구간을 마스킹 |
+:::

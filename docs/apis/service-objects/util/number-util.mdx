@@ -5,3 +5,186 @@ title: '⋮ $util.number'
 ---
 
 # $util.number
+
+`react-app-scaffold`에서 전역으로 제공하는 **숫자(Number) 유틸리티**입니다.
+천 단위 콤마, 반올림, 범위 제한, 숫자 변환, 백분율 포맷 등 업무 화면에서 자주 쓰이는 숫자 처리 기능을 제공합니다.
+
+* 별도의 의존 라이브러리 없이 동작하며, **유효하지 않은 값**(`NaN`, `Infinity` 등)에 대한 안전한 기본값 처리를 지원합니다.
+* 별도의 `import` 없이 전역 객체 `$util.number`로 바로 사용합니다.
+
+```ts
+// 사용 형태
+$util.number.comma(1234567);     // '1,234,567'
+$util.number.round(3.14159, 2);  // 3.14
+$util.number.clamp(120, 0, 100); // 100
+$util.number.percent(0.25);      // '25.0%'
+```
+
+:::info 안전한 값 처리
+* `comma()` · `percent()` 는 유효하지 않은 값(`NaN`, `Infinity`)에 대해 **빈 문자열(`''`)** 을 반환합니다.
+* `toNumber()` 는 변환에 실패하면 지정한 **`fallback`(기본 `0`)** 을 반환합니다.
+:::
+
+---
+
+## comma()
+
+숫자에 **천 단위 콤마(,)** 를 적용한 문자열로 변환합니다.
+
+| 인자 | 타입 | 필수 | 기본값 | 설명 |
+| --- | --- | :---: | --- | --- |
+| `value` | `number \| string` | ✓ | | 변환할 숫자. 문자열도 허용 |
+
+* **반환** : `string` — 콤마가 적용된 문자열. 유효하지 않은 값이면 **빈 문자열(`''`)** 을 반환합니다.
+* 정수부에만 콤마를 적용하고 **소수부는 그대로 유지**합니다.
+
+```ts
+// 정수 포맷팅
+$util.number.comma(1234567);     // '1,234,567'
+
+// 문자열 입력도 허용
+$util.number.comma('1234567');   // '1,234,567'
+
+// 소수부는 그대로 유지
+$util.number.comma(1234.56);     // '1,234.56'
+
+// 음수 처리
+$util.number.comma(-9876543);    // '-9,876,543'
+
+// 유효하지 않은 값은 빈 문자열 반환
+$util.number.comma('잘못된값');   // ''
+```
+
+---
+
+## round()
+
+숫자를 지정한 **소수 자릿수**로 반올림합니다.
+
+| 인자 | 타입 | 필수 | 기본값 | 설명 |
+| --- | --- | :---: | --- | --- |
+| `value` | `number` | ✓ | | 반올림할 숫자 |
+| `digits` | `number` | | `0` | 유지할 소수 자릿수 |
+
+* **반환** : `number` — 반올림된 숫자
+
+```ts
+// 정수로 반올림 (기본값)
+$util.number.round(3.14159);     // 3
+
+// 소수 자릿수 지정
+$util.number.round(3.14159, 2);  // 3.14
+$util.number.round(3.14159, 4);  // 3.1416
+
+// 음수 자릿수로 자리 올림
+$util.number.round(12345, -2);   // 12300
+```
+
+---
+
+## clamp()
+
+값을 지정한 **최소·최대 범위 안으로 제한**합니다.
+
+| 인자 | 타입 | 필수 | 기본값 | 설명 |
+| --- | --- | :---: | --- | --- |
+| `value` | `number` | ✓ | | 제한할 값 |
+| `min` | `number` | ✓ | | 최솟값 |
+| `max` | `number` | ✓ | | 최댓값 |
+
+* **반환** : `number` — `min`보다 작으면 `min`, `max`보다 크면 `max`, 그 사이이면 원래 값
+
+```ts
+$util.number.clamp(120, 0, 100);  // 100  (최댓값으로 제한)
+$util.number.clamp(-20, 0, 100);  // 0    (최솟값으로 제한)
+$util.number.clamp(50, 0, 100);   // 50   (범위 내 → 그대로)
+```
+
+---
+
+## toNumber()
+
+임의의 값을 **숫자로 변환**합니다. 변환할 수 없으면 `fallback`을 반환합니다.
+
+| 인자 | 타입 | 필수 | 기본값 | 설명 |
+| --- | --- | :---: | --- | --- |
+| `value` | `unknown` | ✓ | | 변환할 값 |
+| `fallback` | `number` | | `0` | 변환 실패 시 반환할 기본값 |
+
+* **반환** : `number` — 변환된 숫자. 실패 시 `fallback`
+* 문자열의 경우 **숫자·부호·소수점만 남기고** 콤마·통화기호 등은 제거한 뒤 변환합니다.
+
+```ts
+// 숫자는 그대로
+$util.number.toNumber(123);          // 123
+
+// 콤마/통화기호가 포함된 문자열
+$util.number.toNumber('1,234,567');  // 1234567
+$util.number.toNumber('₩12,000');    // 12000
+$util.number.toNumber('-3.14');      // -3.14
+
+// 변환 실패 시 fallback 반환
+$util.number.toNumber('abc');        // 0
+$util.number.toNumber(undefined);    // 0
+$util.number.toNumber('abc', -1);    // -1
+```
+
+---
+
+## percent()
+
+숫자를 **백분율(%) 문자열**로 변환합니다. (예: `0.25` → `'25.0%'`)
+
+| 인자 | 타입 | 필수 | 기본값 | 설명 |
+| --- | --- | :---: | --- | --- |
+| `value` | `number` | ✓ | | 변환할 비율 값(0~1 기준) |
+| `digits` | `number` | | `1` | 표시할 소수 자릿수 |
+
+* **반환** : `string` — `%`가 붙은 백분율 문자열. 유효하지 않은 값이면 **빈 문자열(`''`)** 을 반환합니다.
+* 입력 값에 `100`을 곱한 뒤 `digits` 자리까지 표시합니다.
+
+```ts
+// 기본 (소수 1자리)
+$util.number.percent(0.25);      // '25.0%'
+
+// 소수 자릿수 지정
+$util.number.percent(0.1234, 2); // '12.34%'
+$util.number.percent(0.5, 0);    // '50%'
+
+// 1 이상도 처리
+$util.number.percent(1.5);       // '150.0%'
+
+// 유효하지 않은 값은 빈 문자열 반환
+$util.number.percent(NaN);       // ''
+```
+
+---
+
+## 활용 예시
+
+여러 함수를 조합한 실제 업무 활용 예시입니다.
+
+```ts
+// 1) 사용자가 입력한 금액 문자열을 숫자로 변환 후 콤마 포맷
+const input = '1,250,000';
+const amount = $util.number.toNumber(input);   // 1250000
+const display = $util.number.comma(amount);    // '1,250,000'
+
+// 2) 할인율 계산 후 백분율로 표시
+const rate = 4500 / 30000;
+$util.number.percent(rate);                    // '15.0%'
+
+// 3) 평점 입력 값을 0~5 범위로 제한하고 소수 1자리로 반올림
+const score = $util.number.round($util.number.clamp(5.4, 0, 5), 1);
+// 5
+```
+
+:::info 요약
+| 함수 | 반환 타입 | 설명 |
+| --- | --- | --- |
+| `comma(value)` | `string` | 천 단위 콤마 적용 (실패 시 `''`) |
+| `round(value, digits?)` | `number` | 지정 소수 자릿수로 반올림 |
+| `clamp(value, min, max)` | `number` | 값을 min~max 범위로 제한 |
+| `toNumber(value, fallback?)` | `number` | 값을 숫자로 변환 (실패 시 `fallback`) |
+| `percent(value, digits?)` | `string` | 백분율 문자열로 변환 (실패 시 `''`) |
+:::

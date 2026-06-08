@@ -5,3 +5,239 @@ title: '⋮ $util.date'
 ---
 
 # $util.date
+
+`react-app-scaffold`에서 전역으로 제공하는 **날짜(Date) 유틸리티**입니다.
+날짜 포맷팅, 현재 시각 조회, 문자열 파싱, 날짜 연산, 유효성 검사 등 업무 화면에서 자주 쓰이는 날짜 처리 기능을 제공합니다.
+
+* 내부적으로 [dayjs](https://day.js.org/) 라이브러리를 사용하며, 포맷 문자열 기반의 **엄격한 파싱**(`customParseFormat`)을 지원합니다.
+* 별도의 `import` 없이 전역 객체 `$util.date`로 바로 사용합니다.
+
+```ts
+// 사용 형태
+$util.date.format();        // '2026-06-08'
+$util.date.now();           // '2026-06-08 14:30:25'
+$util.date.addDays(new Date(), 7);
+```
+
+:::info 기본 포맷
+* **format()** 기본값 : `YYYY-MM-DD` (예: `2026-06-08`)
+* **now()** 기본값 : `YYYY-MM-DD HH:mm:ss` (예: `2026-06-08 14:30:25`)
+* 포맷 문자열(template)은 [dayjs format 토큰](https://day.js.org/docs/en/display/format)을 그대로 사용합니다. (`YYYY` 연, `MM` 월, `DD` 일, `HH` 24시, `mm` 분, `ss` 초 등)
+:::
+
+:::tip DateInput 타입
+대부분의 함수는 인자로 `DateInput`을 받습니다. 다음과 같은 값을 모두 허용합니다.
+
+* `Date` 객체 — `new Date()`
+* ISO 문자열 — `'2026-06-08'`, `'2026-06-08T14:30:00'`
+* 타임스탬프(숫자) — `1749360000000`
+* `dayjs` 객체
+:::
+
+---
+
+## format()
+
+날짜를 지정한 포맷의 **문자열**로 변환합니다.
+
+| 인자 | 타입 | 필수 | 기본값 | 설명 |
+| --- | --- | :---: | --- | --- |
+| `date` | `DateInput` | | `new Date()` | 변환할 날짜. 생략 시 현재 시각 |
+| `template` | `string` | | `'YYYY-MM-DD'` | 출력 포맷 문자열 |
+
+* **반환** : `string` — 포맷된 날짜 문자열. 유효하지 않은 날짜이면 **빈 문자열(`''`)** 을 반환합니다.
+
+```ts
+// 인자 없이 호출하면 오늘 날짜를 기본 포맷으로 반환
+$util.date.format();                              // '2026-06-08'
+
+// Date 객체 포맷팅
+$util.date.format(new Date());                    // '2026-06-08'
+
+// 포맷 문자열 지정
+$util.date.format('2026-06-08', 'YYYY/MM/DD');    // '2026/06/08'
+$util.date.format(new Date(), 'YYYY년 MM월 DD일'); // '2026년 06월 08일'
+$util.date.format('2026-06-08T14:30:00', 'HH:mm'); // '14:30'
+
+// 유효하지 않은 값은 빈 문자열 반환
+$util.date.format('잘못된날짜');                   // ''
+```
+
+---
+
+## now()
+
+**현재 시각**을 지정한 포맷의 문자열로 반환합니다.
+
+| 인자 | 타입 | 필수 | 기본값 | 설명 |
+| --- | --- | :---: | --- | --- |
+| `template` | `string` | | `'YYYY-MM-DD HH:mm:ss'` | 출력 포맷 문자열 |
+
+* **반환** : `string` — 현재 시각 문자열
+
+```ts
+// 기본 포맷(날짜+시간)
+$util.date.now();                  // '2026-06-08 14:30:25'
+
+// 포맷 지정
+$util.date.now('YYYY-MM-DD');      // '2026-06-08'
+$util.date.now('HH:mm');           // '14:30'
+```
+
+:::note format() 과의 차이
+`now()`는 항상 **현재 시각**을 기준으로 하며 기본 포맷이 **날짜+시간**입니다.
+`format()`은 인자로 받은 날짜(생략 시 현재 시각)를 변환하며 기본 포맷이 **날짜**입니다.
+:::
+
+---
+
+## parse()
+
+문자열 등의 값을 **`Date` 객체로 파싱**합니다.
+
+| 인자 | 타입 | 필수 | 기본값 | 설명 |
+| --- | --- | :---: | --- | --- |
+| `value` | `DateInput` | ✓ | | 파싱할 값 |
+| `template` | `string` | | | 입력 값의 포맷. 지정 시 **엄격한 파싱** 수행 |
+
+* **반환** : `Date | null` — 파싱된 `Date` 객체. 유효하지 않으면 **`null`** 을 반환합니다.
+
+```ts
+// 일반 파싱
+$util.date.parse('2026-06-08');                   // Date 객체 (2026-06-08)
+
+// 포맷을 지정한 엄격한 파싱
+$util.date.parse('08/06/2026', 'DD/MM/YYYY');     // Date 객체 (2026-06-08)
+
+// 포맷이 일치하지 않으면 null
+$util.date.parse('2026-06-08', 'DD/MM/YYYY');     // null
+$util.date.parse('잘못된값');                      // null
+```
+
+:::warning 엄격한 파싱(template 지정)
+`template`을 지정하면 입력 문자열이 해당 포맷과 **정확히 일치**해야만 파싱됩니다.
+포맷이 다르거나 존재하지 않는 날짜(예: `2026-13-40`)는 `null`을 반환하므로, 사용자 입력 값을 검증할 때 유용합니다.
+:::
+
+---
+
+## addDays()
+
+날짜에 **일(day)** 단위를 더하거나 뺍니다.
+
+| 인자 | 타입 | 필수 | 기본값 | 설명 |
+| --- | --- | :---: | --- | --- |
+| `date` | `DateInput` | ✓ | | 기준 날짜 |
+| `amount` | `number` | ✓ | | 더할 일수. **음수**이면 이전 날짜 |
+
+* **반환** : `Date` — 계산된 `Date` 객체
+
+```ts
+const today = new Date('2026-06-08');
+
+$util.date.addDays(today, 7);    // 7일 후 → 2026-06-15
+$util.date.addDays(today, -3);   // 3일 전 → 2026-06-05
+
+// 결과를 문자열로 표시
+$util.date.format($util.date.addDays(today, 7)); // '2026-06-15'
+```
+
+---
+
+## addMonths()
+
+날짜에 **월(month)** 단위를 더하거나 뺍니다.
+
+| 인자 | 타입 | 필수 | 기본값 | 설명 |
+| --- | --- | :---: | --- | --- |
+| `date` | `DateInput` | ✓ | | 기준 날짜 |
+| `amount` | `number` | ✓ | | 더할 월수. **음수**이면 이전 달 |
+
+* **반환** : `Date` — 계산된 `Date` 객체
+
+```ts
+const today = new Date('2026-06-08');
+
+$util.date.addMonths(today, 1);    // 1개월 후 → 2026-07-08
+$util.date.addMonths(today, -2);   // 2개월 전 → 2026-04-08
+
+$util.date.format($util.date.addMonths(today, 3)); // '2026-09-08'
+```
+
+---
+
+## diffDays()
+
+두 날짜 사이의 **일수 차이**를 계산합니다.
+
+| 인자 | 타입 | 필수 | 기본값 | 설명 |
+| --- | --- | :---: | --- | --- |
+| `a` | `DateInput` | ✓ | | 기준 날짜 |
+| `b` | `DateInput` | ✓ | | 비교할 날짜 |
+
+* **반환** : `number` — `a - b` 의 일수 차이. `a`가 더 미래이면 **양수**, 과거이면 **음수**
+* 시·분·초는 무시하고 **날짜(자정 기준)** 로만 비교합니다.
+
+```ts
+$util.date.diffDays('2026-06-15', '2026-06-08');  // 7
+$util.date.diffDays('2026-06-08', '2026-06-15');  // -7
+$util.date.diffDays('2026-06-08', '2026-06-08');  // 0
+
+// 시간이 포함되어도 날짜 기준으로 비교
+$util.date.diffDays('2026-06-09 01:00', '2026-06-08 23:00'); // 1
+```
+
+---
+
+## isValid()
+
+값이 **유효한 날짜인지** 검사합니다.
+
+| 인자 | 타입 | 필수 | 기본값 | 설명 |
+| --- | --- | :---: | --- | --- |
+| `value` | `DateInput` | ✓ | | 검사할 값 |
+
+* **반환** : `boolean` — 유효한 날짜이면 `true`, 아니면 `false`
+
+```ts
+$util.date.isValid('2026-06-08');   // true
+$util.date.isValid(new Date());     // true
+$util.date.isValid('잘못된값');      // false
+$util.date.isValid('2026-13-40');   // false
+```
+
+---
+
+## 활용 예시
+
+여러 함수를 조합한 실제 업무 활용 예시입니다.
+
+```ts
+// 1) 오늘부터 30일 후 만료일 표시
+const expireDate = $util.date.addDays(new Date(), 30);
+const expireText = $util.date.format(expireDate, 'YYYY년 MM월 DD일');
+// '2026년 07월 08일'
+
+// 2) 사용자 입력 날짜 검증 후 저장
+const input = '2026-06-08';
+if ($util.date.isValid(input)) {
+  const saved = $util.date.parse(input);
+  // saved 를 서버로 전송...
+}
+
+// 3) 마감일까지 남은 일수 계산
+const dDay = $util.date.diffDays('2026-12-31', $util.date.now('YYYY-MM-DD'));
+console.log(`마감까지 ${dDay}일 남았습니다.`);
+```
+
+:::info 요약
+| 함수 | 반환 타입 | 설명 |
+| --- | --- | --- |
+| `format(date?, template?)` | `string` | 날짜를 포맷 문자열로 변환 (실패 시 `''`) |
+| `now(template?)` | `string` | 현재 시각을 포맷 문자열로 반환 |
+| `parse(value, template?)` | `Date \| null` | 값을 Date 객체로 파싱 (실패 시 `null`) |
+| `addDays(date, amount)` | `Date` | 일 단위 가감 |
+| `addMonths(date, amount)` | `Date` | 월 단위 가감 |
+| `diffDays(a, b)` | `number` | 두 날짜의 일수 차이 |
+| `isValid(value)` | `boolean` | 유효한 날짜인지 검사 |
+:::
