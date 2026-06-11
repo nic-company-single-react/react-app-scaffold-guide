@@ -279,7 +279,8 @@ title: "react-app-scaffold 최초 세팅"
   "axiom-ai.llm.maxTokens": 16384,
   "axiom-ai.debug.logSystemPrompt": true,
   "axiom-ai.llm.provider": "ollama",
-  "axiom-ai.experimental.regionEdit": true
+  "axiom-ai.experimental.regionEdit": true,
+  "axiom-ai.experimental.intentClassifier": true
 }
 ```
 
