@@ -104,8 +104,13 @@ export default function AccountIndex({}: IAccountIndexProps): React.ReactNode {
 
 
 
-## 만든 화면컴포넌트 라우터 연결
+## 만든 화면컴포넌트 라우터 연결(페이지 라우트)
 ---
+:::tip url 전체의 라우트 관련 예시
+* 라우트는 크게 2가지로 분리해서 세팅합니다. 각 업무에 해당하는 **업무라우트**와 페이지 자체에 해당하는 **페이지 라우트**입니다.
+* 상황에 따라 더 분리될 수도 있지만 되도록이면 2개 정도로 유지합니다.
+<img src={require('../assets/url-ex01.png').default} alt="path관련 예시 이미지" width="70%" />
+:::
 * **src/domains/account/pages/AccountIndex.tsx** 라는 화면 컴포넌트를 만들었다고 가정합니다.
 * 업무폴더에서(account폴더) **router/index.tsx** 파일을 생성하고, **index.tsx** 파일을 열어 기본 **router**코드를 작성합니다.
 * 만든 화면 컴포넌트가 **AccountIndex.tsx**파일이므로 다음과 같이 `import`해서 가져옵니다.
@@ -114,20 +119,7 @@ export default function AccountIndex({}: IAccountIndexProps): React.ReactNode {
 
 :::info <span class="admonition-title">@loadable/component</span> 설치 관련
 * **@loadable/component** 패키지는 **코드 스플리팅(Code Splitting)** 을 쉽게 구현할 수 있게 해주는 React용 동적 임포트 라이브러리입니다.
-* 모든 리모트 앱에서 모두 사용하려면 모든 프로젝트 다 설치를 각각 해야합니다.
-	```sh
-	# 프로젝트 루트 디렉토리에서 실행
-	npm install @loadable/component
-    npm install -D @types/loadable__component
-	```
-
-* Vite 중복로드 에러 발생 시 `[vite] (client) [Unhandled rejection] TypeError: Cannot read properties of undefined (reading 'S')`
-    ```sh
-    # .vite 캐시 삭제 후 재시작
-
-    rm -rf node_modules/.vite
-    npm run dev
-    ```
+* 모든 컴포넌트는 되도록이면 이 **loadable**을 사용하여 `import` 합니다.
 :::
 * `src/domains/account/router/index.tsx` 파일 작업
 ```typescript showLineNumbers
@@ -148,9 +140,9 @@ const routes: TAppRoute[] = [
 
 export default routes;
 ```
-:star: account업무의 **router/index.tsx** 파일 작업이 완료 되면 해당 업무 라우터를 전체 router에도 연결 해줘야 합니다.
-* **src/shared/router/index.tsx**파일에 **추가된 account 업무 라우터**를 연결합니다.
-  - <span class="text-color-red">업무 라우터 연결 전 확인할 사항:</span>
+:star: account업무의 **페이지 라우트**인 **router/index.tsx** 파일 작업이 완료 되면 해당 페이지 라우트를 전체 router(업무 라우트)에도 연결 해줘야 합니다.
+* **src/shared/router/index.tsx**파일에 **추가된 account 업무 라우트**를 연결합니다.
+  - <span class="text-color-red">업무 라우트 연결 전 확인할 사항:</span>
     - 인증 필요 라우트(로그인 필요): <span class="text-color-red">ProtectedRoute</span> 컴포넌트를 사용한 라우트 영역내부에 업무 라우터를 추가합니다.
     ```tsx showLineNumbers
     import type { TAppRoute } from '@axiom/mfe-mf-shared-library/types';
@@ -220,7 +212,10 @@ export default routes;
 
     export default routes;
     ```
-  
+  :::tip <span class="admonition-title">ProtectedRoute</span> 컴포넌트 관련
+  * 인증 과정을 거쳐서 라우트 이동을 처리하는 로직이 들어있습니다.
+  * 내부 로직은 상황에 따라 수정하여 프로젝트에 맞게 적용하면 됩니다.
+  :::
 
 
 
