@@ -52,7 +52,7 @@ src
 :::info 설명
 * 각 업무 폴더구조 생성은 내려받은 소스 코드의 **/src/domains/example** 폴더의 예제 코드를 참조 합니다.
 * 내가 작업하는 업무가 **account**라고 가정합니다.
-* **account**업무의 하위에는 **api, components, common, pages, router, store, types**폴더를 가질 수 있습니다.
+* **account**업무의 하위에는 **api, components, common, hooks, pages, router, store, types**폴더를 가질 수 있습니다.
 * 각 폴더는 업무 상황에 따라 생성하여 사용합니다. 사용하지 않는 폴더는 생성하지 않아도 상관없습니다. (필요시에만 생성해서 사용)
 * **router, store, types** 폴더는 기본적으로 진입 파일인 **index(index.ts 또는 index.tsx)** 파일을 가집니다.
 :::
