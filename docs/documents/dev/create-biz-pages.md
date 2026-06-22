@@ -24,7 +24,7 @@ title: "페이지만들기"
 ---
 * 모든 업무(domain)는 **domains**폴더 아래 생성하여 작업합니다.
 * 개발해야 할 업무가 **"계좌(account)"** 라고 가정 했을 때 다음과 같이 폴더 구조를 생성하고, 하위 구조를 만듭니다.
-* **account** 폴더가 생성되면 하위에 **api**, **components**, **common**, **pages**, **router**, **store**, **types** 폴더를 포함할 수 있습니다. 필요하지 않은 폴더는 생성하지 않아도 됩니다.  
+* **account** 폴더가 생성되면 하위에 **api**, **components**, **common**, **hooks**, **pages**, **router**, **store**, **types** 폴더를 포함할 수 있습니다. 필요하지 않은 폴더는 생성하지 않아도 됩니다.  
 * 자세한 내용은 [개발구조 및 규칙](../../started/getting-started/dev-convention) 내용을 참조 하세요.
 ```sh
 # 내가 작업할 업무가 "계좌(account)" 업무라고 가정한다면
