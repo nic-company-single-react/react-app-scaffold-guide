@@ -8,7 +8,7 @@ title: "UI 컴포넌트 사용하기"
 # UI 컴포넌트 사용하기
 
 :::info 작업 내용
-* 공유 라이브러리에서 제공하는 기본 UI 컴포넌트를 사용하여 화면을 구성하는 방법을 설명합니다.
+* **react-app-scaffold**에서 제공하는 기본 UI 컴포넌트를 사용하여 화면을 구성하는 방법을 설명합니다.
 :::
 
 
@@ -22,7 +22,7 @@ title: "UI 컴포넌트 사용하기"
 
 
 ## 공통 UI 컴포넌트 사용
-* **@axiom/mfe-lib-shared** 에서 제공하는 다양한 공통 UI 컴포넌트를 사용할 수 있습니다.
+* **@axiom/components/ui** 에서 제공하는 다양한 공통 UI 컴포넌트를 사용할 수 있습니다.
 * 현재 제공되는 주요 컴포넌트는 다음과 같습니다. (계속 추가 중)
     * **Accordion**: 접이식 콘텐츠 패널
     * **Alert & AlertDialog**: 알림 및 확인 다이얼로그
@@ -46,16 +46,38 @@ title: "UI 컴포넌트 사용하기"
 
 ## 기본 예제
 ---
-* `react-app-scaffold` 에서 제공하는 기본 UI 컴포넌트 중 **Button** 컴포넌트를 import 합니다.
+* `react-app-scaffold` 에서 제공하는 기본 UI 컴포넌트 중 **Button** 컴포넌트를 예제로 사용하겠습니다.
+* 모든 UI 컴포넌트는 `@axiom/components/ui`에서 **import** 해서 사용합니다.
 ```tsx
 import { Button } from '@axiom/components/ui';
 ```
-* **Client Component** 에서 사용 시 다음과 같이 사용할 수 있습니다.
+* **import** 한 컴포넌트를 **페이지**의 적절한 위치에 세팅합니다.
 ```tsx
 export default function SampleComponent(): React.ReactNode {
   return (
     // highlight-start
     <Button>Click me</Button>
+    // highlight-end
+  );
+}
+```
+
+* UI 컴포넌트 마다 해당하는 기능을 활용하여 로직을 구현합니다. **Button** 컴포넌트는 클릭 이벤트를 통해 원하는 로직을 구현할 수 있습니다.
+* 자세한 컴포넌트 가이드는 **Components** 메뉴에서 확인할 수 있습니다.
+
+```tsx
+import { Button } from '@axiom/components/ui';
+
+export default function SampleComponent(): React.ReactNode {
+  // highlight-start
+  const handleClick = () => {
+    $ui.alert('버튼 클릭!');
+  };
+  // highlight-end
+
+  return (
+    // highlight-start
+    <Button onClick={handleClick}>Click me</Button>
     // highlight-end
   );
 }
