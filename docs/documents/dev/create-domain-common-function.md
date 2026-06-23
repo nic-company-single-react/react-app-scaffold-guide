@@ -7,7 +7,7 @@ title: "각 업무 공통함수만들기"
 
 # 업무(domain)에서만 사용하는 공통함수 만들기
 
-**react-app-scaffold** 프로젝트는 전역 공통 유틸리티 함수들($ui, $utils, $router 등)을 제공합니다. 그러나 이들 외에도, **각 업무에서만** 사용되는 JavaScript 공통 함수가 필요한 경우가 발생할 수 있습니다. 이러한 경우, 다음과 같이 공통 함수를 생성하여 활용합니다.
+**react-app-scaffold** 프로젝트는 전역 공통 유틸리티 함수들($ui, $utils, $router 등)을 제공합니다. 그러나 이들 외에도, **각 업무에서만** 사용되는 JavaScript 공통 함수가 필요한 경우가 발생할 수 있습니다. 이러한 경우, 다음과 같이 함수를 생성하여 활용할 수있습니다.
 * 여러가지 방법으로 공통함수를 만들 수 있지만, 여기서는 일반적인 **Function** 방식과 **class** 방식 두가지로 알려드립니다.
 
 
@@ -46,7 +46,7 @@ mfe-app-main/
 ```
 :::info 설명
 * 내가 작업하는 업무는 **account** 라고 가정한다.
-* **account** 업무의 하위에는 <span class="text-blue-normal">**api, components, common, pages, router, store, types**</span>폴더를 가질 수 있다.
+* **account** 업무의 하위에는 <span class="text-blue-normal">**api, components, common, hooks, pages, router, store, types**</span>폴더를 가질 수 있다.
 * **account** 업무용 JavaScript 공통함수를 만들기 위하여 업무폴더 내부에 **common** 폴더를 생성하고 그 내부에 **card-utils.ts** 파일을 생성한다.
 :::
 
