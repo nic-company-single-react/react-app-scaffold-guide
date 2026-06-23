@@ -10,7 +10,7 @@ title: "개요"
 ## 소개
 ---
 
-**react-app-scaffold**는 **React.js**와 **TypeScript**를 기반으로 하여, 실무에서 바로 사용할 수 있는 UI 컴포넌트와 유틸리티, 예제 코드를 제공하는 스타터 프로젝트입니다. 프로젝트의 초기 세팅과 개발을 빠르고 효율적으로 시작할 수 있도록 도와줍니다.<br /><br />
+**react-app-scaffold**는 **React.js**와 **TypeScript**, **vite**를 기반으로 하여, 실무에서 바로 사용할 수 있는 UI 컴포넌트와 유틸리티, 예제 코드를 제공하는 스타터 프로젝트입니다. 프로젝트의 초기 세팅과 개발을 빠르고 효율적으로 시작할 수 있도록 도와줍니다.<br /><br />
 업무 개발자는 실제로 동작하는 컴포넌트와 유틸리티를 미리 확인하고, 예제 코드를 복사하여 자신의 업무 코드에 바로 적용할 수 있습니다. 또한, 프로젝트 상황에 맞게 스타일의 유연성과 커스터마이징 용이성 측면에서도 매우 큰 장점이 있습니다.
 
 
@@ -18,10 +18,10 @@ title: "개요"
 
 
 
-## 소개 자료
+<!-- ## 소개 자료
 ---
 * <a href="http://redsky0212.dothome.co.kr/axiom/react-guide/axiom-docs/react-app-scaffold_axiom-ai.mp4" target="_blank">react-app-scaffold 소개 동영상 자료</a>
-* <a href="http://redsky0212.dothome.co.kr/axiom/react-guide/axiom-docs/scaffold_presentation.pdf" target="_blank">react-app-scaffold 소개 슬라이드 자료</a>
+* <a href="http://redsky0212.dothome.co.kr/axiom/react-guide/axiom-docs/scaffold_presentation.pdf" target="_blank">react-app-scaffold 소개 슬라이드 자료</a> -->
 
 
 
@@ -31,7 +31,7 @@ title: "개요"
 
 ### 주요 목적
 
-- **UI 컴포넌트 제공**: `shadcn/ui` 기반의 UI 컴포넌트를 래핑(wrap)한 자체 컴포넌트들을 제공합니다.
+- **UI 컴포넌트 제공**: `shadcn/ui` 기반의 UI 컴포넌트를 래핑(wrap)한 자체 컴포넌트들을 제공합니다. 디자이너, 퍼블리싱 작업 시 헤드리스 컴포넌트로 사이트 마다 다른 스타일을 쉽게 적용할 수 있습니다.
 - **유틸리티 라이브러리 제공**: 다양한 유틸리티 함수 및 헬퍼(예: API통신, 날짜 포맷, 배열/객체 조작, 데이터 변환 등)를 제공합니다.
 - **인터랙티브 데모**: 각 컴포넌트 및 유틸리티의 실제 동작을 확인할 수 있는 라이브 데모를 제공합니다.
 - **코드 예제 제공**: 컴포넌트 및 유틸리티 사용법과 예제 코드를 바로 복사하여 사용할 수 있게 제공합니다.
@@ -39,7 +39,7 @@ title: "개요"
 
 ### 제공 UI 컴포넌트
 
-`shadcn/ui`를 래핑한 자체 컴포넌트를 `@/shared/ui` 한 곳에서 import하여 사용합니다. 현재 제공되는 주요 컴포넌트는 다음과 같습니다. (필요 시 계속 추가)
+자체 제공 UI 컴포넌트를 `@axiom/components/ui` 한 곳에서 import하여 사용합니다. 현재 제공되는 주요 컴포넌트는 다음과 같습니다. (필요 시 계속 추가 예정)
 
 - **Accordion**: 접이식 콘텐츠 패널
 - **Alert**: 알림 메시지
@@ -71,7 +71,7 @@ title: "개요"
 - **Date Utils**: 날짜 포맷 변환, 상대 날짜 계산 등 날짜 처리 함수 (`$util.date`)
 - **String Utils**: 문자열 변환, 치환, 대소문자 변경 관련 함수 (`$util.string`)
 - **Number Utils**: 천 단위 콤마(`comma`), 반올림(`round`), 범위 제한(`clamp`), 숫자 변환(`toNumber`), 퍼센트(`percent`) 등 숫자 포맷·조작 함수 (`$util.number`)
-- **Custom Hooks**: 커스텀 훅 모음 (`useApi`, `useClientState`, `useSidebar` 등)
+- **Custom Hooks**: 개발 편의성 제공을 위하여 커스텀 훅 제공. (`useApi` 외, 필요 시 계속 추가 예정)
 - **그 외 추가 예정**
   - **Data Formatter**: 통화·숫자·퍼센트 등 각종 데이터 포맷 변환을 묶은 전용 객체 (`$util.formatter`)
   - **Array/Object Utils**: 배열, 객체 조작을 위한 다양한 헬퍼 함수 (정렬, 필터, 딥 클론 등 — `lodash` 활용)
@@ -82,7 +82,7 @@ title: "개요"
 
 ### 디자인 시스템
 
-**react-app-scaffold**는 [Style Dictionary](https://amzn.github.io/style-dictionary/) 기반의 **디자인 토큰 시스템**을 내장하고 있어, 색상·타이포그래피·그림자 등 디자인 값을 JSON으로 일원 관리하고 CSS 변수로 자동 생성합니다.
+**react-app-scaffold**는 [Style Dictionary](https://styledictionary.com/) 기반의 **디자인 토큰 시스템**을 내장하고 있어, 색상·타이포그래피·그림자 등 디자인 값을 JSON으로 일원 관리하고 CSS 변수로 자동 생성합니다.
 
 토큰은 **2계층** 구조로 관리됩니다.
 
