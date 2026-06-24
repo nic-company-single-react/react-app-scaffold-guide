@@ -38,12 +38,20 @@ react-app-scaffold
 │   │   │   ├── router/               # 도메인 라우팅
 │   │   │   ├── store/                # 도메인 상태 관리
 │   │   │   └── types/                # 도메인 타입 정의
-│   │   └── [domain]/             # 업무 도메인 추가·확장
+│   │   └── [domain]/             # 업무 도메인 추가·확장 가능
 │   ├── shared                  # 전역 공유 코드
-│   │   ├── components                # 공유 컴포넌트
-│   │   ├── config                    # 앱 설정 (navigation 등)
-│   │   ├── context                   # 전역 Context
-│   │   └── router                    # 공유 라우터
+│   │   ├── auth                  # JWT인증 토큰관련 폴더
+│   │   ├── components            # 공유 컴포넌트 작업 공간
+│   │   │   ├── router                # 라우트 관련 로직 처리
+│   │   │   └── ui                    # ui 관련 공유 컴포넌트
+│   │   ├── layouts               # 레이아웃 관련 폴더
+│   │   ├── lib
+│   │   │   ├── shadcn            # shadcn/ui 원본 컴포넌트
+│   │   │   │   └── ui                 # shadcn/ui UI 컴포넌트 모음
+│   │   │   └── utils.ts               # shadcn/ui 유틸리티 함수 모음
+│   │   ├── router                # 전체 라우팅 통합 설정(업무 라우트 세팅)
+│   │   ├── ui                    # UI 컴포넌트 진입점
+│   │   └── utils/cn.ts           # Tailwind를 사용할 때 조건부 조합을 위한 cn함수.
 │   ├── types                   # TypeScript 전역 타입 정의 (.d.ts)
 │   ├── App.tsx                 # 루트 App 컴포넌트
 │   ├── main.tsx                # 앱 진입점
