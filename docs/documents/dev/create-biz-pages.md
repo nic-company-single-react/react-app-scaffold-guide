@@ -72,10 +72,13 @@ src
 ```tsx showLineNumbers
 import React, { useEffect } from 'react';
 
+// 현재 페이지의 Props 타입 지정(Props가 없으면 만들지 않아도 됨)
 interface IAccountIndexProps {
-	test?: string;
+  test?: string;
 }
 
+// 페이지 컴포넌트 본체 Props 타입과 리턴 타입을 세팅합니다.
+// 본체 페이지 컴포넌트는 항상 export default 로 만듭니다.
 export default function AccountIndex({}: IAccountIndexProps): React.ReactNode {
   // useEffect hooks
   useEffect(() => {
@@ -112,7 +115,7 @@ export default function AccountIndex({}: IAccountIndexProps): React.ReactNode {
 <img src={require('../assets/url-ex01.png').default} alt="path관련 예시 이미지" width="70%" />
 :::
 * **src/domains/account/pages/AccountIndex.tsx** 라는 화면 컴포넌트를 만들었다고 가정합니다.
-* 업무폴더에서(account폴더) **router/index.tsx** 파일을 생성하고, **index.tsx** 파일을 열어 기본 **router**코드를 작성합니다.
+* 업무폴더에서(domains/account/) **router/index.tsx** 파일을 생성하고, **index.tsx** 파일을 열어 기본 **router**코드를 작성합니다.
 * 만든 화면 컴포넌트가 **AccountIndex.tsx**파일이므로 다음과 같이 `import`해서 가져옵니다.
 * <span class="text-color-red">상황에 따라 lazy\(\) 와 \<Suspense\>를 사용하는 방법도 고려해 볼 필요가 있음.</span>
 
@@ -228,7 +231,7 @@ export default routes;
 * 브라우저를 열고 **localhost:포트/#/account/account-page**를 입력하면 생성한 계좌메인 화면이 보입니다.
 ![Chrome브라우저에서 account페이지 확인하기](../assets/create-page01.png)
 
-:star: 여기까지 했으면 해당 업무의 코딩 준비가 완료 되었습니다. 필요에 따라 기능을 추가하고 페이지 작업을 진행하면 됩니다.
+:star: 지금까지 해당 업무의 코딩 준비가 완료 되었습니다. 필요에 따라 기능을 추가하고 페이지 작업을 진행하면 됩니다.
 
 
 ### 여러 페이지 간 라우터 이동 방법
