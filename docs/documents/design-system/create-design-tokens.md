@@ -28,14 +28,14 @@ title: "CSS Token 작업방법"
 
 ```
 [① 토큰 원본 JSON]  →  npm run build:tokens  →  [② 생성 CSS]  →  [③ 테마 브리지]
-        design-tokens/        (Style Dictionary)      styles/tokens/        styles/themes/
-                                                                                  │
-                                                                                  ▼
+design-tokens/        (Style Dictionary)      styles/tokens/    styles/themes/
+                                                                      │
+                                                                      ▼
                               [⑤ shadcn 컴포넌트]  ←  [④ app.css 진입점(@import 순서)]
                                   shared/lib/shadcn/         styles/app.css
-                                                                                  │
-                                                                                  ▼
-                                                            화면 (domains / publishing)
+                                                                      │
+                                                                      ▼
+                                                    화면 (domains / publishing) 사용
 ```
 
 **한 줄 요약:** 내가 손대는 건 ① JSON과 ③ 테마 파일뿐. 나머지(②)는 전부 자동생성된다.
@@ -67,7 +67,7 @@ color.brand.500 = #6259ca  →  color.primary = {color.brand.500}   ← 라이�
 
 ---
 
-## ② 생성물 — `src/assets/styles/tokens/` ⚠️ **직접 편집 금지**
+## ② 빌드 생성물 — `src/assets/styles/tokens/` ⚠️ **직접 편집 금지**
 
 `npm run build:tokens` 실행 시 자동 생성된다 (`npm run dev` 가 자동 호출). **직접 수정해도 빌드 시 덮어써진다.**
 
@@ -99,11 +99,10 @@ color.brand.500 = #6259ca  →  color.primary = {color.brand.500}   ← 라이�
 선언 없이 **@import 순서(= 우선순위)** 만 관리한다.
 
 ```
-1. External   Tailwind v4 · tw-animate-css · shadcn/tailwind.css · 폰트(Outfit, Geist)
-2. Tokens     tokens/primitive.css · theme-light.css · theme-dark.css   (자동생성)
-3. Theme      themes/theme-peoplify.css                                 (브랜드 브리지)
-4. Base       base/reset · typography · layout · utilities
-5. Layout     layout/default/layout.css                                 (서드파티 오버라이드만)
+1. Tokens     tokens/primitive.css · theme-light.css · theme-dark.css   (자동생성)
+2. Theme      themes/theme-peoplify.css                                 (브랜드 브리지)
+3. Base       base/reset · typography · layout · utilities
+4. Layout     layout/default/layout.css                                 (서드파티 오버라이드만)
 +  @custom-variant dark (&:is(.dark *))   ← 반드시 루트에 직접 선언
 ```
 
