@@ -237,50 +237,58 @@ title: "react-app-scaffold 최초 세팅"
 
 ```json
 {
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
-  },
-  "editor.tabSize": 2,
-  "editor.detectIndentation": false,
-  "editor.insertSpaces": false,
-  "editor.renderWhitespace": "all",
-  "editor.comments.insertSpace": false,
-  "files.associations": {
-    "*.json": "jsonc"
-  },
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
-  "eslint.workingDirectories": [{ "mode": "auto" }],
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "eslint.useFlatConfig": true,
-  "css.lint.unknownAtRules": "ignore",
-  "scss.lint.unknownAtRules": "ignore",
-  "less.lint.unknownAtRules": "ignore",
-  "[markdown]": {
-    "editor.formatOnSave": false,
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "never"
-    }
-  },
-  "[mdx]": {
-    "editor.formatOnSave": false,
-    "editor.defaultFormatter": null
-  },
-  "update.mode": "none",
-  "telemetry.telemetryLevel": "off",
-  "extensions.autoUpdate": false,
-  "extensions.autoCheckUpdates": false,
-  "axiom-ai.sdd.axiomFolder": ".axiom",
-  "axiom-ai.llm.maxTokens": 16384,
-  "axiom-ai.debug.logSystemPrompt": true,
-  "axiom-ai.llm.provider": "ollama",
-  "axiom-ai.experimental.regionEdit": true,
-  "axiom-ai.experimental.intentClassifier": true
+	"editor.formatOnSave": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit"
+	},
+	"editor.tabSize": 2,
+	"editor.detectIndentation": false,
+	"editor.insertSpaces": false,
+	"editor.renderWhitespace": "all",
+	"editor.comments.insertSpace": false,
+	"files.associations": {
+		"*.json": "jsonc"
+	},
+	"eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+	"eslint.workingDirectories": [{ "mode": "auto" }],
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"eslint.useFlatConfig": true,
+	"css.lint.unknownAtRules": "ignore",
+	"scss.lint.unknownAtRules": "ignore",
+	"less.lint.unknownAtRules": "ignore",
+	"[markdown]": {
+		"editor.formatOnSave": false,
+		"editor.codeActionsOnSave": {
+			"source.fixAll.eslint": "never"
+		}
+	},
+	"[mdx]": {
+		"editor.formatOnSave": false,
+		"editor.defaultFormatter": null
+	},
+	"_comment_autoImport": "자동 import 출처 제한 — 컴포넌트는 @axiom/components/ui 배럴을 우선 사용. 내부 의존성(@base-ui/react, react-day-picker)과 raw shadcn 경로는 제안에서 제외한다.",
+	"typescript.preferences.autoImportSpecifierExcludeRegexes": [
+		"^@base-ui/react",
+		"^react-day-picker",
+		"^@/shared/lib/shadcn",
+		"^@/shared/ui"
+	],
+	"javascript.preferences.autoImportSpecifierExcludeRegexes": [
+		"^@base-ui/react",
+		"^react-day-picker",
+		"^@/shared/lib/shadcn",
+		"^@/shared/ui"
+	],
+	"update.mode": "none",
+	"telemetry.telemetryLevel": "off",
+	"extensions.autoUpdate": false,
+	"extensions.autoCheckUpdates": false,
+	"axiom-ai.sdd.axiomFolder": ".axiom",
+	"axiom-ai.llm.maxTokens": 16384,
+	"axiom-ai.debug.logSystemPrompt": true,
+	"axiom-ai.llm.provider": "ollama",
+	"axiom-ai.experimental.regionEdit": true,
+	"axiom-ai.experimental.intentClassifier": true
 }
 ```
 
