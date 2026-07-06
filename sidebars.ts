@@ -26,15 +26,15 @@ const sidebars: SidebarsConfig = {
         'started/getting-started/react-style-guide',
       ],
     },
-    // {
-    //   type: "category",
-    //   label: "◉ 참조",
-    //   collapsed: false,
-    //   collapsible: true,
-    //   items: [
-    //     'started/getting-started/overview',
-    //   ],
-    // },
+    {
+      type: "category",
+      label: "◉ Scaffold 설정",
+      collapsed: false,
+      collapsible: true,
+      items: [
+        'started/app-config/index',
+      ],
+    },
   ],
   documentDocSidebar: [
     {
