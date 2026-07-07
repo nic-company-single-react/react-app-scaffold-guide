@@ -48,6 +48,7 @@ const sidebars: SidebarsConfig = {
         "documents/dev/use-rest-api",
         "documents/dev/using-ui-component",
         "documents/dev/create-domain-common-function",
+        "documents/dev/create-global-state",
         "documents/dev/set-i18n-project",
       ],
     },
