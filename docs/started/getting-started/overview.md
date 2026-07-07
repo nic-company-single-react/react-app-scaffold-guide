@@ -218,7 +218,7 @@ src/
 
 - **Vitest**: Vite 기반의 초고속 단위/컴포넌트 테스트 러너로, 개발 서버와 동일한 설정을 공유합니다.
 - **Playwright (Browser Mode)**: 실제 브라우저 환경에서 컴포넌트를 렌더링하여 검증하는 `@vitest/browser-playwright` 기반 테스트를 지원합니다.
-- **Storybook Vitest / a11y Addon**: `@storybook/addon-vitest`로 스토리를 그대로 테스트로 실행하고, `@storybook/addon-a11y`로 접근성을 자동 점검합니다.
+- **Storybook Vitest / a11y Addon**: `@storybook/addon-vitest`로 스토리를 그대로 테스트로 실행하고, `@storybook/addon-a11y`로 접근성을 자동 점검합니다.(아직 연결 안됨.)
 - **커버리지 측정**: `@vitest/coverage-v8`를 통한 코드 커버리지 리포트를 제공합니다.
 
 ### UI 프레임워크 및 스타일링
@@ -257,7 +257,7 @@ src/
 
 - **React Router**: 선언형 클라이언트 사이드 라우팅 라이브러리
 - **중첩 라우팅**: 레이아웃과 페이지 컴포넌트를 유연하게 조합
-- **코드 스플리팅 연동**: `lazy()` 기반의 라우트별 번들 분리로 성능 최적화
+- **코드 스플리팅 연동**: `@loadable/component`의 `loadable(() => import(...))` 기반 라우트별 번들 분리로 성능 최적화
 
 ### 날짜 및 시간 처리
 
@@ -298,6 +298,7 @@ react-app-scaffold
 │   │       ├── layout/
 │   │       │   └── default/layout.css   ← 기존, 서드파티 오버라이드만 남김
 │   │       └── app.css                  ← @import 진입점
+│   ├── config                       # SI가 관리하는 앱 설정 레이어 (api·auth·query·router·theme.config.ts를 index.ts에서 통합 export)
 │   ├── core                         # 핵심 공통 코어 (업무 개발자 미작업 영역)
 │   │   ├── api                      # Axios 기반 공통 API 클라이언트
 │   │   ├── context                  # 공통 컨텍스트 컴포넌트
@@ -341,13 +342,14 @@ react-app-scaffold
 │   │   │   ├── router                  # 라우트 관련 로직 처리
 │   │   │   └── ui                      # ui 관련 공유 컴포넌트
 │   │   ├── layouts                  # 레이아웃 관련 폴더
-│   │   ├── lib
+│   │   ├── lib                      # 외부 라이브러리 연동 코드 (shadcn/ui 원본, Shiki 하이라이터 등)
 │   │   │   ├── shadcn               # shadcn/ui 원본 컴포넌트
 │   │   │   │   └── ui                   # shadcn/ui UI 컴포넌트 모음
 │   │   │   └── utils.ts                 # shadcn/ui 유틸리티 함수 모음
 │   │   ├── router                   # 전체 라우팅 통합 설정(업무 라우트 세팅)
 │   │   ├── ui                       # UI 컴포넌트 진입점
 │   │   └── utils/cn.ts              # Tailwind를 사용할 때 조건부 조합을 위한 cn함수.
+│   ├── test                         # 테스트 공통 세팅 (setup.ts — Vitest setupFiles, jest-dom 매처 등록)
 │   ├── types                        # TypeScript 전역 타입
 │   ├── App.tsx                      # 앱 루트 컴포넌트
 │   └── main.tsx                     # 앱 진입점
