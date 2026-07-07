@@ -31,9 +31,9 @@ title: "단위테스트 자동화"
 * **앰버 점선** = 아직 사람이 작성할 영역 (테스트 파일) → 2부에서 다룹니다.
 
 :::info 흐름 요약 — 4단계
-1. **`$ npm test`** 를 실행하면 Vitest가 **① `vite.config.ts` 의 `test: {}`** 블록을 관제탑으로 삼아 켜집니다.
-2. 관제탑은 `environment: 'jsdom'`(가상 브라우저), `globals: true`(import 없이 `test`·`expect`)를 켜고, **`setupFiles` 로 ② `src/test/setup.ts` 를 매 테스트 전에 자동 실행**합니다.
-3. 동시에 `*.test.tsx` **테스트 파일을 탐색**합니다. (`*.stories.*` 는 `exclude` 로 제외)
+1. **`$ npm test`** 를 실행하면 Vitest가 **① `vite.config.ts` 의 `test.projects`** 설정을 관제탑으로 삼아 켜집니다.
+2. 관제탑은 파일 이름 규칙으로 테스트를 **두 묶음(`unit`=jsdom · `browser`=실제 Chromium)** 으로 가르고, `globals: true`(import 없이 `test`·`expect`)를 켠 뒤 **`setupFiles` 로 ② `src/test/setup.ts` 를 매 테스트 전에 자동 실행**합니다.
+3. 동시에 `*.test.tsx`(jsdom) 와 `*.browser.test.tsx`(브라우저) **테스트 파일을 탐색**합니다. (`*.stories.*` 는 `exclude` 로 제외)
 4. 셋업이 끝난 상태에서 각 테스트가 `render() → screen.getBy…() → expect(…)` 로 **실행·검증**됩니다.
 :::
 
@@ -48,7 +48,7 @@ title: "단위테스트 자동화"
 ### 2. 라이브러리 계층 — 누가 무슨 일을 하나
 ---
 
-하나의 테스트 요청이 위 **러너**에서 아래 **검증**까지 층층이 협력합니다. 맨 위 러너는 **Storybook이 딸려 깔아둔 것을 재사용**하고, 아래 4개만 이번에 새로 설치(`-D`)했습니다.
+하나의 테스트 요청이 위 **러너**에서 아래 **검증**까지 층층이 협력합니다. 맨 위 러너는 **Storybook이 딸려 깔아둔 것을 재사용**하고, jsdom 계열 4개와 브라우저 모드 2개를 새로 설치(`-D`)했습니다.
 
 ![테스트 라이브러리 계층 스택](../assets/vitest-infra-layers.svg)
 
@@ -59,10 +59,17 @@ title: "단위테스트 자동화"
 | 렌더·조회 | `@testing-library/react` | `render()`로 그리고 `screen.getByText`로 찾기 |
 | 사용자 행동 | `@testing-library/user-event` | 실제 사용자처럼 클릭 · 타이핑 시뮬레이션 |
 | 검증 | `@testing-library/jest-dom` | `toBeInTheDocument()` 같은 DOM 전용 매처 추가 |
+| 브라우저 모드 | `@vitest/browser-playwright` · `playwright` | jsdom 대신 **실제 Chromium**을 띄워 `*.browser.test.tsx` 실행 |
 
-<!-- :::info 새로 설치한 4개 (이미 설치됨 — 참고용)
+:::info 브라우저 모드는 왜 있나
+`jsdom`(가짜 DOM)만으로 부정확한 것 — 실제 레이아웃·크기 계산(`getBoundingClientRect`), CSS·hover, 레이아웃에 민감한 라이브러리(캐러셀·애니메이션) — 만 진짜 Chromium으로 검증하기 위해 함께 구성해뒀습니다. 대부분은 jsdom(위 5계층)으로 충분하고, 브라우저 모드는 **필요한 파일만** `*.browser.test.tsx` 로 올려 씁니다. → 자세한 사용법은 [2부 브라우저 모드 절](#browser-mode)
+:::
+
+<!-- :::info 새로 설치한 패키지 (이미 설치됨 — 참고용)
 ```sh
 npm i -D jsdom @testing-library/react @testing-library/user-event @testing-library/jest-dom
+npm i -D @vitest/browser-playwright playwright
+npx playwright install chromium
 ```
 ::: -->
 
@@ -74,25 +81,61 @@ npm i -D jsdom @testing-library/react @testing-library/user-event @testing-libra
 
 인프라는 **이미 세팅되어 있습니다.** 아래는 "무엇이 어떻게 연결됐는지" 확인용이며, 새로 만들 필요는 없습니다.
 
-**① `vite.config.ts`** — 별도 `jest.config` 없이 Vite 설정 안에 `test: {}` 블록만 추가했습니다. alias(`@`·`@axiom/*`)가 테스트에서도 그대로 통합니다.
+**① `vite.config.ts`** — 별도 `jest.config` 없이 Vite 설정 안에 `test.projects` 만 추가했습니다. **환경이 다른 두 묶음(`unit`=jsdom / `browser`=실제 Chromium)** 을 파일 이름 규칙으로 가릅니다. alias(`@`·`@axiom/*`)는 `extends: true` 로 두 묶음 모두에 그대로 통합니다.
 
 ```ts title="vite.config.ts"
+/// <reference types="vitest/config" />       // TS에게 test 옵션 타입을 알려주는 줄
+import { playwright } from '@vitest/browser-playwright';
+// ...
 export default defineConfig(({ mode }) => {
 	return {
 		plugins: [react(), tailwindcss()],
 		resolve: { alias: { /* @, @axiom/* … 테스트에서도 동일하게 적용 */ } },
 		// highlight-start
-		// 단위테스트(Vitest) 설정
+		// 단위테스트(Vitest) 설정 — 환경별 두 묶음
 		test: {
-			environment: 'jsdom',              // Node에 없는 document/window를 가짜로 제공
-			globals: true,                     // describe/test/expect 를 import 없이 전역 사용
-			setupFiles: './src/test/setup.ts', // 각 테스트 전에 자동 실행 (jest-dom 매처 등록)
-			exclude: ['**/node_modules/**', '**/*.stories.*'], // *.stories 는 제외
+			projects: [
+				{
+					extends: true,                      // 상위 vite 설정(alias·플러그인) 상속
+					test: {
+						name: 'unit',
+						environment: 'jsdom',             // 가짜 DOM (빠름, 대부분 여기서)
+						globals: true,                    // import 없이 test·expect 전역 사용
+						setupFiles: './src/test/setup.ts',
+						include: ['src/**/*.test.{ts,tsx}'],
+						// 브라우저 전용 파일과 스토리북은 제외
+						exclude: ['**/node_modules/**', '**/*.stories.*', 'src/**/*.browser.test.{ts,tsx}'],
+					},
+				},
+				{
+					extends: true,
+					test: {
+						name: 'browser',
+						globals: true,
+						setupFiles: './src/test/setup.ts',
+						include: ['src/**/*.browser.test.{ts,tsx}'],
+						exclude: ['**/node_modules/**', '**/*.stories.*'],
+						browser: {
+							enabled: true,
+							provider: playwright(),         // 설치한 @vitest/browser-playwright 연결
+							headless: true,                 // 창 없이 백그라운드로 Chromium 실행
+							instances: [{ browser: 'chromium' }],
+							api: { host: '127.0.0.1', port: 5199 }, // ⚠ Windows 예약 포트 회피
+						},
+					},
+				},
+			],
 		},
 		// highlight-end
 	};
 });
 ```
+
+:::warning ⚠ Windows 예약 포트 함정 (`api.port` 를 고정한 이유)
+브라우저 모드는 내부적으로 로컬 서버를 하나 띄우는데, 기본값이 하필 **Windows 예약 포트 대역**을 잡으려다 `EACCES: permission denied` 로 실패하는 경우가 있습니다. (Windows가 Hyper-V/WinNAT용으로 특정 포트 대역을 예약)
+* 확인: `netsh interface ipv4 show excludedportrange protocol=tcp`
+* 해결: `browser.api: { host: '127.0.0.1', port: 5199 }` 처럼 **IPv4 + 예약 대역 바깥의 고정 포트**를 지정. 다른 PC에서 또 `EACCES`가 나면 위 명령으로 예약 대역을 확인하고 `port` 값만 안전한 값으로 바꾸면 됩니다.
+:::
 
 **② `src/test/setup.ts`** — 각 테스트 파일마다 반복할 공통 셋업을 여기 한 번만 모아둡니다.
 
@@ -114,10 +157,11 @@ import '@testing-library/jest-dom';
 "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom"]
 ```
 
-:::tip 핵심 3가지
-1. **Vite 설정 재사용** — 별도 러너 설정 파일 없이 `vite.config.ts` 안에 `test: {}` 블록만. alias도 그대로 통함.
-2. **`setupFiles` = 자동 준비물** — `setup.ts`에서 jest-dom 매처를 한 번만 등록 → 각 테스트 파일에서 매번 import 안 해도 됨.
+:::tip 핵심 4가지
+1. **Vite 설정 재사용** — 별도 러너 설정 파일 없이 `vite.config.ts` 안에 `test.projects` 만. alias도 `extends: true` 로 그대로 통함.
+2. **`setupFiles` = 자동 준비물** — `setup.ts`에서 jest-dom 매처를 한 번만 등록 → 두 묶음(unit·browser) 각 테스트 파일에서 매번 import 안 해도 됨.
 3. **인프라는 끝** — 설정은 다시 안 건드림. 파일 옆에 `xxx.test.tsx` 를 만들면 Vitest가 자동으로 찾아 실행.
+4. **브라우저가 필요하면** — 파일명을 `xxx.browser.test.tsx` 로 지으면 실제 Chromium(Playwright)에서 실행. 전환은 파일명만 바꾸면 끝.
 :::
 
 
@@ -131,6 +175,8 @@ import '@testing-library/jest-dom';
 | `npm test` | **watch 모드** — 저장하면 관련 테스트만 자동 재실행 (개발 중 상시) |
 | `npm run test:run` | **1회 실행 후 종료** — CI / 커밋 전 확인용 |
 | `npm run coverage` | 어느 코드가 테스트됐는지 **커버리지 리포트** |
+| `npx vitest --project unit` | **jsdom 묶음만** — 평소 개발 중 빠르게 |
+| `npx vitest --project browser` | **브라우저(Chromium) 묶음만** |
 
 ```sh
 # 개발 중 — 파일을 저장할 때마다 관련 테스트가 자동 재실행됩니다.
@@ -141,7 +187,15 @@ npm run test:run
 
 # 커버리지 확인 — 테스트가 닿지 않은 코드를 리포트로 확인.
 npm run coverage
+
+# 특정 묶음만 골라 실행 (프로젝트 이름으로)
+npx vitest --project unit      # jsdom 만 (평소 개발 중 빠르게)
+npx vitest --project browser   # 브라우저(Chromium) 만
 ```
+
+:::info `npm test` 는 두 묶음을 모두 돕니다
+위 `npm test` / `test:run` 은 **unit + browser 두 묶음을 모두** 실행합니다. 평소엔 `npx vitest --project unit` 로 빠르게 돌리고, 커밋 전이나 CI에서만 전체를 돌리는 운영도 가능합니다.
+:::
 
 :::info watch 모드 필터
 `npm test` 실행 중 키를 눌러 대상을 좁힐 수 있습니다. `p` → 파일명으로 필터, `t` → 테스트명으로 필터, `a` → 전체 재실행, `q` → 종료.
@@ -165,7 +219,7 @@ npm run coverage
 ### 5. 시작 전 3가지 약속
 ---
 
-1. **파일은 옆에** — 테스트할 파일 **바로 옆**에 `이름.test.tsx`(컴포넌트) / `이름.test.ts`(순수 함수·훅) 로 만듭니다. 이름에 `.test.` 만 있으면 Vitest가 자동으로 찾습니다. (별도 `__tests__` 폴더로 모으지 않고, **설정도 건드릴 필요 없음**)
+1. **파일은 옆에** — 테스트할 파일 **바로 옆**에 `이름.test.tsx`(컴포넌트) / `이름.test.ts`(순수 함수·훅) 로 만듭니다. 이름에 `.test.` 만 있으면 Vitest가 자동으로 찾습니다. (별도 `__tests__` 폴더로 모으지 않고, **설정도 건드릴 필요 없음**) → 이건 **jsdom(가짜 DOM)** 에서 도는 기본 테스트입니다. 실제 브라우저가 필요하면 → [브라우저 모드](#browser-mode)
 2. **watch 를 켜둔다** — 개발 중엔 터미널에 `npm test`(watch 모드)를 켜두면 저장할 때마다 관련 테스트만 자동 재실행됩니다.
 3. **AAA 3단계로 생각한다** — 모든 테스트는 **준비 → 행동 → 검증(Arrange → Act → Assert)** 흐름으로 씁니다.
 
@@ -428,7 +482,57 @@ beforeEach(() => {
 
 
 
-### 14. 자주 쓰는 매처(matcher) 모음
+### 14. 브라우저 모드 — 실제 Chromium이 필요할 때 (`*.browser.test.tsx`) {#browser-mode}
+---
+
+지금까지(6~13절)는 전부 **jsdom(가짜 DOM)** 에서 도는 `*.test.tsx` 였습니다. 대부분은 이걸로 충분하지만, **jsdom이 부정확한 영역**이 있습니다.
+
+* 실제 요소의 크기·위치 계산(`getBoundingClientRect` 등)
+* CSS가 실제 적용된 모습, `hover`/스크롤/포커스 같은 진짜 브라우저 동작
+* 레이아웃에 민감한 라이브러리 (캐러셀 `embla`/`swiper`, 애니메이션 등)
+
+이런 것만 **진짜 Chromium을 띄우는 "브라우저 모드"** 로 테스트합니다.
+
+**쓰는 법 — 파일 이름만 바꾸면 끝.** 파일명을 `이름.test.tsx` 대신 **`이름.browser.test.tsx`** 로 지으면, 그 파일만 자동으로 브라우저에서 돕니다. (설정은 이미 돼 있음 — 1부 **3. 설정 4곳** 참고)
+
+```tsx title="src/domains/example/components/SectionHeader.browser.test.tsx"
+// 파일명이 .browser.test.tsx 라서 브라우저(Chromium)에서 실행됩니다.
+import { render } from '@testing-library/react';
+import { page } from 'vitest/browser';         // 브라우저 로케이터 (jsdom의 screen 대신)
+import SectionHeader from './SectionHeader';
+
+test('제목이 실제 브라우저 화면에 보인다', async () => {
+	render(<SectionHeader title="제목" description="설명" />);
+
+	// expect.element(...).toBeVisible() : 요소가 나타날 때까지 자동 재시도 +
+	// jsdom과 달리 "실제로 보이는지"를 진짜 렌더링 기준으로 판정
+	await expect.element(page.getByText('제목')).toBeVisible();
+	await expect.element(page.getByText('설명')).toBeVisible();
+});
+```
+
+**jsdom 테스트와 다른 점 3가지:**
+
+| | jsdom (`*.test.tsx`) | 브라우저 (`*.browser.test.tsx`) |
+|---|---|---|
+| 요소 조회 | `screen.getByText(...)` (동기) | `page.getByText(...)` + `expect.element(...)` (자동 재시도) |
+| 검증 예 | `expect(...).toBeInTheDocument()` | `await expect.element(...).toBeVisible()` |
+| 속도 | 빠름 | 느림 (브라우저 구동) |
+
+:::tip 언제 쓰나 (판단 기준)
+* **먼저 jsdom(`*.test.tsx`)으로 시도합니다.** 대부분 여기서 끝납니다.
+* "브라우저에선 되는데 jsdom 테스트에선 자꾸 안 맞는다" → 그 파일만 `.browser.test.tsx` 로 올립니다.
+* **남용하지 말 것.** 느려서 전체를 브라우저로 돌리면 개발 흐름이 끊깁니다.
+:::
+
+:::info 화면이 뜨는 건 아닙니다
+`headless: true` 라 Chromium이 백그라운드로 돌고, 결과는 jsdom과 똑같이 **터미널 pass/fail** 로만 나옵니다. jsdom과 브라우저 모드의 차이는 "컴포넌트가 어디서 그려져 검사받느냐"일 뿐입니다.
+:::
+
+
+
+
+### 15. 자주 쓰는 매처(matcher) 모음
 ---
 
 | 매처 | 의미 |
@@ -465,6 +569,8 @@ beforeEach(() => {
 4. **커스텀 훅** — 10절
 5. **Zustand 스토어**를 쓰는 컴포넌트 — 12절
 6. (마지막) API 붙은 페이지 — 13절 (`msw` 세팅 후)
+
+> jsdom으로 검증이 자꾸 안 맞는 컴포넌트(실제 레이아웃·CSS·hover 등)를 만나면 그때 **브라우저 모드** — 14절 로 그 파일만 올립니다.
 
 
 
