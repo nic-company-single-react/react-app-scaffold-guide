@@ -175,6 +175,7 @@ import '@testing-library/jest-dom';
 | `npm test` | **watch 모드** — 저장하면 관련 테스트만 자동 재실행 (개발 중 상시) |
 | `npm run test:run` | **1회 실행 후 종료** — CI / 커밋 전 확인용 |
 | `npm run coverage` | 어느 코드가 테스트됐는지 **커버리지 리포트** |
+| `npm run test:ui` | 브라우저 대시보드(@vitest/ui)로 결과를 보며 실행 — 목록·통과/실패·필터 (개발/디버깅용) |
 | `npx vitest --project unit` | **jsdom 묶음만** — 평소 개발 중 빠르게 |
 | `npx vitest --project browser` | **브라우저(Chromium) 묶음만** |
 
@@ -187,6 +188,9 @@ npm run test:run
 
 # 커버리지 확인 — 테스트가 닿지 않은 코드를 리포트로 확인.
 npm run coverage
+
+# 브라우저 대시보드(@vitest/ui)로 결과를 보며 실행 — 목록·통과/실패·필터 (개발/디버깅용)
+npm run test:ui
 
 # 특정 묶음만 골라 실행 (프로젝트 이름으로)
 npx vitest --project unit      # jsdom 만 (평소 개발 중 빠르게)
