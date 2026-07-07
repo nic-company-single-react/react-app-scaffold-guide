@@ -10,12 +10,12 @@ title: "개발환경구성"
 
 ## Node.js 설치
 ---
-**Node.js**가 PC에 설치되어 있지 않다면 설치한다. LTS버전(v22.20.0)을 설치합니다. 
+**Node.js**가 PC에 설치되어 있지 않다면 설치한다. LTS버전(v24.14.0)을 설치합니다. 
 * 온라인 설치
   * [설치링크:(https://nodejs.org)](https://nodejs.org)  
 * 오프라인 설치
   * node.js설치 파일을 파일서버에서 제공하므로 `/aaaa/bbbbb/Frontend` 위치에서 다운로드 받아 설치 합니다.
-  * node.js설치 파일: `node-v24.14.1-win-x64.zip`
+  * node.js설치 파일: `node-v24.14.0-win-x64.zip`
     - **zip**를 통해 설치할 경우 압축을 풀면 다음과 같은 폴더 구조를 가집니다. 여기서 node.exe 를 실행하면 됩니다.
     ```sh
     node-v24.x.x-win-x64/
@@ -26,15 +26,15 @@ title: "개발환경구성"
     │   └── npm/
     └── ...
     ```
-  * 또는 `node-v24.14.1-x64.msi` 설치 파일을 통해 설치 진행합니다.
+  * 또는 `node-v24.14.0-x64.msi` 설치 파일을 통해 설치 진행합니다.
     - **msi**를 통해 설치 중 "Automatically install the necessary tools" 옵션을 체크하면 Chocolatey, Python, Visual Studio Build Tools 등을 인터넷에서 추가 다운로드하려 합니다.
 오프라인 환경이라면 이 옵션은 반드시 체크 해제해야 합니다.
 
-1. **LTS버전 (v24.14.1)** - 설치 완료 후 아래와 같이 윈도우 **명령 프롬프트** 창에서 `node`와 `npm` 설치 여부를 확인해봅니다.
+1. **LTS버전 (v24.14.0)** - 설치 완료 후 아래와 같이 윈도우 **명령 프롬프트** 창에서 `node`와 `npm` 설치 여부를 확인해봅니다.
 ```sh
 # 설치 후 설치 버전 확인
 node -v
-# 24.14.1 
+# 24.14.0 
 
 npm -v
 # 11.9.0
