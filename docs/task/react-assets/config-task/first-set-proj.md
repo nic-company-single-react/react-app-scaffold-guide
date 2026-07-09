@@ -270,14 +270,14 @@ title: "react-app-scaffold 최초 세팅"
 	"typescript.preferences.autoImportSpecifierExcludeRegexes": [
 		"^@base-ui/react",
 		"^react-day-picker",
-		"^@/shared/lib/shadcn",
-		"^@/shared/ui"
+		"(^|/)shared/lib/shadcn",
+		"(^|/)shared/ui"
 	],
 	"javascript.preferences.autoImportSpecifierExcludeRegexes": [
 		"^@base-ui/react",
 		"^react-day-picker",
-		"^@/shared/lib/shadcn",
-		"^@/shared/ui"
+		"(^|/)shared/lib/shadcn",
+		"(^|/)shared/ui"
 	],
 	"update.mode": "none",
 	"telemetry.telemetryLevel": "off",
