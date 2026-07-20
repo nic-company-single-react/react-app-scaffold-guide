@@ -5,3 +5,212 @@ title: '⋮ $ui.confirm'
 ---
 
 # $ui.confirm
+
+`react-app-scaffold`에서 전역으로 제공하는 **확인/취소 다이얼로그** 함수입니다.
+사용자에게 "예/아니오"를 묻고, 선택 결과(`true`/`false`)를 받아 로직을 분기할 수 있습니다.
+
+* 브라우저 기본 `window.confirm()`을 대체하는 함수로, 앱의 디자인(shadcn `AlertDialog`)이 적용된 다이얼로그를 띄웁니다.
+* React 컴포넌트 밖(이벤트 핸들러 · 유틸 · API 인터셉터 등)에서도 **훅 없이** 사용할 수 있습니다.
+* 별도의 `import` 없이 전역 객체 `$ui`로 바로 사용합니다.
+* **`Promise<boolean>`을 반환**하므로 `await`로 사용자의 선택을 기다렸다가 분기할 수 있습니다. **확인=`true`**, 그 외(취소·X·ESC·자동 닫힘)=**`false`**.
+
+```ts
+// 사용 형태
+const ok = await $ui.confirm('정말 삭제하시겠습니까?');
+if (ok) {
+  // '확인'을 누른 경우
+}
+
+// 옵션과 함께
+await $ui.confirm('변경사항을 저장할까요?', { type: 'warning', confirmText: '저장' });
+
+// 옵션 객체만
+await $ui.confirm({ title: '탈퇴', message: '정말 탈퇴하시겠습니까?' });
+```
+
+:::tip 인자 오버로드
+`$ui.confirm`은 첫 번째 인자를 **문자열** 또는 **옵션 객체** 두 가지로 받을 수 있습니다.
+* 첫 인자가 문자열이면 → 본문 메시지로 사용됩니다.
+* 첫 인자가 옵션 객체이면 → 그 객체가 전체 옵션이 됩니다.
+* 두 인자를 함께 주면 → 두 값이 병합되며, **두 번째 인자(옵션 객체)가 우선**합니다.
+:::
+
+---
+
+## confirm()
+
+확인/취소 다이얼로그를 큐에 넣고, 사용자가 닫으면 **선택 결과(`boolean`)로 resolve** 되는 `Promise`를 반환합니다.
+
+| 인자 | 타입 | 필수 | 기본값 | 설명 |
+| --- | --- | :---: | --- | --- |
+| `message` | `string \| IConfirmDialogOption` | | | 본문 메시지 문자열, 또는 옵션 객체 |
+| `option` | `IConfirmDialogOption` | | | 옵션 객체. `message`와 함께 넘기면 이 값이 우선 병합됨. 상세는 [옵션 (IConfirmDialogOption)](#옵션-iconfirmdialogoption) 참고 |
+
+* **반환** : `Promise<boolean>` — **확인 버튼**이면 `true`, 그 외 모든 닫힘(취소·X·ESC·자동 닫힘)이면 `false`.
+
+```ts
+// 1) 가장 단순한 사용
+const ok = await $ui.confirm('저장하시겠습니까?');
+if (ok) await saveData();
+
+// 2) 위험 동작 확인 (색상·문구 강조)
+const ok = await $ui.confirm('이 작업은 되돌릴 수 없습니다. 삭제할까요?', {
+  type: 'error',
+  confirmText: '삭제',
+  cancelText: '유지',
+});
+if (ok) await deleteItem();
+
+// 3) 제목 + 본문 직접 지정
+const ok = await $ui.confirm({
+  title: '로그아웃',
+  message: '로그아웃하시겠습니까?',
+  type: 'warning',
+});
+```
+
+:::warning 확인 외에는 모두 `false`
+반환값 `true`는 **오직 '확인' 버튼을 눌렀을 때뿐**입니다.
+취소 버튼 · X 버튼 · ESC · 딤 배경 클릭 · `autoDismiss` 자동 닫힘은 **모두 `false`**로 resolve 됩니다.
+"닫힌 이유"까지 구분해야 한다면 [`onClose`](#닫힘-결과-idialogresult) 콜백의 `reason`을 사용하세요.
+:::
+
+---
+
+## 옵션 (IConfirmDialogOption)
+
+`confirm(message, option)`에 넘기는 옵션 객체입니다. [`$ui.alert`의 옵션](./alert-ui#옵션-ialertdialogoption)을 모두 포함하며, **취소 버튼 문구(`cancelText`)**가 추가됩니다.
+
+| 옵션 | 타입 | 기본값 | 설명 |
+| --- | --- | --- | --- |
+| `message` | `string` | — | 본문 메시지. (첫 인자를 옵션 객체로 줄 때 여기에 넣습니다) |
+| `title` | `string` | `type`별 기본 제목 | 제목. 미지정 시 [기본 제목](#type-별-기본-제목아이콘) 표의 값이 쓰입니다. |
+| `type` | `'success' \| 'info' \| 'warning' \| 'error'` | — | 다이얼로그 종류. 지정 시 **아이콘·색상·기본 제목**이 함께 적용됩니다. |
+| `confirmText` | `string` | `'확인'` | 확인 버튼 문구. |
+| `cancelText` | `string` | `'취소'` | **취소 버튼 문구.** (confirm 전용) |
+| `icon` | `boolean` | `type` 지정 시 `true` | 아이콘 표시 여부. 기본은 숨김이며 `type`을 주면 자동 표시됩니다. `icon: true`(강제 표시) / `icon: false`(강제 숨김)로 덮어쓸 수 있습니다. |
+| `close` | `boolean` | `false` | 우상단 **X(닫기) 버튼** 표시 여부. |
+| `autoDismiss` | `number` | — | 지정 시 **N밀리초(ms)** 후 자동으로 닫힙니다. (자동 닫힘은 `false`로 resolve) |
+| `onClose` | `(result: IDialogResult) => void` | — | 닫힌 뒤 호출되는 콜백. 어떤 경로로 닫혔는지 등 상세 정보를 받습니다. 상세는 [닫힘 결과 (IDialogResult)](#닫힘-결과-idialogresult) 참고 |
+| `id` | `string` | 자동 생성 | 다이얼로그 고유 식별자. 미지정 시 `crypto.randomUUID()`로 자동 부여됩니다. |
+
+```ts
+// 확인/취소 문구 변경
+await $ui.confirm('변경사항을 저장할까요?', {
+  type: 'warning',
+  confirmText: '저장',
+  cancelText: '저장 안 함',
+});
+```
+
+### type 별 기본 제목·아이콘
+
+`type`을 지정하면 종류에 맞는 **아이콘·색상·기본 제목**이 적용됩니다. (`title`을 직접 주면 기본 제목을 덮어씁니다.)
+
+| `type` | 기본 제목 | 색상 |
+| --- | --- | --- |
+| `success` | `성공` | 초록색 |
+| `info` | `알림` | 파란색 |
+| `warning` | `경고` | 주황색 |
+| `error` | `오류` | 빨간색(destructive) |
+
+:::note `type`을 주지 않으면
+아이콘은 표시되지 않고, 제목은 `info`의 기본값인 **`알림`**이 사용됩니다. (`title`로 직접 지정 가능)
+:::
+
+---
+
+## 닫힘 결과 (IDialogResult)
+
+`onClose` 콜백으로 전달되는 결과 객체입니다. 반환값(`boolean`)만으로는 알 수 없는 **정확한 닫힘 경로**가 필요할 때 사용합니다.
+
+| 필드 | 타입 | 설명 |
+| --- | --- | --- |
+| `id` | `string` | 다이얼로그 고유값 |
+| `confirmed` | `boolean` | 확인 버튼으로 닫혔는지 여부 (반환값과 동일, `reason === 'confirm'`) |
+| `reason` | `'confirm' \| 'cancel' \| 'close' \| 'escape' \| 'autoDismiss'` | 닫힌 경로 |
+
+**`reason` 값**
+
+| 값 | 닫힌 경로 | 반환값 |
+| --- | --- | :---: |
+| `confirm` | **확인** 버튼 클릭 | `true` |
+| `cancel` | **취소** 버튼 클릭 | `false` |
+| `close` | 우상단 **X** 버튼 클릭 (`close: true`일 때) | `false` |
+| `escape` | **ESC** 키 또는 딤 배경 클릭 | `false` |
+| `autoDismiss` | `autoDismiss` 시간 경과로 **자동 닫힘** | `false` |
+
+```ts
+await $ui.confirm('이 페이지를 나가시겠습니까?', {
+  type: 'warning',
+  onClose: (result) => {
+    // 취소로 닫았는지 / ESC로 닫았는지까지 구분 가능
+    if (result.reason === 'cancel') console.log('취소 버튼');
+    if (result.reason === 'escape') console.log('ESC 또는 배경 클릭');
+  },
+});
+```
+
+:::note `cancel`은 confirm 전용
+`$ui.confirm`에는 취소 버튼이 있으므로 `reason: 'cancel'`이 발생합니다.
+확인 버튼만 있는 [`$ui.alert`](./alert-ui)에는 `cancel`이 없습니다.
+:::
+
+---
+
+## 다이얼로그 큐 (동시 호출)
+
+`$ui.confirm`/`$ui.alert`를 **여러 번 연속 호출**하면, 다이얼로그가 겹쳐 뜨지 않고 **큐(FIFO)에 쌓여 하나씩** 순서대로 표시됩니다. 앞의 다이얼로그를 닫아야 다음 것이 나타납니다.
+
+```ts
+const a = await $ui.confirm('1단계를 진행할까요?');
+if (a) {
+  const b = await $ui.confirm('2단계도 진행할까요?');
+  // ...
+}
+```
+
+---
+
+## 활용 예시
+
+```ts
+// 1) 삭제 확인 후 실행
+async function onDelete(id: string) {
+  const ok = await $ui.confirm('선택한 항목을 삭제하시겠습니까?', {
+    type: 'error',
+    confirmText: '삭제',
+    cancelText: '취소',
+  });
+  if (!ok) return;
+  await deleteItem(id);
+  await $ui.alert('삭제되었습니다.', { type: 'success' });
+}
+
+// 2) 저장하지 않은 변경사항 이탈 방지
+async function onLeave() {
+  if (!isDirty) return $router.back();
+  const ok = await $ui.confirm('저장하지 않은 변경사항이 있습니다. 나가시겠습니까?', {
+    type: 'warning',
+  });
+  if (ok) $router.back();
+}
+
+// 3) 로그아웃 확인
+async function onLogout() {
+  if (await $ui.confirm('로그아웃하시겠습니까?')) {
+    await logout();
+    $router.replace('/login');
+  }
+}
+```
+
+:::info 요약
+| 항목 | 값 |
+| --- | --- |
+| 시그니처 | `$ui.confirm(message?, option?)` |
+| 반환 | `Promise<boolean>` — 확인=`true`, 그 외=`false` |
+| 버튼 | 확인 · 취소 2개 (`confirmText` · `cancelText`로 문구 변경) |
+| 주요 옵션 | `type` · `title` · `message` · `confirmText` · `cancelText` · `icon` · `close` · `autoDismiss` · `onClose` |
+| 단순 알림만 필요 시 | [`$ui.alert`](./alert-ui) 사용 |
+:::
