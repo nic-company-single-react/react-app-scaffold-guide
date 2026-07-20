@@ -200,7 +200,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Redsky Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} NIC company Project, Inc. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
