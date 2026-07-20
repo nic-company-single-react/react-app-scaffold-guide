@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls c:/redsky/work/react/single_react_new_nicfirst/)",
+      "Read(//c/redsky/work/react/single_react_new_nicfirst/**)"
+    ]
+  }
+}
