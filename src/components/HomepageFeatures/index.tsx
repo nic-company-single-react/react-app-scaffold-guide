@@ -15,7 +15,7 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/app_documents.svg').default,
     description: (
       <>
-        react-app-scaffold 아키텍처를 빠르게 파악하고 실전에 적용할 수 있는 기술 가이드를 제공합니다.
+        페이지 생성, 라우터 연결, API 호출, UI 컴포넌트 사용법, Store 관리 등 프론트엔드 개발에 필요한 전 과정을 단계별 가이드로 제공합니다. 처음 온보딩하는 개발자도 가이드만 따라가면 바로 개발을 시작할 수 있습니다.
       </>
     ),
   },
@@ -24,7 +24,7 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/ui_component.svg').default,
     description: (
       <>
-        Form, Grid, Modal, Chart 등 업무 화면에 최적화된 UI 컴포넌트를 Props 명세, 사용 예제, 실전 코드 스니펫과 함께 제공합니다. 컴포넌트 조합만으로 복잡한 화면도 빠르게 구현할 수 있습니다.
+        SmartTable, Dialog, Select, Calendar, Combobox 등 업무 화면에 최적화된 UI 컴포넌트를 Props 명세, 사용 예제, 실전 코드 스니펫과 함께 제공합니다. 컴포넌트 조합만으로 복잡한 화면도 빠르게 구현할 수 있습니다.
       </>
     ),
   },
