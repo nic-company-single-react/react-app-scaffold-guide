@@ -52,7 +52,8 @@ export default function SampleComponent(): React.ReactNode {
   // highlight-end
   // POST 요청이지만(조회용) – 컴포넌트 마운트 시 자동 실행
   // highlight-start
-  const { data, isLoading, isError, error } = useApi<IPost[]>('/posts', { method: 'POST', type: 'query' });
+  const { data, isLoading, isError, error }
+    = useApi<IPost[]>('/posts', { method: 'POST', type: 'query' });
   // highlight-end
 
   return (
@@ -63,7 +64,7 @@ export default function SampleComponent(): React.ReactNode {
 }
 ```
 :::info 설명
-* `useApi()` 훅 함수를 공유 라이브러리(`@axiom/hooks`)에서 임포트 합니다.
+* `useApi()` 훅 함수를 `@axiom/hooks`에서 임포트 합니다.
 * `useApi()` 함수를 화면 컴포넌트 최 상단에 선언하면 화면 컴포넌트가 마운트되면서 자동으로 요청을 실행합니다.
 * `useApi()` 함수의 첫 번째 인자로 **REST API endpoint**을 전달합니다.
 * `useApi()` 함수의 결과 데이터는 `data` 속성에 담겨서 반환됩니다. `data` 속성을 통해 response 데이터를 활용할 수 있습니다.
