@@ -172,7 +172,7 @@ src
 
 
 
-## 옵션
+## 옵션 사용하기
 ---
 * `$router.push()`와 `$router.replace()`는 두 번째 인자로 **옵션 객체**를 받을 수 있습니다. 이 옵션은 내부적으로 react-router의 `NavigateOptions`로 그대로 전달됩니다.
   ```ts
@@ -185,7 +185,7 @@ src
 
 | 옵션 | 타입 | 설명 |
 | --- | --- | --- |
-| `state` | `any` | 이동할 화면으로 **데이터를 함께 전달**합니다. URL에 노출되지 않으며, 이동한 화면에서 `useLocation().state`로 받습니다. |
+| `state` | `any` | 이동할 화면으로 **데이터를 함께 전달**합니다. URL에 노출되지 않으며, 이동한 화면에서 `$router.getState()`로 받습니다. |
 | `replace` | `boolean` | `true`면 히스토리에 추가하지 않고 현재 페이지를 덮어씌웁니다. `$router.replace()`는 이 값을 항상 `true`로 강제합니다. |
 | `preventScrollReset` | `boolean` | `true`면 페이지 이동 후 스크롤 위치를 맨 위로 초기화하지 않고 **현재 스크롤 위치를 유지**합니다. |
 | `relative` | `'route' \| 'path'` | 상대 경로를 해석하는 기준을 지정합니다. (기본값: `'route'`) |
@@ -222,11 +222,10 @@ src
   ```
   ```tsx
   // UsageHistory.tsx (받는 화면)
-  import { useLocation } from 'react-router';
-
   export default function UsageHistory() {
     // highlight-start
-    const { state } = useLocation();
+    // 전역 $router.getState() 로 전달된 state 를 바로 읽습니다. (react-router import 불필요)
+    const state = $router.getState<{ accountNo: string; period: string }>();
     const accountNo = state?.accountNo; // '123-456-789'
     const period = state?.period;       // '3M'
     // highlight-end
@@ -244,4 +243,5 @@ src
 * `state`로 넘긴 값은 **URL에 노출되지 않으므로** 쿼리스트링과 달리 화면에 조건이 그대로 드러나지 않습니다.
 * 단, `state`는 **브라우저 히스토리에 저장**되므로 새로고침·뒤로가기 시에도 유지됩니다. 민감정보(비밀번호 등)는 담지 않는 것이 좋습니다.
 * 사용자가 **URL을 직접 입력**하거나 **새 탭으로 진입**하면 `state`는 `null`이 됩니다. 항상 `state?.값` 형태로 안전하게 접근하고, 값이 없을 때의 처리를 함께 작성하세요.
+* `$router.getState<T>()`는 **호출 시점의 스냅샷**을 반환하는 전역 메서드로, 컴포넌트 밖(이벤트 핸들러·유틸 등)에서도 쓸 수 있습니다. 화면 진입 시 `state`를 한 번 읽는 용도에는 그대로 사용하면 됩니다. 단, 마운트된 컴포넌트가 URL 변화에 **자동으로 리렌더**돼야 하는 경우에는 `import { useLocation } from 'react-router'`의 `useLocation()` 훅을 사용하세요.
 :::
