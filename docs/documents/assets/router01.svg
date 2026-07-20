@@ -38,7 +38,7 @@
     
     <!-- URL Bar -->
     <rect x="110" y="90" width="300" height="20" class="url-bar"/>
-    <text x="120" y="104" class="url-text">https://example.com/account/main</text>
+    <text x="120" y="104" class="url-text">https://example.com/#/account/main</text>
     
     <!-- Browser Content -->
     <rect x="40" y="130" width="380" height="220" class="browser-content"/>
@@ -81,7 +81,7 @@
     
     <!-- URL Bar -->
     <rect x="700" y="90" width="300" height="20" class="url-bar"/>
-    <text x="710" y="104" class="url-text">https://example.com/account/usage-history</text>
+    <text x="710" y="104" class="url-text">https://example.com/#/account/usage-history</text>
     
     <!-- Browser Content -->
     <rect x="630" y="130" width="380" height="220" class="browser-content"/>
