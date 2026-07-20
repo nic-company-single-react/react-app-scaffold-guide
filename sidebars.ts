@@ -125,6 +125,15 @@ const sidebars: SidebarsConfig = {
             'apis/global-function/hooks/use-client-state',
           ],
         },
+        {
+          type: 'category',
+          label: '• Factories',
+          collapsed: false,
+          collapsible: true,
+          items: [
+            'apis/global-function/factories/define-store',
+          ],
+        },
       ],
     },
     {
