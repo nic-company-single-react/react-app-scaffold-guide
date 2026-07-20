@@ -159,8 +159,11 @@ const sidebars: SidebarsConfig = {
           collapsed: false,
           collapsible: true,
           items: [
+            'apis/service-objects/util/array-util',
             'apis/service-objects/util/date-util',
+            'apis/service-objects/util/finance-util',
             'apis/service-objects/util/number-util',
+            'apis/service-objects/util/object-util',
             'apis/service-objects/util/string-util',
           ],
         },
