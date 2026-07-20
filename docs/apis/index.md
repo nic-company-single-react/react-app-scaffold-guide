@@ -17,6 +17,10 @@ title: 'API Reference'
 
 ## Service Objects
 ---
+### $router
+
+- **[$router](./service-objects/router)**
+
 ### $ui
 
 - **[$ui.alert](./service-objects/ui/alert-ui)**

@@ -135,6 +135,15 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'category',
+          label: '• $router',
+          collapsed: false,
+          collapsible: true,
+          items: [
+            'apis/service-objects/router/index',
+          ],
+        },
+        {
+          type: 'category',
           label: '• $ui',
           collapsed: false,
           collapsible: true,
