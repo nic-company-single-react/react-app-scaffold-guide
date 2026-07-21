@@ -4,17 +4,10 @@ displayed_sidebar: "componentsDocSidebar"
 title: "Accordion"
 ---
 
-import AutoHeightStorybookIframe from '../../../src/components/AutoHeightStorybookIframe';
-import { DOC_CONFIG } from '../../../src/config/doc-config';
+{/* import AutoHeightStorybookIframe from '../../../src/components/AutoHeightStorybookIframe'; */}
+{/* import { DOC_CONFIG } from '../../../src/config/doc-config'; */}
 
-# Accordion 컴포넌트
-
-`react-app-scaffold`에서 제공하는 아코디언 컴포넌트입니다.  
-여러 정보를 한 화면에 효율적으로 정리하고 펼치거나 접어서 보여줄 때 사용합니다.
-
----
-
-
+{/*
 ## Accordion 인터랙티브 예제
 ---
 <AutoHeightStorybookIframe
@@ -22,4 +15,614 @@ import { DOC_CONFIG } from '../../../src/config/doc-config';
   title="Accordion 인터랙티브 예제"
   minHeight={600}
 />
+---
+*/}
+
+# Accordion 컴포넌트
+
+`react-app-scaffold`가 `@axiom/components/ui`로 제공하는 아코디언 컴포넌트입니다.  
+여러 정보를 한 화면에 접어서 정리하고, 필요한 항목만 펼쳐 보여줄 때 사용합니다.
+
+**언제 쓰나요?**
+
+* FAQ·약관 동의처럼 **제목만 훑고 필요한 것만 펼쳐 읽는** 목록
+* 설정 패널·상세 정보처럼 **한 화면에 다 펼치면 길어지는** 콘텐츠를 접어둘 때
+* 마스터-디테일(목록에서 한 건을 펼쳐 상세를 보는) 패턴
+
+> 한 항목을 열면 다른 항목이 닫혀야 한다면 `type="single"`, 여러 개를 동시에 열어둘 수 있어야 한다면 `type="multiple"`을 씁니다. (아래 [동작 옵션](#동작-옵션) 참고)
+
+---
+
+
+## Import
+---
+
+```tsx
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from '@axiom/components/ui';
+```
+
+Accordion은 **4개의 파트를 조합해서** 쓰는 합성(compound) 컴포넌트입니다. 각 파트의 역할은 [구성(Anatomy)](#구성-anatomy)에서 설명합니다.
+
+---
+
+
+## 기본 사용법
+---
+
+가장 기본적인 형태입니다. `type="single" collapsible` 이면 **한 번에 하나만 열리고, 열린 항목을 다시 클릭하면 닫힙니다.**
+
+---
+<img src={require('../assets/ui/accordion-basic.png').default} alt="기본 사용법" width="100%" />
+
+```tsx
+<Accordion type="single" collapsible>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>배송 옵션은 어떻게 되나요?</AccordionTrigger>
+    <AccordionContent>
+      일반 배송(5~7일), 빠른 배송(2~3일), 당일 배송을 제공합니다.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>반품 정책이 어떻게 되나요?</AccordionTrigger>
+    <AccordionContent>
+      구매 후 30일 이내에 반품 신청이 가능합니다.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-3">
+    <AccordionTrigger>고객 지원에 어떻게 연락하나요?</AccordionTrigger>
+    <AccordionContent>
+      이메일, 전화, 채팅으로 24시간 지원받을 수 있습니다.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+:::tip `value`는 왜 필요한가
+각 `AccordionItem`의 `value`는 **어떤 항목이 열렸는지 식별하는 고유 키**입니다. `defaultValue`·`value`·`onValueChange`가 모두 이 키로 항목을 가리키므로 **항목마다 서로 다른 값**을 반드시 지정하세요.
+:::
+
+---
+
+
+## 구성 (Anatomy)
+---
+
+Accordion은 아래 4개 파트를 중첩해서 구성합니다.
+
+```tsx
+<Accordion>               {/* 루트 — 열림 모드(single/multiple)와 상태를 관리 */}
+  <AccordionItem>         {/* 항목 하나 — value로 식별 */}
+    <AccordionTrigger />  {/* 클릭해서 여닫는 헤더 버튼(제목 + 아이콘) */}
+    <AccordionContent />  {/* 펼쳐지는 내용 */}
+  </AccordionItem>
+  {/* AccordionItem 을 필요한 만큼 반복 */}
+</Accordion>
+```
+
+| 파트 | 역할 |
+| --- | --- |
+| `Accordion` | 루트. `type`으로 열림 모드를 정하고 열림 상태를 관리합니다. |
+| `AccordionItem` | 한 개의 접이식 항목. `value`(고유 키)를 가집니다. |
+| `AccordionTrigger` | 여닫는 헤더 버튼. 자식으로 제목을, `icon`으로 아이콘을 받습니다. |
+| `AccordionContent` | 펼쳐질 내용 영역. |
+
+:::note
+`AccordionTrigger`는 내부적으로 접근성용 헤더(`<h3>` 성격) 안에 버튼을 렌더합니다. 따라서 헤더 마크업을 직접 작성할 필요 없이 **위 4개 파트만** 조합하면 됩니다.
+:::
+
+---
+
+
+## 동작 옵션
+---
+여닫는 **동작**은 루트 `Accordion`의 prop으로 결정됩니다. 원하는 UX에 맞춰 아래에서 고르세요.
+
+
+
+
+
+### 1. 단일 / 다중 — `type`
+
+```tsx
+// 한 번에 하나만 (열면 나머지는 닫힘)
+<Accordion type="single" collapsible> … </Accordion>
+
+// 여러 개 동시에 열기 허용
+<Accordion type="multiple"> … </Accordion>
+```
+
+* `type="single"` — 항상 **최대 1개**만 열립니다. FAQ처럼 하나씩 읽는 흐름에 적합.
+* `type="multiple"` — 여러 항목을 **동시에** 열어둘 수 있습니다. 설정 패널처럼 비교하며 보는 흐름에 적합.
+
+---
+<img src={require('../assets/ui/accordion-multiple.png').default} alt="다중 열기" width="100%" />
+
+
+
+
+
+
+
+### 2. 다시 닫기 허용 — `collapsible`
+
+`type="single"` 전용 옵션입니다.
+
+```tsx
+// collapsible: 열린 항목을 다시 클릭하면 닫힘 (모두 닫힌 상태 허용)
+<Accordion type="single" collapsible> … </Accordion>
+
+// collapsible 생략: 항상 하나는 열려 있어야 함 (열린 항목 재클릭해도 안 닫힘)
+<Accordion type="single"> … </Accordion>
+```
+
+* 대부분의 FAQ는 `collapsible`을 **켜서** "모두 닫힘"이 가능하게 합니다.
+* 탭처럼 **항상 하나는 열려 있어야** 하는 UI라면 `collapsible`을 뺍니다.
+
+
+
+
+
+
+### 3. 처음부터 열어두기 — `defaultValue`
+
+```tsx
+// 첫 항목을 처음부터 펼친 상태로 시작
+<Accordion type="single" collapsible defaultValue="item-1">
+  <AccordionItem value="item-1"> … </AccordionItem>
+  <AccordionItem value="item-2"> … </AccordionItem>
+</Accordion>
+
+// multiple 이면 배열로 여러 개 지정
+<Accordion type="multiple" defaultValue={['item-1', 'item-3']}> … </Accordion>
+```
+
+`defaultValue`는 **비제어(uncontrolled)** 초기값입니다. 이후 열고 닫는 상태는 컴포넌트가 알아서 관리합니다.
+
+
+
+
+
+
+
+### 4. 외부에서 제어 — `value` / `onValueChange`
+열린 항목을 **바깥 상태로 직접 제어**하려면 `value` + `onValueChange`를 씁니다. (버튼으로 특정 항목을 열거나, 다른 UI와 연동할 때)
+
+---
+<img src={require('../assets/ui/accordion-controlled.png').default} alt="제어형 예제" width="100%" />
+
+```tsx
+import { useState } from 'react';
+
+function Example() {
+  const [openValue, setOpenValue] = useState(''); // '' = 모두 닫힘
+
+  return (
+    <>
+      <button onClick={() => setOpenValue('item-2')}>2번 항목 열기</button>
+      <button onClick={() => setOpenValue('')}>모두 닫기</button>
+
+      <Accordion
+        type="single"
+        collapsible
+        // highlight-start
+        value={openValue}
+        onValueChange={setOpenValue}
+        // highlight-end
+      >
+        <AccordionItem value="item-1">
+          <AccordionTrigger>스타터 플랜</AccordionTrigger>
+          <AccordionContent>개인 프로젝트에 적합한 기본 플랜입니다.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-2">
+          <AccordionTrigger>프로 플랜</AccordionTrigger>
+          <AccordionContent>팀 협업과 고급 분석이 포함됩니다.</AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </>
+  );
+}
+```
+* `type="multiple"`이면 `value`/`onValueChange`가 **문자열 배열**(`string[]`)을 다룹니다.
+* `value`를 넘기면 **제어 모드**가 되므로, 반드시 `onValueChange`로 상태를 갱신해야 여닫힘이 동작합니다.
+
+
+
+
+
+### 5. 항목 비활성화 — `disabled`
+
+특정 항목만(또는 전체를) 열 수 없게 막습니다.
+
+```tsx
+<Accordion type="single" collapsible>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>계정 내역 조회</AccordionTrigger>
+    <AccordionContent>지난 12개월의 활동 내역을 확인할 수 있습니다.</AccordionContent>
+  </AccordionItem>
+
+  {/* 이 항목만 비활성화 */}
+  <AccordionItem value="item-2" disabled>
+    <AccordionTrigger>프리미엄 기능 (비활성화)</AccordionTrigger>
+    <AccordionContent>프리미엄 플랜에서만 이용 가능합니다.</AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+* 개별 항목: `AccordionItem`에 `disabled`.
+* 전체: 루트 `Accordion`에 `disabled`.
+
+---
+
+
+
+
+
+
+
+
+
+
+## API 레퍼런스
+---
+
+Accordion·Item·Content는 **Radix Accordion** 기반이라, 아래 표에 없는 Radix 표준 prop도 그대로 전달됩니다. 자주 쓰는 것만 정리합니다.
+
+### `Accordion` (루트)
+
+| Prop | 타입 | 기본값 | 설명 |
+| --- | --- | --- | --- |
+| `type` | `"single" \| "multiple"` | — *(필수)* | 동시에 열 수 있는 항목 수 |
+| `collapsible` | `boolean` | `false` | `single`에서 열린 항목을 다시 닫기 허용 |
+| `defaultValue` | `string \| string[]` | — | 초기 열림 항목(비제어). `single`=string, `multiple`=string[] |
+| `value` | `string \| string[]` | — | 현재 열림 항목(제어). `onValueChange`와 함께 사용 |
+| `onValueChange` | `(value) => void` | — | 열림 항목 변경 콜백. 인자 타입은 `type`을 따름 |
+| `disabled` | `boolean` | `false` | 전체 항목 비활성화 |
+| `orientation` | `"vertical" \| "horizontal"` | `"vertical"` | 방향(키보드 탐색에 영향) |
+| `dir` | `"ltr" \| "rtl"` | `"ltr"` | 텍스트 방향 |
+| `className` | `string` | — | 루트에 추가할 클래스 |
+
+### `AccordionItem`
+
+| Prop | 타입 | 기본값 | 설명 |
+| --- | --- | --- | --- |
+| `value` | `string` | — *(필수)* | 항목을 식별하는 고유 키 |
+| `disabled` | `boolean` | `false` | 이 항목만 비활성화 |
+| `className` | `string` | — | 항목에 추가할 클래스 |
+
+### `AccordionTrigger`
+
+| Prop | 타입 | 기본값 | 설명 |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | — | 헤더에 표시할 제목 |
+| `icon` | `ReactNode` | 기본 Chevron | 닫힘 상태 아이콘. **단독 지정 시** 열릴 때 회전 |
+| `expandedIcon` | `ReactNode` | — | 열림 상태 전용 아이콘. 지정 시 `icon`과 서로 교체 렌더(예: ＋↔－) |
+| `className` | `string` | — | 트리거 버튼에 추가할 클래스 |
+
+> `icon` / `expandedIcon`의 실전 활용은 [8. 아이콘 적용 레시피](#8-아이콘-적용-레시피-기본--애니메이션)에서 단계별로 다룹니다.
+
+### `AccordionContent`
+
+| Prop | 타입 | 기본값 | 설명 |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | — | 펼쳐질 내용 |
+| `className` | `string` | — | 내부 콘텐츠 영역에 추가할 클래스 |
+| `forceMount` | `boolean` | — | 닫힘 상태에서도 DOM 유지(SEO·전환 제어용) |
+
+---
+
+
+
+
+
+
+
+
+
+## 접근성 / 키보드
+---
+
+Radix 기반이라 **키보드 조작과 ARIA 속성이 기본 내장**되어 있습니다. 별도 설정 없이 아래가 동작합니다.
+
+| 키 | 동작 |
+| --- | --- |
+| `Enter` / `Space` | 포커스된 항목 열기/닫기 |
+| `Tab` | 다음 초점 가능 요소로 이동 |
+| `↓` (Arrow Down) | 다음 트리거로 포커스 이동 |
+| `↑` (Arrow Up) | 이전 트리거로 포커스 이동 |
+| `Home` | 첫 트리거로 이동 |
+| `End` | 마지막 트리거로 이동 |
+
+* 트리거는 `<button>`으로 렌더되며 `aria-expanded`, `aria-controls`가 자동 연결됩니다.
+* 열림 상태는 트리거에 `aria-expanded="true"`로 표시되므로, 스타일도 이 상태를 기준으로 잡습니다(아래 참고).
+* 포커스 링은 디자인 토큰 `--ring`을 따릅니다.
+
+---
+
+
+
+
+
+
+
+
+
+## 스타일링 & 테마
+---
+
+Accordion은 여러 방법으로 모양을 바꿀 수 있습니다. **바꾸려는 대상에 따라 적합한 방법이 다릅니다.** 아래 순서(쉬운 것 → 세밀한 것)로 접근하세요.
+
+| 바꾸려는 것 | 방법 |
+| --- | --- |
+| 펼침/닫힘 아이콘 | `icon` / `expandedIcon` **prop** |
+| 아이콘 회전·크기, 펼침 속도 | **공개 CSS 변수**(테마 계약) |
+| 색상(아이콘·구분선·텍스트) | **디자인 토큰**(`--muted-foreground`, `--border` 등) |
+| 이 인스턴스만 패딩·폰트 등 | 각 파트의 **`className`** |
+| 세밀한 겉모습 전체 교체 | **`data-slot` 선택자 + CSS Module** |
+
+:::tip 핵심 원칙
+* **자주 바꾸는 노브는 prop·CSS 변수**로, **색은 토큰**으로, **예외는 className/CSS Module**로.
+* 회전 각도·속도처럼 **열림 상태에 묶인 값**은 `className`으로 닿기 어렵기 때문에 **공개 CSS 변수**로 노출되어 있습니다.
+:::
+
+
+### 1. 아이콘 교체 — `icon` / `expandedIcon`
+
+`AccordionTrigger`에 아이콘을 넘겨 기본 셰브론을 교체합니다. 아무것도 넘기지 않으면 기본 Chevron이 사용됩니다(하위호환).
+
+```tsx
+// 단일 아이콘 — 열릴 때 자동으로 회전 (대부분의 "셰브론 교체" 요구)
+<AccordionTrigger icon={<ChevronDown />}>제목</AccordionTrigger>
+
+// 두 아이콘 — 열림/닫힘에 서로 다른 모양으로 교체 (예: ＋ ↔ －)
+<AccordionTrigger icon={<Plus />} expandedIcon={<Minus />}>제목</AccordionTrigger>
+```
+
+* **방향만 바뀌는 아이콘**(회전으로 표현) → `icon` **1개**면 충분합니다.
+* **완전히 다른 모양**(＋↔－ 등) → `icon` + `expandedIcon` **2개**를 넘깁니다.
+
+
+### 2. 테마 계약 — 공개 CSS 변수
+
+아이콘 회전/크기, 펼침 속도는 **공개 CSS 변수**로 노출되어 있습니다. 컴포넌트 내부 구조를 몰라도 **변수만 세팅**하면 됩니다. 아코디언을 감싼 임의의 상위 요소(또는 페이지 스코프)에 선언하면 하위로 상속됩니다.
+
+```css
+.myAccordion {
+  --accordion-icon-rotate: 45deg;      /* 열림 시 아이콘 회전 각도  (기본 180deg) */
+  --accordion-icon-duration: 250ms;    /* 아이콘 회전 속도          (기본 200ms) */
+  --accordion-icon-size: 1.25rem;      /* 트리거 아이콘 크기        (기본 1rem)  */
+  --accordion-content-duration: 250ms; /* 펼침/접힘 애니메이션 속도 (기본 0.2s)  */
+}
+```
+
+| CSS 변수 | 역할 | 기본값 |
+| --- | --- | --- |
+| `--accordion-icon-rotate` | 열림 시 아이콘 회전 각도 | `180deg` |
+| `--accordion-icon-duration` | 아이콘 회전 전환 속도 | `200ms` |
+| `--accordion-icon-size` | 트리거 아이콘 크기 | `1rem` |
+| `--accordion-content-duration` | 펼침/접힘 애니메이션 속도 | `0.2s` |
+
+:::info 예시 — ＋ 아이콘을 45° 돌려 ×로 바꾸기
+`icon={<Plus />}`(단일 아이콘)로 두고 `--accordion-icon-rotate: 45deg`만 주면, 열릴 때 `＋`가 부드럽게 `×`로 회전합니다. 회전 '동작'은 컴포넌트가 `aria-expanded`로 제공하고, **각도·속도는 이 변수로** 조정하는 구조입니다.
+:::
+
+
+### 3. 색상은 디자인 토큰으로
+
+아이콘·구분선·텍스트 색은 accordion 전용 변수가 아니라 **전역 디자인 토큰**을 따릅니다. 색을 바꾸려면 테마 토큰(`--muted-foreground`, `--border`, `--ring` 등)을 조정하세요. (accordion 전용 색 변수를 새로 만들면 토큰 체계가 분열됩니다.)
+
+
+### 4. 세밀한 겉모습 교체 — `data-slot` + CSS Module
+
+기본 톤과 전혀 다른 디자인을 입히려면, 컴포넌트가 노출하는 **`data-slot`** 을 CSS Module에서 선택자로 오버라이드합니다.
+
+| data-slot | 대상 |
+| --- | --- |
+| `[data-slot="accordion"]` | 루트 |
+| `[data-slot="accordion-item"]` | 각 항목 |
+| `[data-slot="accordion-trigger"]` | 헤더 버튼 (열림 시 `aria-expanded="true"`) |
+| `[data-slot="accordion-trigger-icon"]` | 아이콘 |
+| `[data-slot="accordion-content"]` | 펼침 콘텐츠 |
+
+```css
+/* 래퍼(.wrap) 아래에서 슬롯을 재정의. 래퍼+슬롯 2~3단계로 감싸 Tailwind 유틸리티보다 명시도를 높인다. */
+.wrap :global([data-slot='accordion']) :global([data-slot='accordion-item']) {
+  border-bottom: 1px solid var(--border);
+}
+.wrap :global([data-slot='accordion']) :global([data-slot='accordion-trigger']):hover {
+  text-decoration: none;
+}
+```
+
+:::tip 명시도 주의
+기본 스타일은 Tailwind 유틸리티(낮은 명시도)입니다. `.wrap [data-slot=...] [data-slot=...]`처럼 **래퍼+슬롯을 여러 단계로 감싸** 명시도를 확보해야 안정적으로 덮어씁니다. CSS Module 배치 규칙은 [컴포넌트 전용 스타일(css) 만들기](../../documents/dev/create-module-css) 문서를 참고하세요.
+:::
+
+
+### 5. 그 외 — `className` / `asChild`
+
+* **인스턴스 단위 조정**: 각 파트가 `className`을 받습니다. 예: `<AccordionTrigger className="py-4 text-base">`.
+* **렌더 요소 교체·구조 합성**: 상위 컴포넌트 패턴은 Radix 기반이므로, 필요 시 `asChild` 합성을 활용할 수 있습니다.
+
+---
+
+
+
+
+
+
+
+
+
+
+
+## 아이콘 적용 레시피 (기본 → 애니메이션)
+---
+
+트리거 아이콘 하나만 놓고도 여러 단계로 표현할 수 있습니다. **원하는 결과에 맞춰 아래 레시피 중 하나를 고르세요.** 위에서 아래로 갈수록 정교해집니다.
+
+| # | 레시피 | 핵심 도구 | 애니메이션 |
+| --- | --- | --- | --- |
+| 1 | 아이콘만 교체 | `icon` prop | 열림 시 회전(기본) |
+| 2 | 아이콘 색·크기 | `currentColor` + `--accordion-icon-size` | – |
+| 3 | 아이콘 회전 애니메이션 | `--accordion-icon-rotate` | ✅ 회전 |
+| 4 | 두 아이콘 교체 (＋↔－ 등) | `icon` + `expandedIcon` | ✱ 즉시 교체 |
+| 5 | 스트로크 모프 (＋가 －로 변형) | CSS 선 아이콘 + `aria-expanded` | ✅ 모핑 |
+
+:::info 공통 전제
+아래 예시의 `<AccordionTrigger>`는 모두 `react-app-scaffold`의 Accordion을 그대로 사용합니다. 아이콘의 **색은 `currentColor`** 로 흐르고, **크기는 `--accordion-icon-size`(기본 1rem)** 를 따릅니다.
+:::
+
+
+### 레시피 1 — 아이콘만 교체
+
+가장 단순한 형태. `AccordionTrigger`에 원하는 아이콘을 넘깁니다.
+
+```tsx
+import { ChevronDown } from 'lucide-react';
+
+<AccordionTrigger icon={<ChevronDown />}>제목</AccordionTrigger>
+```
+
+* 단일 아이콘 모드는 **열릴 때 기본 180° 회전**합니다(셰브론이 위/아래로 뒤집힘).
+* 회전 없이 **완전히 정적인 아이콘**을 원하면 회전 각도를 0으로 끕니다 → `--accordion-icon-rotate: 0deg;`
+
+
+### 레시피 2 — 아이콘 색·크기 바꾸기
+
+아이콘은 `currentColor`를 쓰므로, **아이콘 슬롯의 `color`** 만 바꾸면 됩니다. 크기는 공개 변수로 조정합니다.
+
+```css
+/* 크기: 공개 변수 (감싼 상위 요소나 페이지 스코프에 선언) */
+.myAccordion { --accordion-icon-size: 1.25rem; }
+
+/* 색: 닫힘=muted, 열림=primary */
+.myAccordion :global([data-slot='accordion-trigger-icon']) {
+  color: var(--muted-foreground);
+}
+.myAccordion
+  :global([data-slot='accordion-trigger'][aria-expanded='true'])
+  :global([data-slot='accordion-trigger-icon']) {
+  color: var(--primary);
+}
+```
+
+* 색은 accordion 전용 변수를 만들지 않고 **디자인 토큰**(`--muted-foreground`, `--primary`)을 그대로 씁니다.
+
+
+### 레시피 3 — 아이콘 회전 애니메이션
+
+회전 '동작'은 컴포넌트가 `aria-expanded`로 제공합니다. 각도·속도만 **공개 변수**로 지정하면 됩니다.
+
+```tsx
+import { Plus } from 'lucide-react';
+
+<AccordionTrigger icon={<Plus />}>제목</AccordionTrigger>
+```
+```css
+/* ＋ 를 열림 시 45° 돌려 × 로 전환 */
+.myAccordion {
+  --accordion-icon-rotate: 45deg;   /* 기본 180deg */
+  --accordion-icon-duration: 250ms; /* 회전 속도 */
+}
+```
+
+* 셰브론이면 `180deg`(위/아래 반전), ＋면 `45deg`(× 로 전환)가 자연스럽습니다.
+
+
+### 레시피 4 — 두 아이콘 교체 (＋ ↔ －)
+
+열림/닫힘에 **완전히 다른 모양**을 쓰려면 아이콘 2개를 넘깁니다.
+
+```tsx
+import { Plus, Minus } from 'lucide-react';
+
+<AccordionTrigger icon={<Plus />} expandedIcon={<Minus />}>제목</AccordionTrigger>
+```
+
+* 닫힘 → `icon`(＋), 열림 → `expandedIcon`(－)로 **즉시 교체**됩니다(전환 애니메이션 없음).
+* 교체 과정을 **애니메이션**으로 보이고 싶으면 → 레시피 5.
+
+
+### 레시피 5 — 스트로크 모프 (＋가 －로 부드럽게 변형)
+
+서로 다른 SVG 아이콘을 CSS만으로 "모핑"할 수는 없습니다. 대신 **＋/－를 두 개의 선(가로·세로 바)으로 직접 그려서**, 세로 바만 눕히면 진짜 `＋`가 `－`로 변형됩니다.
+
+```tsx
+// lucide 아이콘 대신 CSS 로 그린 스팬을 넘긴다
+<AccordionTrigger icon={<span className={styles.plusMinus} aria-hidden />}>제목</AccordionTrigger>
+```
+```css
+/* 겉 아이콘 회전은 끄고(모프는 세로 바가 담당) */
+.myAccordion { --accordion-icon-rotate: 0deg; }
+
+/* ＋/－ 를 선 두 개로 그림 */
+.plusMinus { position: relative; display: inline-block;
+  width: var(--accordion-icon-size, 1rem); height: var(--accordion-icon-size, 1rem); }
+.plusMinus::before,
+.plusMinus::after {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  width: 100%; height: 2px; border-radius: 2px; background: currentColor;
+  transform: translate(-50%, -50%);
+}
+/* 세로 바: 닫힘 상태에서 90° 로 세워 ＋ 완성 */
+.plusMinus::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+  transition: transform var(--accordion-icon-duration, 200ms) ease;
+}
+/* 열림: 세로 바를 0° 로 눕혀 가로 바와 겹침 → － */
+.myAccordion
+  :global([data-slot='accordion-trigger'][aria-expanded='true'])
+  .plusMinus::after {
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+```
+
+* 세로 바가 `90° → 0°` 로 접히며 `＋` 가 `－` 로 **부드럽게 변형**됩니다.
+* 색은 `currentColor` 라 레시피 2의 색 규칙을 그대로 따르고, 속도는 `--accordion-icon-duration` 을 씁니다.
+
+:::tip 어떤 레시피를 고를까
+* 방향 표시(펼침/접힘) → **레시피 1·3**(셰브론 회전)
+* +/- 토글 느낌, 애니메이션 불필요 → **레시피 4**
+* +/- 토글을 매끄러운 애니메이션으로 → **레시피 5**
+* CSS Module 배치·명시도 규칙은 [컴포넌트 전용 스타일(css) 만들기](../../documents/dev/create-module-css) 참고.
+:::
+
+---
+
+
+
+
+
+
+
+
+
+
+
+## 실전 예제
+---
+
+제공 Accordion을 그대로 쓰되 `*.module.css`로 완전히 다른 톤을 입혀, 실무에서 바로 쓸 만한 형태로 구성한 예제입니다. 전체 소스는 scaffold의 예제 컴포넌트에서 확인하세요.
+
+### 1. 거래내역 상세 (마스터-디테일)
+
+리스트에서 한 건을 펼치면 수취인·수수료·잔액·승인번호 등 상세가 나오는 패턴입니다.
+
+---
+![거래내역 상세](../assets/ui/accordion-real-transaction.png)
+
+
+
+### 2. 약관 동의 화면
+
+회원 가입 시 자주 쓰는 약관 동의 플로우입니다. 전체 동의 / 개별 체크 / 필수 미동의 시 버튼 비활성화까지 동작합니다.
+
+---
+![약관 동의](../assets/ui/accordion-real-terms.png)
+
 ---
