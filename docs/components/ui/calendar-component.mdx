@@ -5,51 +5,645 @@ title: "Calendar"
 hide_table_of_contents: false
 ---
 
-import AutoHeightStorybookIframe from '../../../src/components/AutoHeightStorybookIframe';
-import { DOC_CONFIG } from '../../../src/config/doc-config';
+# Calendar 컴포넌트
 
+`react-app-scaffold`가 `@axiom/components/ui`로 제공하는 달력 컴포넌트입니다.
+**하루 또는 기간을 선택**할 때 사용하며, 내부 구현은 [React DayPicker](https://daypicker.dev) v9를 shadcn/ui 스타일로 감싼 것입니다.
 
-# Calendar
+**언제 쓰나요?**
 
-`react-app-scaffold`에서 제공하는 캘린더 컴포넌트입니다.  
-**하루 또는 기간을 선택**할 때 쓰입니다. 예약·일정·필터 날짜 등 사용자가 날짜를 고르는 흐름에서 자주 사용합니다.  
-구현은 [shadcn/ui Calendar](https://ui.shadcn.com/docs/components/base/calendar)와 같이 **React DayPicker**를 기반으로 합니다.
+* 예약일·희망일처럼 **날짜 하나를 고르는** 입력
+* 조회 기간·숙박 기간처럼 **시작일과 종료일을 함께 고르는** 입력
+* 목록/리포트의 **기간 필터**(프리셋 버튼 + 달력 조합)
+* 인풋 옆 버튼을 눌러 여는 **Date Picker 팝업**
 
----
-
-## shadcn/ui 참고
-
-상세 설치·예제·API는 공식 문서를 참고하세요.
-
-* [Calendar — shadcn/ui](https://ui.shadcn.com/docs/components/base/calendar)
-
-**문서에서 다루는 내용 예시**
-
-* `mode`: `"single"`(하루) / `"range"`(기간) 등 선택 방식
-* `selected`, `onSelect`: 선택 상태와 변경 핸들러
-* `captionLayout="dropdown"`: 월·연도 드롭다운 네비게이션
-* `timeZone`: 선택한 날짜가 하루 밀리는 현상이 있을 때, 사용자 로컬 타임존을 넘겨 보정 ([문서의 Note](https://ui.shadcn.com/docs/components/base/calendar) 참고)
-* Date Picker와 조합하는 패턴, 셀 크기(`--cell-size`), 주차 번호(`showWeekNumber`) 등
-
-자세한 prop·동작은 [React DayPicker 문서](https://react-day-picker.js.org/)를 함께 보면 됩니다.
+> 달력을 항상 펼쳐 두려면 `Calendar`를 그대로 배치하고, 인풋 옆에서 팝업으로 열려면 [Date Picker 패턴](#2-date-picker-버튼--달력-팝업)처럼 감싸 쓰면 됩니다.
 
 ---
 
 
-{/* ## Calendar API
+## Import
 ---
-아래 링크를 통해 **Calendar** 컴포넌트의 API 문서를 확인할 수 있습니다.
 
-* [Calendar 컴포넌트 API 문서](./api/calendar-api.md) */}
+```tsx
+import { Calendar } from '@axiom/components/ui';
 
+// 범위 선택 시 값 타입은 react-day-picker에서 가져옵니다
+import type { DateRange } from 'react-day-picker';
+```
 
+`Calendar`는 **단일 컴포넌트**입니다. Accordion처럼 파트를 조합할 필요 없이 prop만으로 동작을 정합니다.
+날짜 셀 버튼을 직접 커스터마이징할 때 쓰는 `CalendarDayButton`도 함께 export되어 있습니다. ([셀 내용 커스터마이징](#4-셀-내용-커스터마이징--components) 참고)
 
-
-## Calendar 인터랙티브 예제
 ---
-<AutoHeightStorybookIframe
-  src={`${DOC_CONFIG.STORYBOOK_URL}?path=/docs/components-calendar--docs&nav=0&hideDocsToc=1`}
-  title="Calendar 인터랙티브 예제"
-  minHeight={600}
+
+
+## 기본 사용법
+---
+
+`mode="single"` + `selected` / `onSelect` 세 개면 동작합니다. **선택 값은 화면이 state로 들고 있어야 합니다.**(제어 컴포넌트)
+
+---
+<img src={require('../assets/ui/calendar-basic.png').default} alt="캘린더 기본 사용법" width="80%" />
+
+```tsx
+import { useState } from 'react';
+import { Calendar } from '@axiom/components/ui';
+
+function Example() {
+  const [date, setDate] = useState<Date | undefined>(new Date());
+
+  return (
+    <Calendar
+      mode="single"
+      selected={date}
+      onSelect={setDate}
+      className="rounded-lg border"
+    />
+  );
+}
+```
+
+:::tip 왜 `Date | undefined` 인가
+`mode="single"`에서 이미 선택된 날짜를 다시 클릭하면 **선택이 해제**되어 `onSelect`가 `undefined`를 넘깁니다. 그래서 state 타입은 항상 `Date | undefined`로 잡습니다. 해제를 막으려면 `required`를 켜세요.
+:::
+
+:::note 테두리는 기본 제공이 아닙니다
+컴포넌트 자체에는 배경(`bg-background`)과 안쪽 여백(`p-2`)만 있고 **외곽선은 없습니다.** 카드처럼 보이게 하려면 예제처럼 `className="rounded-lg border"`를 직접 주세요.
+:::
+
+---
+
+
+## 구성 (Anatomy)
+---
+
+`Calendar`는 DayPicker가 만든 DOM에 scaffold의 클래스가 입혀진 구조입니다. 스타일을 덮어쓸 때 **어느 부분이 어떤 이름인지** 알면 편합니다.
+
+```text
+[data-slot="calendar"]        루트 (--cell-size / --cell-radius 스코프)
+└─ months                     달력 묶음 (numberOfMonths가 2 이상이면 가로 배치)
+   └─ month
+      ├─ nav                  ◀ ▶ 이전/다음 달 버튼 (button_previous / button_next)
+      ├─ month_caption        "2026년 7월" 캡션 영역
+      │  └─ caption_label     텍스트 캡션        (captionLayout="label")
+      │  └─ dropdowns         월·연도 드롭다운   (captionLayout="dropdown")
+      └─ table
+         ├─ weekdays          요일 헤더 (일 월 화 …)
+         └─ week              한 주 행
+            ├─ week_number    주차 번호 (showWeekNumber일 때만)
+            └─ day            날짜 셀
+               └─ DayButton   실제 클릭되는 버튼 (CalendarDayButton)
+```
+
+| 영역 | 역할 |
+| --- | --- |
+| 루트 | `--cell-size`·`--cell-radius` 변수와 배경/여백을 정의. `data-slot="calendar"` |
+| `nav` | 이전/다음 달 버튼. 모양은 `buttonVariant` prop을 따름(기본 `ghost`) |
+| `month_caption` | 현재 월 표기. `captionLayout`에 따라 텍스트 또는 드롭다운 |
+| `day` | 날짜 한 칸(`<td>`). 범위 선택 시 `range_start` / `range_middle` / `range_end`가 붙음 |
+| `DayButton` | 실제 버튼. 선택·범위 상태를 `data-*` 속성으로 노출 |
+
+:::note Card·Popover 안에서는 배경이 자동으로 투명해집니다
+루트에 `in-data-[slot=card-content]:bg-transparent`, `in-data-[slot=popover-content]:bg-transparent`가 걸려 있어, scaffold `Card`나 `Popover` 내부에 넣으면 달력 배경이 부모를 따라갑니다. 별도 처리 불필요.
+:::
+
+---
+
+
+## 동작 옵션
+---
+
+동작은 전부 `Calendar`의 prop으로 정해집니다. 목적에 맞는 것을 고르세요.
+
+
+### 1. 선택 방식 — `mode`
+
+```tsx
+// 하루만 (기본)
+<Calendar mode="single" selected={date} onSelect={setDate} />
+
+// 여러 날 (배열)
+<Calendar mode="multiple" selected={dates} onSelect={setDates} />
+
+// 기간 (시작일 ~ 종료일)
+<Calendar mode="range" selected={range} onSelect={setRange} />
+```
+
+| mode | `selected` 타입 | 쓰임 |
+| --- | --- | --- |
+| `"single"` | `Date \| undefined` | 예약일·생년월일 등 하루 |
+| `"multiple"` | `Date[] \| undefined` | 근무일 지정처럼 흩어진 여러 날 |
+| `"range"` | `DateRange \| undefined` | 조회 기간·숙박 기간 |
+
+`mode`를 아예 주지 않으면 **선택 불가한 표시 전용 달력**이 됩니다.
+
+
+### 2. 기간 선택 — `mode="range"`
+
+`DateRange`는 `{ from, to }` 형태이며, **시작일만 고른 중간 상태**에서는 `to`가 `undefined`입니다. 화면에 값을 표시할 때 반드시 이 상태를 고려하세요.
+
+---
+<img src={require('../assets/ui/calendar-range.png').default} alt="캘린더 범위 선택" width="80%" />
+
+```tsx
+import type { DateRange } from 'react-day-picker';
+
+const [range, setRange] = useState<DateRange | undefined>({
+  from: new Date(),
+  to: undefined,
+});
+
+<Calendar
+  mode="range"
+  selected={range}
+  onSelect={setRange}
+  numberOfMonths={2}
+  className="rounded-lg border"
 />
+
+// 표시할 때
+<span>{range?.from?.toLocaleDateString('ko-KR') ?? '—'}</span>
+<span>{range?.to?.toLocaleDateString('ko-KR') ?? '—'}</span>
+```
+
+* 기간 길이를 제한하려면 `min` / `max`(일수)를 함께 씁니다. 예: `<Calendar mode="range" min={2} max={14} />`
+* 범위의 양 끝(`range_start`·`range_end`)은 primary 색, 사이(`range_middle`)는 muted 색으로 이미 스타일링되어 있습니다.
+
+
+### 3. 월·연도 빠른 이동 — `captionLayout`
+
+기본값 `"label"`은 `◀ 2026년 7월 ▶` 텍스트라 먼 달로 가려면 화살표를 여러 번 눌러야 합니다. 생년월일처럼 **멀리 떨어진 날짜**를 고르는 화면이라면 드롭다운을 켜세요.
+
+---
+<img src={require('../assets/ui/calendar-dropdown.png').default} alt="캘린더 빠른 이동 드롭다운선택" width="80%" />
+
+```tsx
+<Calendar
+  mode="single"
+  selected={date}
+  onSelect={setDate}
+  // highlight-next-line
+  captionLayout="dropdown"
+  className="rounded-lg border"
+/>
+```
+
+* `"dropdown"` — 월·연도 둘 다 드롭다운
+* `"dropdown-months"` / `"dropdown-years"` — 한쪽만 드롭다운
+* 연도 범위는 `startMonth` / `endMonth`로 제한합니다. 예: `startMonth={new Date(1940, 0)} endMonth={new Date()}`
+
+:::note 드롭다운의 월 이름은 짧은 형식입니다
+scaffold Calendar는 `formatMonthDropdown`을 `{ month: 'short' }`로 오버라이드해 두었습니다(공간 절약). 전체 이름으로 바꾸려면 `formatters={{ formatMonthDropdown: (d) => d.toLocaleString('ko-KR', { month: 'long' }) }}`를 넘기세요.
+:::
+
+
+### 4. 여러 달 한 번에 — `numberOfMonths`
+
+```tsx
+<Calendar mode="single" selected={date} onSelect={setDate} numberOfMonths={2} />
+```
+
+* 기본은 세로(`flex-col`)이며 `md` 이상에서 **가로로 나란히** 배치됩니다.
+* 기간 선택과 함께 쓰면 시작·종료를 한 화면에서 고를 수 있어 궁합이 좋습니다.
+
+
+### 5. 외부 날짜 / 주차 번호 — `showOutsideDays`, `showWeekNumber`
+
+```tsx
+// 이전·다음 달 날짜 숨기기 (기본값은 true = 표시)
+<Calendar mode="single" showOutsideDays={false} />
+
+// ISO 주차 번호 열 추가
+<Calendar mode="single" showWeekNumber />
+```
+
+* `showOutsideDays`는 **scaffold에서 기본값을 `true`로 지정**해 둡니다. 격자를 깔끔하게 유지하려면 `false`.
+* `showWeekNumber`를 켜면 좌측에 주차 열이 생기며, 첫 칸 라운딩 처리도 자동으로 보정됩니다.
+
+
+### 6. 선택 불가 날짜 — `disabled`
+
+값 하나, 배열, 범위, **판별 함수** 어느 쪽이든 받습니다.
+
+---
+<img src={require('../assets/ui/calendar-disabled.png').default} alt="캘린더 disabled" width="80%" />
+
+```tsx
+// 주말 비활성화
+const isWeekend = (date: Date) => date.getDay() === 0 || date.getDay() === 6;
+
+<Calendar mode="single" selected={date} onSelect={setDate} disabled={isWeekend} />
+
+// 오늘 이전 전부 비활성화 (미래 날짜만 예약 가능)
+<Calendar mode="single" disabled={{ before: new Date() }} />
+
+// 특정 구간 비활성화 (휴무 기간)
+<Calendar mode="single" disabled={{ from: new Date(2026, 7, 1), to: new Date(2026, 7, 5) }} />
+
+// 여러 조건 동시 적용
+<Calendar mode="single" disabled={[isWeekend, { before: new Date() }]} />
+```
+
+비활성 날짜는 `text-muted-foreground opacity-50`로 표시되고 클릭도 막힙니다.
+
+
+### 7. 표시 월 제어 — `defaultMonth` / `month` + `onMonthChange`
+
+`selected`가 "무엇이 선택됐나"라면, `month`는 "지금 몇 월을 보고 있나"입니다. **둘은 별개**입니다.
+
+```tsx
+// 처음 열릴 때 보여줄 달만 지정 (비제어)
+<Calendar mode="single" defaultMonth={new Date(2026, 0)} />
+
+// 보이는 달을 바깥에서 제어 ("오늘로 이동" 버튼 등)
+const [month, setMonth] = useState<Date>(new Date());
+
+<button onClick={() => setMonth(new Date())}>오늘로 이동</button>
+<Calendar mode="single" month={month} onMonthChange={setMonth} />
+```
+
+:::tip 선택된 값이 있는데 엉뚱한 달이 열릴 때
+`selected`만 넘기면 DayPicker는 **현재 달**부터 보여줍니다. 저장된 값이 작년이라면 `defaultMonth={savedDate}`를 함께 넘기세요.
+:::
+
+
+### 8. 로케일 / 타임존 — `locale`, `timeZone`
+
+```tsx
+import { ko } from 'date-fns/locale';
+
+<Calendar mode="single" selected={date} onSelect={setDate} locale={ko} />
+```
+
+* scaffold에는 `date-fns`가 이미 포함되어 있어 `date-fns/locale`의 로케일을 그대로 넘길 수 있습니다.
+* `locale`은 요일·월 이름은 물론 **주 시작 요일**(한국은 일요일)까지 결정합니다.
+
+:::caution 선택한 날짜가 하루씩 밀린다면
+서버가 UTC 기준으로 날짜를 다루는데 브라우저는 로컬 타임존이라 하루가 어긋나는 경우가 있습니다. `timeZone` prop에 기준 타임존을 넘겨 맞추세요.
+
+```tsx
+<Calendar mode="single" timeZone="Asia/Seoul" selected={date} onSelect={setDate} />
+```
+:::
+
+---
+
+
+## API 레퍼런스
+---
+
+`Calendar`는 **React DayPicker의 모든 prop을 그대로 통과**시킵니다(`...props`). 아래는 자주 쓰는 것과 scaffold가 추가/변경한 것만 정리한 표입니다. 전체 목록은 [DayPicker API](https://daypicker.dev/api/interfaces/DayPickerProps)를 참고하세요.
+
+### 선택 · 동작
+
+| Prop | 타입 | 기본값 | 설명 |
+| --- | --- | --- | --- |
+| `mode` | `"single" \| "multiple" \| "range"` | — | 선택 방식. 생략하면 표시 전용 |
+| `selected` | `Date \| Date[] \| DateRange` | — | 선택된 값. `mode`에 따라 타입이 달라짐 |
+| `onSelect` | `(value) => void` | — | 선택 변경 콜백. 재클릭 해제 시 `undefined` |
+| `required` | `boolean` | `false` | 선택 해제 금지(항상 하나 이상 선택 유지) |
+| `min` / `max` | `number` | — | `multiple`=개수, `range`=기간 일수 제한 |
+| `disabled` | `Matcher \| Matcher[]` | — | 선택 불가 날짜. 날짜·배열·`{before,after,from,to}`·함수 |
+| `hidden` | `Matcher \| Matcher[]` | — | 아예 숨길 날짜 |
+| `month` | `Date` | — | 표시 중인 달(제어). `onMonthChange`와 함께 사용 |
+| `defaultMonth` | `Date` | 오늘 | 처음 표시할 달(비제어) |
+| `onMonthChange` | `(month: Date) => void` | — | 달 이동 콜백 |
+| `startMonth` / `endMonth` | `Date` | — | 이동 가능한 달의 범위(드롭다운 연도 범위에도 반영) |
+
+### 표시
+
+| Prop | 타입 | 기본값 | 설명 |
+| --- | --- | --- | --- |
+| `captionLayout` | `"label" \| "dropdown" \| "dropdown-months" \| "dropdown-years"` | `"label"` | 월·연도 표기 방식 |
+| `numberOfMonths` | `number` | `1` | 동시에 표시할 달 수 |
+| `showOutsideDays` | `boolean` | `true` *(scaffold 지정)* | 이전·다음 달 날짜 표시 |
+| `showWeekNumber` | `boolean` | `false` | ISO 주차 번호 열 표시 |
+| `locale` | `Partial<Locale>` | — | date-fns 로케일. 요일/월 이름·주 시작 요일 |
+| `timeZone` | `string` | — | 기준 타임존(예: `"Asia/Seoul"`) |
+| `formatters` | `Formatters` | 월 드롭다운=`short` | 캡션·요일 등 라벨 포맷터 |
+| `modifiers` / `modifiersClassNames` | `object` | — | 사용자 정의 상태(예: 공휴일)와 그 클래스 |
+
+### scaffold 추가 · 스타일
+
+| Prop | 타입 | 기본값 | 설명 |
+| --- | --- | --- | --- |
+| `buttonVariant` | `Button`의 `variant` | `"ghost"` | 이전/다음 달 **네비게이션 버튼**의 모양 |
+| `className` | `string` | — | 루트에 추가할 클래스(테두리·셀 크기 변수 등) |
+| `classNames` | `Record<string, string>` | — | 영역별 클래스 **부분 오버라이드** |
+| `components` | `Record<string, Component>` | — | 내부 파트 교체(`DayButton`, `Chevron` 등) |
+
+### `CalendarDayButton`
+
+날짜 셀 버튼을 직접 렌더할 때 쓰는 export입니다. `components.DayButton`을 교체하면서도 기본 스타일·포커스 동작을 유지하고 싶을 때 감싸 씁니다.
+
+| Prop | 타입 | 설명 |
+| --- | --- | --- |
+| `day` | `CalendarDay` | 날짜 정보(`day.date`) |
+| `modifiers` | `Modifiers` | `selected`·`range_start`·`focused` 등 상태 플래그 |
+| `locale` | `Partial<Locale>` | `data-day` 속성의 날짜 포맷에 사용 |
+| `className` | `string` | 버튼에 추가할 클래스 |
+
+---
+
+
+## 접근성 / 키보드
+---
+
+DayPicker 기반이라 **ARIA 속성과 키보드 조작이 기본 내장**되어 있습니다.
+
+| 키 | 동작 |
+| --- | --- |
+| `←` / `→` | 하루 전 / 하루 뒤로 포커스 이동 |
+| `↑` / `↓` | 일주일 전 / 일주일 뒤로 이동 |
+| `Home` / `End` | 그 주의 첫날 / 마지막 날 |
+| `PageUp` / `PageDown` | 이전 달 / 다음 달 |
+| `Shift` + `PageUp` / `PageDown` | 이전 해 / 다음 해 |
+| `Enter` / `Space` | 포커스된 날짜 선택 |
+| `Tab` | 달력 밖 다음 초점 요소로 이동 |
+
+* 달력 전체는 `<table>` 시맨틱으로 렌더되며 요일 헤더가 열 제목이 됩니다.
+* 날짜 셀은 `<button>`이고 선택 상태가 `aria-selected`, 비활성이 `aria-disabled`로 노출됩니다.
+* 포커스 이동은 `CalendarDayButton`이 `modifiers.focused`를 감지해 실제 DOM 포커스까지 옮깁니다. 달을 넘겨도 포커스를 잃지 않습니다.
+* 포커스 링은 디자인 토큰 `--ring`을 따릅니다.
+
+:::tip 달력 자체에 이름 붙이기
+한 화면에 달력이 둘 이상이면(예: 시작일/종료일) 각각 `aria-label`을 주세요. → `<Calendar aria-label="시작일 선택" … />`
+:::
+
+---
+
+
+## 스타일링 & 테마
+---
+
+바꾸려는 대상에 따라 접근 방법이 다릅니다. **위쪽일수록 쉽고 안전합니다.**
+
+| 바꾸려는 것 | 방법 |
+| --- | --- |
+| 셀 크기 · 모서리 라운딩 | 루트 **CSS 변수** (`--cell-size`, `--cell-radius`) |
+| 이전/다음 버튼 모양 | `buttonVariant` **prop** |
+| 색상(선택·오늘·비활성) | **디자인 토큰** (`--primary`, `--muted`, `--ring` …) |
+| 특정 영역만 여백·정렬 | `classNames` **부분 오버라이드** |
+| 셀 안에 내용 추가(점·가격 등) | `components.DayButton` **교체** |
+| 겉모습 전면 교체 | **`data-slot` 선택자 + CSS Module** |
+
+
+### 1. 셀 크기 · 라운딩 — CSS 변수
+
+루트에 두 개의 변수가 선언되어 있고, 하위 모든 크기 계산이 이 값을 참조합니다.
+
+| CSS 변수 | 역할 | 기본값 |
+| --- | --- | --- |
+| `--cell-size` | 날짜 한 칸의 크기(네비 버튼 크기도 동일) | `--spacing(7)` ≒ `1.75rem` |
+| `--cell-radius` | 날짜 칸·드롭다운의 모서리 반경 | `var(--radius-md)` |
+
+```tsx
+// 터치 화면용으로 셀을 키우기
+<Calendar
+  mode="single"
+  className="rounded-lg border [--cell-size:2.5rem]"
+/>
+```
+```css
+/* 또는 감싼 요소에 선언 (하위로 상속) */
+.myCalendar {
+  --cell-size: 2.5rem;
+  --cell-radius: 9999px; /* 동그란 날짜 칸 */
+}
+```
+
+:::tip 폰트 크기는 따로 조정하세요
+`--cell-size`는 **칸의 크기**만 키웁니다. 숫자까지 커지길 원하면 `className`에 `text-base` 등을 함께 주세요.
+:::
+
+
+### 2. 네비게이션 버튼 — `buttonVariant`
+
+이전/다음 달 버튼은 scaffold `Button`의 variant를 그대로 씁니다. 기본은 `"ghost"`(배경 없음).
+
+```tsx
+// 달력이 흰 카드 위에 있어 화살표가 잘 안 보일 때
+<Calendar mode="single" buttonVariant="outline" />
+```
+
+
+### 3. 영역별 클래스 — `classNames`
+
+`classNames`에 넘긴 값은 **기본 클래스를 대체**합니다(병합이 아니라 그 영역의 최종 클래스가 됨). 키 이름은 [Anatomy](#구성-anatomy)의 영역 이름과 같습니다.
+
+```tsx
+<Calendar
+  mode="single"
+  classNames={{
+    // 요일 헤더를 굵게
+    weekday: 'flex-1 text-[0.8rem] font-semibold text-muted-foreground',
+    // 캡션을 왼쪽 정렬
+    month_caption: 'flex h-(--cell-size) w-full items-center justify-start px-(--cell-size)',
+  }}
+/>
+```
+
+:::caution 기본 클래스가 사라집니다
+`classNames.day`처럼 레이아웃을 담당하는 키를 통째로 덮으면 격자가 무너질 수 있습니다. **덮어쓸 영역의 기본 클래스를 scaffold의 `calendar.tsx`에서 먼저 확인하고 필요한 것을 유지**하거나(키 목록은 [ClassNames 타입](https://daypicker.dev/api/type-aliases/ClassNames) 참고), 단순 추가라면 `className` 또는 CSS Module 오버라이드를 쓰세요.
+:::
+
+
+### 4. 셀 내용 커스터마이징 — `components`
+
+날짜 아래에 점·가격·이벤트 표시를 넣으려면 `DayButton`을 교체합니다. `CalendarDayButton`을 감싸면 선택 상태 스타일과 포커스 처리를 그대로 유지할 수 있습니다.
+
+```tsx
+import { Calendar, CalendarDayButton } from '@axiom/components/ui';
+
+<Calendar
+  mode="single"
+  selected={date}
+  onSelect={setDate}
+  components={{
+    DayButton: (props) => (
+      <CalendarDayButton {...props}>
+        {props.day.date.getDate()}
+        {/* 자식 span은 자동으로 작고 옅게 표시됩니다 */}
+        {hasEvent(props.day.date) && <span>3건</span>}
+      </CalendarDayButton>
+    ),
+  }}
+/>
+```
+
+* 버튼에 `[&>span]:text-xs [&>span]:opacity-70`이 걸려 있어 **보조 텍스트를 `<span>`으로 넣으면** 톤이 자동으로 맞춰집니다.
+* `Chevron`도 같은 방식으로 교체할 수 있습니다(`orientation`으로 좌/우/아래 구분).
+
+
+### 5. 겉모습 전면 교체 — `data-slot` + CSS Module
+
+루트에는 `data-slot="calendar"`가, 날짜 버튼에는 상태별 `data-*` 속성이 붙습니다. CSS Module에서 이를 선택자로 잡아 오버라이드하세요.
+
+| 선택자 | 대상 |
+| --- | --- |
+| `[data-slot="calendar"]` | 루트 |
+| `[data-selected-single="true"]` | 단일 선택된 날짜 버튼 |
+| `[data-range-start="true"]` / `[data-range-end="true"]` | 범위의 시작 / 끝 |
+| `[data-range-middle="true"]` | 범위 사이 날짜 |
+| `[data-day="2026. 7. 22."]` | 특정 날짜(로케일 포맷 문자열) |
+
+```css
+/* 래퍼 + 슬롯을 2단계로 감싸 Tailwind 유틸리티보다 명시도를 확보한다 */
+.wrap :global([data-slot='calendar']) {
+  --cell-size: 2.25rem;
+}
+.wrap :global([data-slot='calendar']) :global([data-selected-single='true']) {
+  background: var(--brand);
+  color: #fff;
+}
+```
+
+:::tip 명시도 주의
+기본 스타일은 Tailwind 유틸리티(낮은 명시도)입니다. `.wrap [data-slot=...] [data-...]`처럼 **여러 단계로 감싸야** 안정적으로 덮어씁니다. CSS Module 배치 규칙은 [컴포넌트 전용 스타일(css) 만들기](../../documents/dev/create-module-css) 문서를 참고하세요.
+:::
+
+
+### 6. 색상은 디자인 토큰으로
+
+선택(`--primary`), 오늘·범위 사이(`--muted`), 비활성·요일 헤더(`--muted-foreground`), 포커스 링(`--ring`) 모두 **전역 디자인 토큰**을 따릅니다. 다크 모드도 토큰이 알아서 처리하므로, 브랜드 색을 바꾸려면 calendar 전용 변수를 새로 만들지 말고 토큰을 조정하세요.
+
+---
+
+
+## 실전 예제
+---
+
+scaffold 예제 페이지(`src/domains/example/pages/ui-components/CalendarComponent.tsx`)에 있는, 실무에서 자주 요구되는 두 가지 조합입니다.
+
+
+### 1. 프리셋 버튼 + 달력
+
+"오늘 / 내일 / 1주일 후"처럼 자주 쓰는 날짜를 버튼으로 먼저 제공하고, 그 외에는 달력에서 직접 고르게 하는 패턴입니다.
+
+---
+<img src={require('../assets/ui/calendar-presets.png').default} alt="캘린더 프리셋" width="80%" />
+
+**포인트**
+
+* 프리셋 버튼은 달력의 기능이 아니라 **바깥 state를 갱신하는 별도 UI**입니다. 달력은 `selected`만 받으면 됩니다.
+* 달력에서 직접 날짜를 고르면 프리셋 활성 표시를 해제해, 버튼과 달력의 상태가 어긋나지 않게 합니다.
+
+```tsx
+const PRESETS = [
+  { key: 'today', label: '오늘', days: 0 },
+  { key: 'tmr', label: '내일', days: 1 },
+  { key: '3days', label: '3일 후', days: 3 },
+  { key: '1week', label: '1주일 후', days: 7 },
+  { key: '2weeks', label: '2주일 후', days: 14 },
+];
+
+function PresetCalendar() {
+  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [activePreset, setActivePreset] = useState('today');
+
+  const handlePreset = (key: string, days: number): void => {
+    const d = new Date();
+    d.setDate(d.getDate() + days);
+    setActivePreset(key);
+    setDate(d);
+  };
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-wrap justify-center gap-2">
+        {PRESETS.map(({ key, label, days }) => (
+          <button key={key} type="button" onClick={() => handlePreset(key, days)}>
+            {label}
+          </button>
+        ))}
+      </div>
+
+      <Calendar
+        mode="single"
+        selected={date}
+        // highlight-start
+        onSelect={(d) => {
+          setDate(d);
+          setActivePreset(''); // 직접 고르면 프리셋 선택 해제
+        }}
+        // highlight-end
+        className="rounded-lg border"
+      />
+    </div>
+  );
+}
+```
+
+
+### 2. Date Picker (버튼 → 달력 팝업)
+
+인풋처럼 생긴 버튼을 누르면 달력이 뜨고, 날짜를 고르거나 바깥을 클릭하면 닫히는 패턴입니다.
+
+---
+<img src={require('../assets/ui/calendar-button-popover.png').default} alt="캘린더 버튼클릭 팝업" width="80%" />
+
+**포인트**
+
+* 열림 상태(`open`)와 값(`date`)은 **각각 다른 state**입니다. 날짜를 고르면 값 갱신 + 닫기를 함께 처리합니다.
+* 바깥 클릭 감지는 래퍼에 `ref`를 걸고 `mousedown`을 듣습니다. **정리(clean-up)를 잊지 마세요.**
+* 팝업 안의 달력은 `p-2`만 주면 됩니다 — 테두리·그림자는 팝업 컨테이너가 담당합니다.
+
+```tsx
+import { useEffect, useRef, useState } from 'react';
+import { Calendar } from '@axiom/components/ui';
+import { CalendarDays, ChevronDown } from 'lucide-react';
+
+function DatePicker() {
+  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  // 바깥 클릭 시 닫기
+  useEffect(() => {
+    const handler = (e: MouseEvent): void => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  return (
+    <div ref={ref} className="relative inline-block">
+      <button type="button" onClick={() => setOpen((v) => !v)}>
+        <CalendarDays className="w-4 h-4" />
+        <span>{date ? date.toLocaleDateString('ko-KR') : '날짜를 선택하세요'}</span>
+        <ChevronDown className={open ? 'rotate-180' : ''} />
+      </button>
+
+      {open && (
+        <div className="absolute z-50 mt-1.5 left-0 rounded-xl border bg-white dark:bg-gray-900 shadow-lg">
+          <Calendar
+            mode="single"
+            selected={date}
+            // highlight-next-line
+            onSelect={(d) => { setDate(d); setOpen(false); }}
+            className="p-2"
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+:::tip 이 예제에서 가져갈 것
+`Calendar`는 **날짜 격자와 선택 로직만** 담당합니다. 팝업 열림/닫힘, 트리거 버튼 모양, 선택 값 표시는 전부 **감싸는 화면의 몫**입니다. 달력 컴포넌트를 복사해서 고치지 마세요.
+:::
+
+---
+
+
+## 참고 링크
+---
+
+* [Calendar — shadcn/ui](https://ui.shadcn.com/docs/components/calendar) — 스타일 원본과 Date Picker 조합 예제
+* [React DayPicker](https://daypicker.dev) — 전체 prop·타입·고급 사용법
+* [DayPicker 셀렉션 모드](https://daypicker.dev/docs/selection-modes) — `single` / `multiple` / `range` 상세
+
 ---
