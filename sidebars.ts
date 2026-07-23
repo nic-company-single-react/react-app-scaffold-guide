@@ -105,6 +105,7 @@ const sidebars: SidebarsConfig = {
         "components/ui/dialog-component",
         "components/ui/input-component",
         "components/ui/spinner-component",
+        "components/ui/switch-component",
         "components/ui/toast-component",
       ],
     },
