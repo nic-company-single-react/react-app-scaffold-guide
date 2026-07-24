@@ -35,6 +35,24 @@ const sidebars: SidebarsConfig = {
         'started/app-config/index',
       ],
     },
+    {
+      type: "category",
+      label: "◉ Frontend담당(공통) 가이드",
+      collapsed: false,
+      collapsible: true,
+      items: [
+        'started/frontend-common/index',
+      ],
+    },
+    {
+      type: "category",
+      label: "◉ 퍼블리셔 가이드",
+      collapsed: false,
+      collapsible: true,
+      items: [
+        'started/publishing-guide/index',
+      ],
+    },
   ],
   documentDocSidebar: [
     {
