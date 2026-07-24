@@ -32,6 +32,7 @@ react-app-scaffold
 │   ├── domains/                # 업무 도메인별 분리 (DDD) — 업무 개발자 작업 영역
 │   │   ├── home/                 # 홈 도메인
 │   │   │   ├── api/                  # REST API URL 및 request/response 타입 정의
+│   │   │   ├── common/               # 도메인 전용 공통 함수 모음
 │   │   │   ├── components/           # 도메인 전용 컴포넌트
 │   │   │   ├── hooks/                # 도메인 커스넘 훅 모음
 │   │   │   ├── pages/                # 화면 파일 (*.tsx)
@@ -65,10 +66,12 @@ react-app-scaffold
 :::info 설명
 * **앱 src 내부 폴더 구조**
 	* <span class="text-green-bold">src/assets</span>폴더는 모든 정적 파일들(이미지, CSS 파일 등)을 모아놓은 폴더입니다.
-	* <span class="text-green-bold">src/core</span>폴더는 앱 핵심 공통 코어 로직(라우터 설정 등) 폴더입니다. 공통개발자 이 외 업무개발자는 작업하지 않는 공간입니다.
   * <span class="text-green-bold">src/config</span>폴더는 SI 프로젝트가 관리하는 앱 설정 레이어입니다. `core`를 직접 수정하지 않고 API·인증·쿼리·라우터·테마 등 관심사별 설정 파일(<span class="text-blue-normal">**api·auth·query·router·theme.config.ts**</span>)로 값만 주입·override 합니다. 실제 값은 대부분 `.env`(`VITE_*`)에서 읽어오므로, 프로젝트별 접속 정보·정책을 바꿀 때는 이 폴더(또는 `.env`)만 수정하면 됩니다.
+  * <span class="text-green-bold">src/core</span>폴더는 앱 핵심 공통 코어 로직(라우터 설정 등) 폴더입니다. 공통개발자 이 외 업무개발자는 작업하지 않는 공간입니다.
+  * <span class="text-green-bold">src/design-tokens</span>폴더는 디자인 시스템의 색상·간격·타이포그래피·그림자 등 스타일 값을 [Style Dictionary](https://styledictionary.com/)로 관리하는 폴더입니다. <span class="text-blue-normal">**primitive**</span>(원시 토큰: color·shadow·spacing·typography)와 <span class="text-blue-normal">**semantic**</span>(테마별 시맨틱 토큰: light·dark)의 JSON으로 값을 정의하고, `style-dictionary.config.js` 빌드를 통해 Tailwind v4 `@theme`(primitive)과 `:root`·`.dark`(semantic) CSS 변수 파일을 `src/assets/styles/tokens/`에 자동 생성합니다(`types.d.ts` 타입 선언도 함께 생성). 색상 팔레트나 테마 값을 바꿀 때는 CSS를 직접 고치지 말고 이 폴더의 JSON만 수정한 뒤 재빌드하면 됩니다.
   * <span class="text-green-bold">src/shared</span>폴더는 해당 앱 내 전역 공유 코드 폴더입니다. 상황에 따라 수정이 발생할 수 있고, 다른 업무(domain)개발자와 함께 작업할 수 있는 공통 컴포넌트, 레이아웃, Context, 라우터, 커스텀 훅 등이 위치합니다.
-  * <span class="text-green-bold">src/domains</span>폴더에는 각 domain 업무들(domain1, domain2, domain3, ...)이 있고, 그 하위에는 일률적으로 <span class="text-blue-normal">**api, components, common, hooks, pages, router, store, types**</span>폴더를 가집니다. 각 개별 폴더는 업무 상황에 따라 생성하여 사용합니다.
+  * <span class="text-green-bold">src/publishing</span>폴더는 퍼블리셔가 Figma 디자인을 디자인 토큰 기반의 React 컴포넌트로 구현하는 스테이징(1차 작업) 공간입니다. Storybook(<span class="text-blue-normal">**npm run storybook**</span>)으로 팀과 프리뷰를 공유하며, 스타일은 CSS 파일을 만들지 않고 Tailwind 유틸리티 클래스와 `cn()`, 디자인 토큰 클래스(`bg-brand-500`, `shadow-theme-md` 등)로만 작성합니다. 여기서 만든 컴포넌트는 라우터에 등록되지 않으며, 핸드오프가 완료되면 <span class="text-blue-normal">**pages**</span>는 `src/domains/[name]/pages/`로, <span class="text-blue-normal">**components**</span>는 `src/shared/` 또는 `src/domains/[name]/components/`로 이동합니다.
+  * <span class="text-green-bold">src/domains</span>폴더에는 각 **domain 업무들(domain1, domain2, domain3, ...)** 이 있고, 그 하위에는 일률적으로 <span class="text-blue-normal">**api, components, common, hooks, pages, router, store, types**</span>폴더를 가집니다. 각 개별 폴더는 업무 상황에 따라 생성하여 사용합니다.
 		- <span class="text-blue-normal">api</span> : REST API URL과 request, response의 type을 정의합니다.
 		- <span class="text-blue-normal">common</span> : 해당 업무에서 사용하는 javascript 공통함수나 공통적인 요소의 모듈을 모아놓은 폴더.
 		- <span class="text-blue-normal">components</span> : 업무 화면에서 사용하는 컴포넌트들을 모아놓은 폴더.
@@ -78,6 +81,55 @@ react-app-scaffold
 		- <span class="text-blue-normal">store</span> : 해당 업무에서 사용하는 전역 상태관리 모듈을 모아놓은 폴더.
 		- <span class="text-blue-normal">types</span> : 해당 업무에서 사용하는 type을 모아놓은 폴더.
 :::
+
+
+
+
+
+
+
+
+## 도메인 기반 폴더구조 (DDD)
+---
+:::tip 한 줄 요약
+**DDD(Domain Driven Design)** 방법론을 따라 `src/domains` 아래 업무를 **독립 단위(도메인)** 로 분리합니다. 각 개발자는 **자신의 도메인에서만** 작업하므로, 여러 도메인을 **동시에 개발해도 코드 충돌이 최소화**되고 **확장성**이 높아집니다.
+:::
+
+### 도메인 레인 — 격리된 병렬 작업 영역
+
+각 도메인은 서로 **격리된 레인(lane)** 처럼 동작합니다. 담당 개발자는 자신의 레인 안에서만 코드를 작성하고, 모든 레인은 아래의 **공통 토대(core · shared · assets)** 위에서 함께 동작합니다.
+
+| 도메인 레인 <span class="text-blue-normal">(격리·병렬)</span> | 담당 | 구성 폴더 |
+| --- | --- | --- |
+| `domains/account` <span class="text-gray-normal">(예: 계좌)</span> | 👩‍💻 개발자 A 🔒 | api · components · pages · router · store · types |
+| `domains/transfer` <span class="text-gray-normal">(예: 이체)</span> | 🧑‍💻 개발자 B 🔒 | api · components · pages · router · store · types |
+| `domains/loan` <span class="text-gray-normal">(예: 대출)</span> | 👨‍💻 개발자 C 🔒 | api · components · pages · router · store · types |
+| `domains/[domain]` | ＋ 도메인 추가 | 레인을 늘리듯 자유롭게 확장 |
+
+> &#8251; `account · transfer · loan`은 이해를 돕기 위한 **업무 예시**입니다. 실제 도메인은 프로젝트 업무에 맞춰 생성합니다.
+
+### 공통 토대와 소통 규칙
+
+도메인들은 아래 **공통 토대** 위에서 동작합니다.
+
+* <span class="text-green-bold">core</span> — 앱 핵심 코어 로직 (프론트앤드 공통 개발 담당자 관리 영역)
+* <span class="text-green-bold">shared</span> — 도메인이 함께 쓰는 전역 공유 코드
+* <span class="text-green-bold">assets</span> — 정적 리소스 (이미지·폰트·CSS)
+
+:::warning 도메인 간 소통 규칙
+한 도메인에서 다른 도메인의 코드에 **직접 접근하지 않습니다.** 공통으로 써야 하는 컴포넌트·로직·상태는 반드시 **`shared`** (또는 `core`)를 통해서만 공유하며, 필요 시 Frontend 공통 개발자와 상의합니다.
+:::
+
+### 핵심 이점
+
+| 이점 | 설명 |
+| --- | --- |
+| 🧩 **업무 영역 격리** | 도메인마다 독립된 폴더 — 의존성·영향도 최소화 |
+| ⚡ **동시 병렬 개발** | 여러 도메인을 함께 작업해도 코드 충돌 최소화 |
+| 📈 **손쉬운 확장성** | 도메인 추가만으로 기능 확장 — 대형 프로젝트에 적합 |
+
+
+
 
 
 

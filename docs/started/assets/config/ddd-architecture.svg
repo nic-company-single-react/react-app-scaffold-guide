@@ -28,8 +28,9 @@
 
 <!-- core badge -->
 <rect x="24" y="378" width="84" height="50" rx="5" style="fill:rgb(255,243,205);stroke:rgb(200,160,0);stroke-width:0.6px;"/>
-<text x="66" y="396" text-anchor="middle" dominant-baseline="central" style="fill:rgb(130,90,0);stroke:none;font-family:&quot;Segoe UI&quot;,-apple-system,BlinkMacSystemFont,sans-serif;font-size:9px;font-weight:600;text-anchor:middle;dominant-baseline:central;">&#xACF5;&#xD1B5; &#xAC1C;&#xBC1C;&#xC790;&#xB9CC;</text>
-<text x="66" y="412" text-anchor="middle" dominant-baseline="central" style="fill:rgb(130,90,0);stroke:none;font-family:&quot;Segoe UI&quot;,-apple-system,BlinkMacSystemFont,sans-serif;font-size:9px;font-weight:400;text-anchor:middle;dominant-baseline:central;">&#xC791;&#xC5C5; &#xAC00;&#xB2A5;</text>
+<text x="66" y="391" text-anchor="middle" dominant-baseline="central" style="fill:rgb(130,90,0);stroke:none;font-family:&quot;Segoe UI&quot;,-apple-system,BlinkMacSystemFont,sans-serif;font-size:9px;font-weight:600;text-anchor:middle;dominant-baseline:central;">&#xD504;&#xB860;&#xD2B8;&#xC564;&#xB4DC; &#xACF5;&#xD1B5;</text>
+<text x="66" y="404" text-anchor="middle" dominant-baseline="central" style="fill:rgb(130,90,0);stroke:none;font-family:&quot;Segoe UI&quot;,-apple-system,BlinkMacSystemFont,sans-serif;font-size:9px;font-weight:600;text-anchor:middle;dominant-baseline:central;">&#xB2F4;&#xB2F9;&#xC790;&#xB9CC;</text>
+<text x="66" y="417" text-anchor="middle" dominant-baseline="central" style="fill:rgb(130,90,0);stroke:none;font-family:&quot;Segoe UI&quot;,-apple-system,BlinkMacSystemFont,sans-serif;font-size:9px;font-weight:400;text-anchor:middle;dominant-baseline:central;">&#xC791;&#xC5C5; &#xAC00;&#xB2A5;</text>
 
 <!-- shared section -->
 <rect x="119" y="85" width="579" height="112" rx="8" style="fill:rgb(250,238,218);stroke:rgb(133,79,11);stroke-width:0.8px;"/>
