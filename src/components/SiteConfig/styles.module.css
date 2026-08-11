@@ -1,0 +1,121 @@
+/* ── <Var /> ──────────────────────────────────────────────── */
+.var {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  vertical-align: baseline;
+}
+
+.value {
+  word-break: break-all;
+}
+
+/* 현장 값이 아직 안 들어온 placeholder 값 */
+.unset {
+  background-color: var(--ifm-color-warning-contrast-background);
+  color: var(--ifm-color-warning-contrast-foreground);
+  border: 1px solid var(--ifm-color-warning-dark);
+}
+
+.badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.4;
+  padding: 0 0.35rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  background-color: var(--ifm-color-warning-dark);
+  color: #000;
+  cursor: help;
+}
+
+.copyBtn {
+  border: 1px solid var(--ifm-color-emphasis-300);
+  background: var(--ifm-color-emphasis-100);
+  color: var(--ifm-color-emphasis-800);
+  border-radius: 4px;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  padding: 0 0.35rem;
+  cursor: pointer;
+}
+
+.copyBtn:hover {
+  background: var(--ifm-color-emphasis-200);
+}
+
+/* ── /site-info 표 ────────────────────────────────────────── */
+.banner {
+  border-left: 4px solid var(--ifm-color-emphasis-400);
+  background: var(--ifm-color-emphasis-100);
+  border-radius: 6px;
+  padding: 0.9rem 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.bannerOk {
+  border-left-color: var(--ifm-color-success);
+  background: var(--ifm-color-success-contrast-background);
+  color: var(--ifm-color-success-contrast-foreground);
+}
+
+.bannerWarn {
+  border-left-color: var(--ifm-color-warning);
+  background: var(--ifm-color-warning-contrast-background);
+  color: var(--ifm-color-warning-contrast-foreground);
+}
+
+.bannerDanger {
+  border-left-color: var(--ifm-color-danger);
+  background: var(--ifm-color-danger-contrast-background);
+  color: var(--ifm-color-danger-contrast-foreground);
+}
+
+.bannerTitle {
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  display: table;
+}
+
+.table td,
+.table th {
+  vertical-align: top;
+}
+
+.key {
+  white-space: nowrap;
+}
+
+.desc {
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.stateOk {
+  color: var(--ifm-color-success-darkest);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.stateUnset {
+  color: var(--ifm-color-danger-darkest);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+[data-theme='dark'] .stateOk {
+  color: var(--ifm-color-success-lightest);
+}
+
+[data-theme='dark'] .stateUnset {
+  color: var(--ifm-color-danger-lightest);
+}

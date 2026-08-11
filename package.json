@@ -6,6 +6,7 @@
     "docusaurus": "docusaurus",
     "start": "docusaurus start --port 3002",
     "build": "docusaurus build",
+    "build:bundle": "docusaurus build --config ./docusaurus.bundle.config.ts --out-dir build-bundle",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",

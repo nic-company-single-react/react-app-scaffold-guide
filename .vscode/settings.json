@@ -1,0 +1,15 @@
+{
+  // 이 저장소의 문서는 Docusaurus MDX로 컴파일됩니다.
+  // 마크다운 포매터(Prettier)가 저장 시 자동으로 돌면
+  //   - MDX 주석 {/* ... */} 의 * 를 \* 로 이스케이프해 빌드를 깨뜨리고
+  //   - :::info / ::: 안내박스의 들여쓰기를 바꿔 렌더링을 망가뜨립니다.
+  // 따라서 md / mdx 는 저장 시 자동 포맷을 끕니다.
+  "[markdown]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": null
+  },
+  "[mdx]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": null
+  }
+}
