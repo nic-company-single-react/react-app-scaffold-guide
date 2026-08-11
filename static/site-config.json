@@ -8,5 +8,6 @@
   ],
 
   "siteName": "(사이트 미설정)",
-  "fileServerPath": "/aaaa/bbbbb/Frontend"
+  "fileServerPath": "/aaaa/bbbbb/Frontend",
+  "gitRepoUrl": "https://github.com/nic-company-single-react/react-app-scaffold.git"
 }

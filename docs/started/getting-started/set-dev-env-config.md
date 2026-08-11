@@ -53,84 +53,11 @@ Git사용을 위하여 설치합니다.
   - Git 설치 파일을 파일서버에서 제공하므로 <Var k="fileServerPath" /> 위치에서 다운로드 받아 설치 합니다.
   - Git 설치 파일 : `Git-2.53.0.2-64-bit.exe`
 
-## pnpm workspaces 설치 (필요시에만)
-
----
-
-- **모노레포** 구조의 마이크로 프론트엔드 프로젝트 환경에서 각 업무(remote app)영역을 독립적으로 개발하고 배포할 수 있게 해주는 도구입니다.
-  - 상황에 따라 멀티레포 환경의 각 remote 앱 내부에서 하이브리드 형태의 모노레포 구조를 사용할 때 필요할 수 있습니다.
-
-:::info <span class="admonition-title">pnpm workspaces</span>란?
-**pnpm workspaces**는 하나의 코드 저장소(Repository) 안에서 **여러 개의 독립적인 프로젝트(패키지)를 효율적으로 관리**할 수 있게 해주는 도구입니다.
-
-일반적인 프로젝트라면 각 폴더마다 node_modules가 생기고 중복된 라이브러리가 설치되겠지만, pnpm은 이를 하나로 묶어 관리하면서도 각 프로젝트가 독립성을 유지하게 돕습니다.
-
----
-
-#### pnpm Workspaces와 함께 모노레포에 도움이 되는 도구들
-
-    * **Lerna**: Lerna: https://github.com/lerna/lerna
-    * **Nx**: Nx: https://nx.dev/
-    * **Turborepo**: Turborepo: https://turbo.build/
-    * **Pnpm**: Pnpm: https://pnpm.io/
-    * **Yarn**: Yarn: https://yarnpkg.com/
-    * **Bun**: Bun: https://bun.sh/
-    * **npm**: npm: https://www.npmjs.com/
-
-:::
-
-### 1. pnpm 온라인 설치
-
-먼저 **pnpm**을 사용하기 위하여 전역으로 설치합니다.
-
-```sh
-# npm을 통한 설치
-npm install -g pnpm
-
-# 또는 standalone 설치 (권장)
-curl -fsSL https://get.pnpm.io/install.sh | sh -
-
-# 설치 확인
-pnpm --version
-```
-
-- 만약 위와같이 **pnpm**을 설치했는데 `pnpm` 명령어가 실행이 되지않고 오류가 발생한다면, PATH에 npm 경로가 등록 되어있지 않았을 수도 있습니다. 따라서 다음과 같이 PATH에 npm 경로를 등록합니다.
-  - **1.** 시스템 환경 변수 열기
-  - **2.** Win + R → sysdm.cpl 입력 → Enter, 또는: 설정 → 시스템 → 정보 → 고급 시스템 설정
-  - **3.** 환경 변수 버튼 클릭
-  - **4.** 사용자 변수에서 Path 선택 → 편집
-  - **5.** 새로 만들기 → C:\Users\PC_NIC\AppData\Roaming\npm 입력 → 확인 (개인마다 npm 경로가 다를 수 있으니 확인하고 입력합니다.)
-  - **6.** 열려 있는 터미널/VS Code/Cursor를 모두 닫았다가 다시 열기
-  - **7.** 새 터미널에서 pnpm -v 실행해 확인
-
-### 2. pnpm 오프라인 설치
-
-- **1. pnpm 설치**
-  ```bash
-  # pnpm-win-x64.exe를 원하는 경로에 복사 후 PATH 등록
-  # 예: C:\pnpm\pnpm.exe 로 복사하고 환경변수 PATH에 C:\pnpm 추가
-  ```
-- **2. store 복사**
-  ```bash
-  # 온라인 PC와 동일한 경로에 store 폴더 붙여넣기
-  # 예: C:\Users\사용자명\AppData\Local\pnpm\store
-  ```
-- **3. 오프라인으로 패키지 설치**
-  ```bash
-  # cd 프로젝트_루트
-  # pnpm install --offline
-  ```
-
-  - store 경로가 다를 경우
-  ```bash
-  pnpm install --offline --store-dir C:\복사한\store\경로
-  ```
-
 ## Visual Studio Code 설치
 
 ---
 
-**Vue Frontend** 개발을 위한 Microsoft사에서 만든 개발용 코드 편집기입니다.
+**Frontend** 개발을 위한 Microsoft사에서 만든 개발용 코드 편집기입니다.
 
 - 온라인 설치
   - [설치링크:(https://code.visualstudio.com/Download)](https://code.visualstudio.com/Download)
@@ -181,25 +108,6 @@ VSCode에서 사용할 수 있는 <span class="text-color-red">필수</span> 또
 - 설치가 완료 되고 오른쪽 하단에 아래와 같이 팝업이 뜨면 성공.
   ![VSCode Extension온라인 설치](../assets/config/vscode_et03.png)
 
-## Axiom AI 확장 설치
-
----
-
-**react-app-scaffold** 프로젝트 작업에 도움을 주는 **Axiom AI** 확장을 설치합니다.
-
-- 오프라인 설치
-  - 설치용 **VSIX** 파일을 따로 제공합니다. <Var k="fileServerPath" /> 위치에서 다운로드 받아 설치합니다.
-
-## Cursor 설치 (선택)
-
----
-
-만약 Cursor를 사용한다면 VSCode와 거의 유사해서 문제없이 사용 가능합니다.
-
-- [Cursor 설치 링크](https://cursor.com/download)
-
-- Cursor설치 후 우측 메뉴를 좌측으로 이동을 원할 때 다음과 같이 해당 값을 비활성화 합니다.
-  ![Cursor 메뉴설정관련](../assets/config/cursor01.png)
 
 ## Chrome Browser 설치
 
@@ -227,7 +135,7 @@ React를 사용할 때, React 앱을 보다 더 사용자 친화적인 인터페
     - LET’S START버튼을 누르고, 입력란에 Extension파일 경로를 입력하고 crx파일 다운로드를 받는다. */}
     - crx파일이 있으면 chrome브라우저에서 chrome://extensions를 입력하고 해당 브라우저에 crx파일을 드래그앤드롭하면 extension설치가 된다.
 
-## Redux DevTools 설치 (크롬 브라우저 확장 프로그램)(필요시에만)
+## Redux DevTools 설치 (크롬 브라우저 확장 프로그램)
 
 ---
 
@@ -240,7 +148,7 @@ React에서 사용하는 상태 관리 라이브러리 Redux의 상태 변경을
     - LET’S START버튼을 누르고, 입력란에 Extension파일 경로를 입력하고 crx파일 다운로드를 받는다. */}
     - crx파일이 있으면 chrome브라우저에서 chrome://extensions를 입력하고 해당 브라우저에 crx파일을 드래그앤드롭하면 extension설치가 된다.
 
-## TanStack Query(React Query) DevTools 설치 (크롬 브라우저 확장 프로그램)(필요시에만)
+## TanStack Query(React Query) DevTools 설치 (크롬 브라우저 확장 프로그램)
 
 ---
 
@@ -264,7 +172,6 @@ React에서 사용하는 상태 관리 라이브러리 TanStack Query의 상태 
   ![VSCode Extension온라인 설치](../assets/config/vscode_et04.png)
 
 ## Visual Studio Code (VSCode) 코드편집기 설정
-
 ---
 
 - **settings.json 가 세팅되어있지 않은 경우에만 설정합니다.**
@@ -383,7 +290,7 @@ React에서 사용하는 상태 관리 라이브러리 TanStack Query의 상태 
 
 :::info <span class="admonition-title">Git 레포지토리</span> url
 
-- [https://github.com/nic-company-single-react/react-app-scaffold](https://github.com/nic-company-single-react/react-app-scaffold)
+- <Var k="gitRepoUrl" />
 - 개발 코드를 내려받기 위해서는 계정 및 권한이 필요합니다. (해당 권한은 담당자에게 요청)
 
 :::
@@ -398,10 +305,11 @@ React에서 사용하는 상태 관리 라이브러리 TanStack Query의 상태 
   # C:\my\frontend-app 폴더가 생성 됨.
   ```
 - 생성한 **frontend-app** 폴더로 이동하여 `git clone`을 실행하여 **react-app-scaffold** 코드를 내려 받습니다.
+  내려받을 주소는 <Var k="gitRepoUrl" /> 입니다.
 
   ```sh
   # 애플리케이션 레포지토리에서 코드를 내려받습니다.
-  git clone https://github.com/nic-company-single-react/react-app-scaffold.git
+  git clone [Scaffold 레포지토리 주소]
   ```
 
 - `git clone`하여 내려받은 소스를 확인해보면 아직 **node_modules**폴더가 없는상태입니다. 의존성 라이브러리를 설치면 **node_modules**폴더를 자동생성합니다.

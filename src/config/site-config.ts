@@ -11,10 +11,10 @@
  *   3) 문서에서 <Var k="키이름" /> 으로 참조하면 됩니다.
  */
 
-export type SiteConfigKey = 'siteName' | 'fileServerPath';
+export type SiteConfigKey = "siteName" | "fileServerPath" | "gitRepoUrl";
 
 /** 값의 성격. 렌더링 방식(링크/코드/복사버튼)을 결정합니다. */
-export type SiteConfigFieldKind = 'text' | 'path' | 'url';
+export type SiteConfigFieldKind = "text" | "path" | "url";
 
 export interface SiteConfigField {
   key: SiteConfigKey;
@@ -31,28 +31,37 @@ export interface SiteConfigField {
 
 export const SITE_CONFIG_FIELDS: SiteConfigField[] = [
   {
-    key: 'siteName',
-    label: '사이트 명',
-    description: '이 가이드가 배포된 프로젝트(현장) 이름',
-    kind: 'text',
+    key: "siteName",
+    label: "사이트 명",
+    description: "이 가이드가 배포된 프로젝트(현장) 이름",
+    kind: "text",
     required: false,
-    placeholder: '(사이트 미설정)',
+    placeholder: "(사이트 미설정)",
   },
   {
-    key: 'fileServerPath',
-    label: '설치파일 제공 경로',
+    key: "fileServerPath",
+    label: "설치파일 제공 경로",
     description:
-      'Node.js / Git / VSCode / Chrome 등 오프라인 설치 파일이 올라가 있는 파일서버 경로',
-    kind: 'path',
+      "Node.js / Git / VSCode / Chrome 등 오프라인 설치 파일이 올라가 있는 파일서버 경로",
+    kind: "path",
     required: true,
-    placeholder: '/aaaa/bbbbb/Frontend',
+    placeholder: "/aaaa/bbbbb/Frontend",
+  },
+  {
+    key: "gitRepoUrl",
+    label: "Git 레포지토리 주소",
+    description:
+      "개발 코드를 내려받는 Git 저장소 주소. 폐쇄망에서는 사내 GitLab 등 내부 주소로 교체합니다.",
+    kind: "url",
+    required: true,
+    placeholder: "Scaffold 레포지토리 주소",
   },
 ];
 
 export type SiteConfigValues = Record<SiteConfigKey, string>;
 
 /** static/ 하위에 배포되는 런타임 설정 파일 이름 */
-export const SITE_CONFIG_FILENAME = 'site-config.json';
+export const SITE_CONFIG_FILENAME = "site-config.json";
 
 /** site-config.json 을 읽기 전(또는 읽기 실패 시) 사용하는 기본값 */
 export const DEFAULT_SITE_CONFIG: SiteConfigValues = SITE_CONFIG_FIELDS.reduce(
@@ -71,8 +80,8 @@ export function getSiteConfigField(
 
 /** 비어 있거나 배포 직후 기본값 그대로면 "아직 현장 값이 안 들어온 것"으로 봅니다. */
 export function isUnsetValue(field: SiteConfigField, value: string): boolean {
-  const trimmed = (value ?? '').trim();
-  return trimmed === '' || trimmed === field.placeholder;
+  const trimmed = (value ?? "").trim();
+  return trimmed === "" || trimmed === field.placeholder;
 }
 
 /**
@@ -81,15 +90,15 @@ export function isUnsetValue(field: SiteConfigField, value: string): boolean {
  * 화면이 깨지지 않고 기본값으로 표시됩니다.
  */
 export function mergeSiteConfig(raw: unknown): SiteConfigValues {
-  const merged: SiteConfigValues = {...DEFAULT_SITE_CONFIG};
-  if (!raw || typeof raw !== 'object') {
+  const merged: SiteConfigValues = { ...DEFAULT_SITE_CONFIG };
+  if (!raw || typeof raw !== "object") {
     return merged;
   }
 
   const source = raw as Record<string, unknown>;
   SITE_CONFIG_FIELDS.forEach((field) => {
     const value = source[field.key];
-    if (typeof value === 'string' && value.trim() !== '') {
+    if (typeof value === "string" && value.trim() !== "") {
       merged[field.key] = value.trim();
     }
   });
