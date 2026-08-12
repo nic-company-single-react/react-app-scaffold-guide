@@ -2,7 +2,9 @@
   // This file is not used in compilation. It is here just for a nice editor experience.
   "extends": "@docusaurus/tsconfig",
   "compilerOptions": {
-    "baseUrl": "."
+    "baseUrl": ".",
+    // static/site-config.json 을 설정값의 단일 소스로 import 하기 위해 필요합니다.
+    "resolveJsonModule": true
   },
   "exclude": [".docusaurus", "build"]
 }

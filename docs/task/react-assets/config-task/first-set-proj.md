@@ -1091,16 +1091,16 @@ VITE_EXTERNAL_API_BASE_URL1=https://koreanjson.com
 ## Git 연결하기
 ---
 <span class="text-blue-normal">프로젝트에서는 Git 레포지토리 연결은 따로 진행될 수도 있습니다.</span>
-- 생성한 프로젝트를 Git 저장소에 연결합니다. 저장소는 `https://github.com/nic-company-single-react/react-app-scaffold.git` 입니다. Git저장소는 프로젝트 상황에 따라 다르게 설정합니다.
+- 생성한 프로젝트를 Git 저장소에 연결합니다. 저장소는 <Var k="gitRepoUrl" /> 입니다. Git저장소는 프로젝트 상황에 따라 다르게 설정합니다.
   - 연결 명령어
-  ```sh
-  git init # 초기화
-  git add . # 스테이징
-  git commit -m "initial commit" # 커밋
-  git branch -M main # 브랜치 명 main으로 변경
-  git remote add origin https://github.com/nic-company-single-react/react-app-scaffold.git # 저장소 연결
-  git push -u origin main # 푸시
-  ```
+
+    <VarCode language="sh">{`git init # 초기화
+    git add . # 스테이징
+    git commit -m "initial commit" # 커밋
+    git branch -M main # 브랜치 명 main으로 변경
+    git remote add origin {{gitRepoUrl}} # 저장소 연결
+    git push -u origin main # 푸시`}</VarCode>
+
   - 연결 과정에 Git push 버퍼가 작아 push가 안되는 상황이 생기면 버퍼를 늘려주고 push 합니다.
   ```sh
   # 버퍼 524MB로 설정

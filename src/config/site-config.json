@@ -1,0 +1,53 @@
+{
+  "_readme": [
+    "═══════════════════════════════════════════════════════════════",
+    " 이 가이드에서 현장(사이트)마다 달라지는 값은 전부 이 파일 하나에 있습니다.",
+    "═══════════════════════════════════════════════════════════════",
+    "",
+    "[ 값을 고치는 가장 쉬운 방법 ]",
+    "  가이드의 /site-info 페이지를 열면 입력창으로 값을 고치고",
+    "  완성된 이 파일을 그대로 내려받을 수 있습니다. (JSON 문법을 몰라도 됩니다)",
+    "",
+    "[ 직접 고칠 때 ]",
+    "  메모장으로 열어 따옴표 사이의 값만 바꾸고 저장하면 됩니다.",
+    "  쉼표(,)와 따옴표(\")를 지우지 않도록 주의하세요.",
+    "",
+    "[ 이 파일의 위치 ]",
+    "  소스   : src/config/site-config.json  (값의 원본. 항목 설명은 옆의 site-config.ts)",
+    "  배포본 : site-config.json             (빌드하면 최상단에 복사됩니다. 현장에서 고치는 파일)",
+    "",
+    "[ 반영 시점 ]",
+    "  runtime : 배포본만 고치고 브라우저 새로고침 → 즉시 반영 (재빌드 불필요)",
+    "  build   : 소스를 고친 뒤 npm run build 로 다시 빌드해야 반영",
+    "            (사이트 주소·상단 메뉴 링크처럼 페이지가 만들어질 때 박히는 값)",
+    "  어떤 값이 어느 쪽인지는 /site-info 페이지의 표에 표시됩니다.",
+    "",
+    "[ 새 설정 항목을 추가하려면 ]",
+    "  옆의 site-config.ts 파일 맨 위 주석에 순서가 적혀 있습니다.",
+    ""
+  ],
+
+  "//1": "── 현장(사이트) 값 ─ runtime ────────────────────────────────",
+  "siteName": "(사이트 미설정)",
+  "fileServerPath": "IT서비스본부/99.자료실/Frontend",
+  "gitRepoUrl": "https://github.com/nic-company-single-react/react-app-scaffold.git",
+
+  "//2": "── 설치 파일 / 버전 ─ runtime ───────────────────────────────",
+  "nodeVersion": "24.14.0",
+  "npmVersion": "11.9.0",
+  "nodeZipFile": "node-v24.14.0-win-x64.zip",
+  "nodeMsiFile": "node-v24.14.0-x64.msi",
+  "gitInstallerFile": "Git-2.53.0.2-64-bit.exe",
+  "vscodeInstallerFile": "VSCodeUserSetup-x64-1.114.0.exe",
+  "chromeInstallerFile": "GoogleChromeStandaloneEnterprise64.msi",
+
+  "//3": "── 연결되는 사이트 주소 ─ build ─────────────────────────────",
+  "exampleAppUrl": "http://redsky0212.dothome.co.kr/axiom/react/",
+  "storybookUrl": "http://redsky0212.dothome.co.kr/axiom/storybook/",
+  "scaffoldRepoUrl": "https://github.com/nic-company-single-react/react-app-scaffold",
+  "guideRepoUrl": "https://github.com/nic-company-single-react/react-app-scaffold-guide",
+
+  "//4": "── 이 가이드가 배포되는 주소 ─ build ────────────────────────",
+  "siteUrl": "http://redsky0212.dothome.co.kr",
+  "baseUrl": "/axiom/react-guide/"
+}

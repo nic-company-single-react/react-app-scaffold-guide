@@ -121,10 +121,136 @@
   white-space: nowrap;
 }
 
-/* JSON 으로 덮어쓰지 않고 배포 기본값을 쓰고 있는 상태 (정상) */
-.stateDefault {
+/* ── 설정 편집 폼 ─────────────────────────────────────────── */
+.colLabel {
+  width: 34%;
+}
+
+.colValue {
+  width: 50%;
+}
+
+.colState {
+  width: 16%;
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.85rem;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 4px;
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+}
+
+.input:focus {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: -1px;
+}
+
+.input:disabled {
+  background: var(--ifm-color-emphasis-100);
+  color: var(--ifm-color-emphasis-600);
+}
+
+/* 아직 현장 값으로 안 고친 값 */
+.inputUnset {
+  border-color: var(--ifm-color-warning-dark);
+  background-color: var(--ifm-color-warning-contrast-background);
+  color: var(--ifm-color-warning-contrast-foreground);
+}
+
+/* 이 화면에서 방금 고친 값 (아직 파일로 저장 전) */
+.inputChanged {
+  border-color: var(--ifm-color-primary);
+  border-left-width: 4px;
+}
+
+.beforeValue {
+  font-size: 0.78rem;
   color: var(--ifm-color-emphasis-700);
+  margin-top: 0.3rem;
+}
+
+.applyRuntime,
+.applyBuild {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.5;
+  padding: 0 0.35rem;
+  border-radius: 4px;
   white-space: nowrap;
+  margin-bottom: 0.3rem;
+  cursor: help;
+}
+
+.applyRuntime {
+  background: var(--ifm-color-success-contrast-background);
+  color: var(--ifm-color-success-contrast-foreground);
+  border: 1px solid var(--ifm-color-success);
+}
+
+.applyBuild {
+  background: var(--ifm-color-warning-contrast-background);
+  color: var(--ifm-color-warning-contrast-foreground);
+  border: 1px solid var(--ifm-color-warning-dark);
+}
+
+/* ── 저장 영역 ────────────────────────────────────────────── */
+.saveBox {
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin: 2rem 0;
+  background: var(--ifm-color-emphasis-100);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.8rem 0;
+}
+
+.btn {
+  border: 1px solid var(--ifm-color-emphasis-400);
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--ifm-color-emphasis-200);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btnPrimary {
+  background: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+  color: #fff;
+}
+
+.btnPrimary:hover:not(:disabled) {
+  background: var(--ifm-color-primary-dark);
+}
+
+.jsonPreview {
+  max-height: 22rem;
+  overflow: auto;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
 }
 
 [data-theme='dark'] .stateOk {

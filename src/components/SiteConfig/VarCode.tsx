@@ -32,6 +32,23 @@ function interpolate(
 }
 
 /**
+ * 마크다운 목록 안에 쓰면 MDX 문법상 각 줄을 들여써야 하는데, 그 들여쓰기가
+ * 그대로 코드에 남습니다. 두 번째 줄부터의 공통 들여쓰기를 걷어내
+ * ``` 코드블록과 똑같이 보이게 만듭니다.
+ */
+function dedent(source: string): string {
+  const [first, ...rest] = source.split('\n');
+  const indents = rest
+    .filter((line) => line.trim() !== '')
+    .map((line) => /^[ \t]*/.exec(line)![0].length);
+  const common = indents.length > 0 ? Math.min(...indents) : 0;
+  if (common === 0) {
+    return source;
+  }
+  return [first, ...rest.map((line) => line.slice(common))].join('\n');
+}
+
+/**
  * 코드블록 안에서 사이트 설정값을 쓰기 위한 컴포넌트입니다.
  *
  * 마크다운 ``` 코드블록 안에서는 <Var /> 같은 컴포넌트가 렌더되지 않고
@@ -50,7 +67,7 @@ export default function VarCode({
 
   return (
     <CodeBlock language={language} title={title} showLineNumbers={showLineNumbers}>
-      {interpolate(String(children), values)}
+      {interpolate(dedent(String(children)), values)}
     </CodeBlock>
   );
 }

@@ -7,6 +7,7 @@ import {
   type SiteConfigKey,
 } from '@site/src/config/site-config';
 import {useSiteConfig} from './context';
+import {copyToClipboard} from './clipboard';
 import styles from './styles.module.css';
 
 export interface VarProps {
@@ -16,30 +17,6 @@ export interface VarProps {
   plain?: boolean;
   /** 복사 버튼 표시 여부 (기본: 경로(path) 값일 때만 표시) */
   copy?: boolean;
-}
-
-/**
- * 폐쇄망 http 환경에서는 navigator.clipboard 가 없을 수 있어 execCommand 로 폴백합니다.
- */
-function copyToClipboard(text: string): void {
-  if (navigator.clipboard?.writeText) {
-    navigator.clipboard.writeText(text).catch(() => undefined);
-    return;
-  }
-
-  const textarea = document.createElement('textarea');
-  textarea.value = text;
-  textarea.setAttribute('readonly', '');
-  textarea.style.position = 'fixed';
-  textarea.style.opacity = '0';
-  document.body.appendChild(textarea);
-  textarea.select();
-  try {
-    document.execCommand('copy');
-  } catch {
-    // 복사를 지원하지 않는 환경이면 조용히 무시합니다.
-  }
-  document.body.removeChild(textarea);
 }
 
 /**

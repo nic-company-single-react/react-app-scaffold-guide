@@ -1,8 +1,41 @@
+import fs from "node:fs/promises";
+import path from "node:path";
 import { themes as prismThemes } from "prism-react-renderer";
-import type { Config } from "@docusaurus/types";
+import type { Config, Plugin } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
+
+// 현장마다 달라지는 값의 단일 소스.
+// 이 파일에 주소를 직접 적지 말고 src/config/site-config.json 을 고치세요.
+// (여기서 쓰는 값은 빌드할 때 페이지에 박히므로 수정 후 다시 빌드해야 합니다.
+//  문서 본문에 쓰이는 값은 재빌드 없이 JSON 수정만으로 반영됩니다.)
+import siteConfig from "./src/config/site-config.json";
+
+const SITE_CONFIG_SOURCE = path.resolve(
+  __dirname,
+  "src/config/site-config.json",
+);
+
+/**
+ * 설정 파일을 배포 폴더 최상단(build/site-config.json)에 복사합니다.
+ *
+ * 소스에서는 설명 파일(site-config.ts)과 같은 폴더에 두어 가이드 담당자가
+ * 한 곳만 보게 하고, 배포본에서는 현장 담당자가 찾기 쉬운 최상단에 둡니다.
+ * 브라우저는 이 파일을 읽어 문서의 값을 채우므로, 현장에서는 이 파일만
+ * 고치면 재빌드 없이 반영됩니다.
+ */
+function siteConfigRuntimePlugin(): Plugin {
+  return {
+    name: "site-config-runtime",
+    async postBuild({ outDir }) {
+      await fs.copyFile(
+        SITE_CONFIG_SOURCE,
+        path.join(outDir, "site-config.json"),
+      );
+    },
+  };
+}
 
 const config: Config = {
   title: "react-app-scaffold",
@@ -16,10 +49,10 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: "http://redsky0212.dothome.co.kr",
+  url: siteConfig.siteUrl,
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: "/axiom/react-guide/",
+  baseUrl: siteConfig.baseUrl,
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -43,6 +76,8 @@ const config: Config = {
   },
 
   markdown: { format: "mdx" },
+
+  plugins: [siteConfigRuntimePlugin],
 
   presets: [
     [
@@ -116,7 +151,7 @@ const config: Config = {
           sidebarId: "apiDocSidebar",
         },
         {
-          href: "http://redsky0212.dothome.co.kr/axiom/react/",
+          href: siteConfig.exampleAppUrl,
           label: "Example",
           position: "left",
         },
@@ -125,6 +160,11 @@ const config: Config = {
           type: "docSidebar",
           position: "right",
           sidebarId: "taskDocSidebar",
+        },
+        {
+          href: "/site-info",
+          label: "설정",
+          position: "right",
         },
         // {
         //   label: 'API',
@@ -140,7 +180,7 @@ const config: Config = {
         // },
         // {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: "https://github.com/nic-company-single-react/react-app-scaffold",
+          href: siteConfig.scaffoldRepoUrl,
           label: "GitHub",
           position: "right",
         },
@@ -200,11 +240,11 @@ const config: Config = {
             },
             {
               label: "예제 소스 GitHub",
-              href: "https://github.com/nic-company-single-react/react-app-scaffold",
+              href: siteConfig.scaffoldRepoUrl,
             },
             {
               label: "Guide GitHub",
-              href: "https://github.com/nic-company-single-react/react-app-scaffold-guide",
+              href: siteConfig.guideRepoUrl,
             },
           ],
         },

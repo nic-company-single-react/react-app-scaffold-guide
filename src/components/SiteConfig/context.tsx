@@ -11,11 +11,17 @@ import {
 
 /**
  * loading : 아직 site-config.json 을 읽기 전 (SSR 결과 + 첫 렌더)
- * loaded  : site-config.json 을 정상적으로 읽음
+ * loaded  : 배포된 site-config.json 을 정상적으로 읽음
+ * source  : 개발 서버(npm start) — 소스의 src/config/site-config.json 을 그대로 사용 중
  * missing : 파일이 없음(404) → 기본값 사용
  * error   : 파일은 있으나 JSON 파싱 실패 등 → 기본값 사용
  */
-export type SiteConfigStatus = 'loading' | 'loaded' | 'missing' | 'error';
+export type SiteConfigStatus =
+  | 'loading'
+  | 'loaded'
+  | 'source'
+  | 'missing'
+  | 'error';
 
 interface SiteConfigContextValue {
   values: SiteConfigValues;
@@ -49,6 +55,14 @@ export function SiteConfigProvider({
 
   useEffect(() => {
     let cancelled = false;
+
+    // 개발 서버에서는 배포용 복사본이 없습니다. (빌드할 때 만들어집니다)
+    // 대신 소스의 src/config/site-config.json 을 그대로 쓰므로, 값을 고치면
+    // 새로고침 없이 바로 화면에 반영됩니다.
+    if (process.env.NODE_ENV !== 'production') {
+      setState({values: DEFAULT_SITE_CONFIG, status: 'source'});
+      return undefined;
+    }
 
     // no-store: 운영자가 서버에서 JSON을 고쳤을 때 캐시 때문에 옛 값이 보이는 것을 막습니다.
     fetch(configUrl, {cache: 'no-store'})
