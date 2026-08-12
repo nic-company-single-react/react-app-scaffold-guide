@@ -114,6 +114,7 @@ const sidebars: SidebarsConfig = {
         "components/ui/combobox-component",
         "components/ui/dialog-component",
         "components/ui/input-component",
+        "components/ui/inputgroup-component",
         "components/ui/spinner-component",
         "components/ui/switch-component",
         "components/ui/toast-component",
