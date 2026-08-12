@@ -43,18 +43,39 @@ title: "개요"
 
 - **Accordion**: 접이식 콘텐츠 패널
 - **Alert**: 알림 메시지
+- **Avatar**: 프로필 아바타 (`sm`/`default`/`lg` 크기)
 - **Badge**: 상태 표시 배지
+- **Breadcrumb**: 현재 경로 내비게이션
 - **Button**: 다양한 스타일의 버튼
+- **Button Group**: 버튼 묶음 (가로/세로 배치)
 - **Calendar**: 날짜 선택 캘린더 (`react-day-picker` 기반)
 - **Card**: 콘텐츠 카드 컨테이너
+- **Carousel**: 캐러셀/슬라이더 (`embla-carousel-react` 기반)
 - **Checkbox**: 체크박스 입력
 - **Combobox**: 검색 가능한 드롭다운 선택
+- **Dialog**: 모달 다이얼로그
+- **Drawer**: 슬라이드 인 패널 (`vaul` 기반)
 - **Dropdown Menu**: 드롭다운 메뉴
 - **Input**: 텍스트 입력 필드
+- **Input Group**: 입력 필드에 아이콘·버튼·텍스트 애드온 결합
 - **Label**: 폼 라벨
+- **Native Select**: 브라우저 네이티브 `<select>` 기반 선택
+- **Pagination**: 페이지 번호 내비게이션
+- **Progress**: 진행률 표시 바
+- **Radio Group**: 라디오 버튼 그룹
 - **Select**: 드롭다운 선택
+- **Separator**: 가로/세로 구분선
 - **Skeleton**: 로딩 스켈레톤(placeholder)
-- **Table**: 데이터 테이블 (`@tanstack/react-table` 기반)
+- **Slider**: 단일/범위 값 슬라이더
+- **Spinner**: 로딩 스피너 (아이콘 교체 가능)
+- **Switch**: 온/오프 토글 스위치
+- **Table**: 테이블 마크업 프리미티브
+- **Tabs**: 탭 패널 (가로/세로)
+- **Textarea**: 멀티라인 텍스트 입력
+- **Toast**: 토스트 알림 (`sonner` 기반, `Toaster` + `toast`)
+- **Toggle / Toggle Group**: 토글 버튼 및 토글 버튼 그룹
+- **Tooltip**: 툴팁
+- **SmartTable**: 선언형 데이터 그리드 — 정렬·페이징·검색·행/일괄 액션·CSV/XLSX export 지원 (`@tanstack/react-table` 기반)
 - **CodeBlock**: `Shiki` 기반 코드 하이라이팅 + 복사 기능 블록
 
 
@@ -64,12 +85,12 @@ title: "개요"
 
 전역 객체 `$util`·`$ui`·`$router`와 커스텀 훅으로 제공됩니다. 현재 제공되는 주요 유틸리티는 다음과 같습니다. (필요 시 계속 추가)
 
-- **API Helper**: Axios 기반의 API 통신 함수 및 공통 request/error 핸들러 (`useApi`)
+- **REST API Helper**: Axios 기반의 API 통신 함수 및 공통 request/error 핸들러 (`useApi`)
 - **Page Router**: 페이지 이동 함수 (`$router`)
 - **Date Utils**: 날짜 포맷 변환, 상대 날짜 계산 등 날짜 처리 함수 (`$util.date`)
 - **String Utils**: 문자열 변환, 치환, 대소문자 변경 관련 함수 (`$util.string`)
 - **Number Utils**: 천 단위 콤마(`comma`), 반올림(`round`), 범위 제한(`clamp`), 숫자 변환(`toNumber`), 퍼센트(`percent`) 등 숫자 포맷·조작 함수 (`$util.number`)
-- **Custom Hooks**: 개발 편의성 제공을 위하여 커스텀 훅 제공. (`useApi` 외, 필요 시 계속 추가 예정)
+- **Custom Hooks**: (`useApi` 외, 필요 시 계속 추가 예정)
 - **그 외 추가 예정**
   - **Data Formatter**: 통화·숫자·퍼센트 등 각종 데이터 포맷 변환을 묶은 전용 객체 (`$util.formatter`)
   - **Array/Object Utils**: 배열, 객체 조작을 위한 다양한 헬퍼 함수 (정렬, 필터, 딥 클론 등 — `lodash` 활용)
@@ -188,7 +209,7 @@ src/
 ### 성능 최적화
 
 - **코드 스플리팅**: React의 `lazy()` + `Suspense`를 활용하여 페이지별로 필요한 코드만 로드, 초기 번들 크기를 최소화합니다. 또한 `@loadable/component`를 활용하여 코드 스플리팅을 더욱 효과적으로 구현할 수 있습니다.
-- **컴포넌트 메모이제이션**: `React.memo`, `useMemo`, `useCallback`을 통해 불필요한 리렌더링을 방지합니다.
+- **컴포넌트 메모이제이션**: `React.memo`, `useMemo`, `useCallback`을 통해 불필요한 리렌더링을 방지합니다. (React Compiler는 아직 적용하지 않았으며, 도입 시 대부분의 수동 메모이제이션을 자동화할 수 있습니다.)
 - **빠른 빌드 및 HMR**: Vite 기반의 초고속 개발 서버와 Hot Module Replacement(HMR)로 빠른 피드백 루프를 제공합니다.
 - **트리 셰이킹**: 사용하지 않는 코드를 자동으로 제거하여 번들 크기를 최소화합니다.
 
