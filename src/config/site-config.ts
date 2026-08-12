@@ -50,7 +50,12 @@ export type SiteConfigFieldKind = "text" | "path" | "url" | "file" | "version";
 export type SiteConfigApplyAt = "runtime" | "build";
 
 /** /site-info 표를 나누는 묶음 */
-export type SiteConfigGroup = "site" | "installer" | "link" | "deploy";
+export type SiteConfigGroup =
+  | "site"
+  | "installer"
+  | "download"
+  | "link"
+  | "deploy";
 
 export interface SiteConfigField {
   key: SiteConfigKey;
@@ -172,6 +177,74 @@ export const SITE_CONFIG_FIELDS = [
     required: false,
   },
 
+  // ── 온라인 설치(다운로드) 주소 ──────────────────────────────
+  // 개발환경구성 문서의 "온라인 설치" 링크는 전부 아래 값에서 나옵니다.
+  // 폐쇄망이라 외부 다운로드가 막혀 있으면 사내 파일서버 주소로 바꿔 두면 됩니다.
+  {
+    key: "nodeDownloadUrl",
+    label: "Node.js 다운로드 주소",
+    description: "개발환경구성 문서의 Node.js 온라인 설치 링크",
+    kind: "url",
+    group: "download",
+    applyAt: "runtime",
+    required: false,
+  },
+  {
+    key: "gitDownloadUrl",
+    label: "Git 다운로드 주소",
+    description: "개발환경구성 문서의 Git 온라인 설치 링크",
+    kind: "url",
+    group: "download",
+    applyAt: "runtime",
+    required: false,
+  },
+  {
+    key: "vscodeDownloadUrl",
+    label: "VSCode 다운로드 주소",
+    description: "개발환경구성 문서의 Visual Studio Code 온라인 설치 링크",
+    kind: "url",
+    group: "download",
+    applyAt: "runtime",
+    required: false,
+  },
+  {
+    key: "chromeDownloadUrl",
+    label: "Chrome 다운로드 주소",
+    description: "개발환경구성 문서의 Chrome 브라우저 온라인 설치 링크",
+    kind: "url",
+    group: "download",
+    applyAt: "runtime",
+    required: false,
+  },
+  {
+    key: "reactDevtoolsUrl",
+    label: "React Developer Tools 주소",
+    description: "크롬 웹스토어의 React Developer Tools 확장 프로그램 주소",
+    kind: "url",
+    group: "download",
+    applyAt: "runtime",
+    required: false,
+  },
+  {
+    key: "reduxDevtoolsUrl",
+    label: "Redux DevTools 주소",
+    description: "크롬 웹스토어의 Redux DevTools 확장 프로그램 주소",
+    kind: "url",
+    group: "download",
+    applyAt: "runtime",
+    required: false,
+  },
+  {
+    key: "tanstackQueryDevtoolsUrl",
+    label: "TanStack Query DevTools 주소",
+    description:
+      "크롬 웹스토어의 TanStack Query(React Query) DevTools 확장 프로그램 주소",
+    kind: "url",
+    group: "download",
+    applyAt: "runtime",
+    required: false,
+  },
+
   // ── 연결되는 사이트 주소 ────────────────────────────────────
   {
     key: "exampleAppUrl",
@@ -210,6 +283,26 @@ export const SITE_CONFIG_FIELDS = [
     applyAt: "build",
     required: false,
   },
+  {
+    key: "styleDictionaryUrl",
+    label: "Style Dictionary (웹)",
+    description: "디자인 토큰을 플랫폼으로 내보내는 기능",
+    kind: "url",
+    group: "link",
+    applyAt: "build",
+    required: false,
+  },
+  {
+    key: "zustandUrl",
+    label: "Zustand (웹)",
+    description:
+      "개발환경구성 문서에서 함께 고려해 보라고 안내하는 상태 관리 라이브러리 Zustand 사이트 주소",
+    kind: "url",
+    group: "link",
+    applyAt: "runtime",
+    required: false,
+  },
+
 
   // ── 이 가이드가 배포되는 주소 ───────────────────────────────
   {
@@ -267,6 +360,12 @@ export const SITE_CONFIG_GROUPS: {
     label: "설치 파일 / 버전",
     description:
       "개발환경구성 문서에 표시되는 설치 파일 이름과 버전입니다. 파일서버에 다른 버전을 올렸을 때만 교체하면 됩니다.",
+  },
+  {
+    key: "download",
+    label: "온라인 설치(다운로드) 주소",
+    description:
+      "개발환경구성 문서의 '온라인 설치' 링크가 여는 주소입니다. 외부 인터넷이 막힌 현장이면 사내 배포 주소로 교체합니다.",
   },
   {
     key: "link",

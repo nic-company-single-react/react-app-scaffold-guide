@@ -42,7 +42,7 @@ title: "설치"
 ### 접근 권한
 
 :::info <span class="admonition-title">Git</span> 레포지토리 접근 권한
-- **레포지토리 URL**: [https://github.com/redsky-project/react-app-scaffold](https://github.com/redsky-project/react-app-scaffold)
+- **레포지토리 URL**: <Var k="gitRepoUrl" />
 - 개발 코드를 내려받기 위해서는 **Git 계정 및 레포지토리 접근 권한**이 필요합니다
 - 권한이 없는 경우 프로젝트 담당자에게 접근 권한을 요청하세요
 :::
@@ -119,9 +119,7 @@ cd ~/projects/frontend-next
 
 생성한 작업 폴더에서 Git을 사용하여 프로젝트를 클론합니다.
 
-```bash
-git clone git@github.com:redsky-project/react-app-scaffold.git
-```
+<VarCode language="bash">{`git clone {{gitRepoUrl}}`}</VarCode>
 
 클론이 완료되면 `react-app-scaffold` 폴더가 생성됩니다.
 
@@ -357,7 +355,7 @@ Error: The engine "node" is incompatible with this module
 
 **해결 방법**:
 - Node.js 버전을 20.0 이상으로 업그레이드하세요
-- [Node.js 공식 웹사이트](https://nodejs.org/)에서 LTS 버전을 다운로드하세요
+- <VarLink k="nodeDownloadUrl">Node.js 공식 웹사이트</VarLink>에서 LTS 버전을 다운로드하세요
 - 또는 `nvm` (Node Version Manager)을 사용하여 버전을 관리하세요
 
 #### 문제 2: npm install 실패

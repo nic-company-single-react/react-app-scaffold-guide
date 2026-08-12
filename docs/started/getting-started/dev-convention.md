@@ -101,9 +101,9 @@ react-app-scaffold
 
 | 도메인 레인 <span class="text-blue-normal">(격리·병렬)</span> | 담당 | 구성 폴더 |
 | --- | --- | --- |
-| `domains/account` <span class="text-gray-normal">(예: 계좌)</span> | 👩‍💻 개발자 A 🔒 | api · components · pages · router · store · types |
-| `domains/transfer` <span class="text-gray-normal">(예: 이체)</span> | 🧑‍💻 개발자 B 🔒 | api · components · pages · router · store · types |
-| `domains/loan` <span class="text-gray-normal">(예: 대출)</span> | 👨‍💻 개발자 C 🔒 | api · components · pages · router · store · types |
+| `domains/account` <span class="text-gray-normal">(예: 계좌)</span> | 👩‍💻 개발자 A  | api · components · pages · hooks · router · store · types |
+| `domains/transfer` <span class="text-gray-normal">(예: 이체)</span> | 🧑‍💻 개발자 B  | api · components · pages · hooks · router · store · types |
+| `domains/loan` <span class="text-gray-normal">(예: 대출)</span> | 👨‍💻 개발자 C  | api · components · pages · hooks · router · store · types |
 | `domains/[domain]` | ＋ 도메인 추가 | 레인을 늘리듯 자유롭게 확장 |
 
 > &#8251; `account · transfer · loan`은 이해를 돕기 위한 **업무 예시**입니다. 실제 도메인은 프로젝트 업무에 맞춰 생성합니다.

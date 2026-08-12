@@ -41,13 +41,24 @@
   "vscodeInstallerFile": "VSCodeUserSetup-x64-1.114.0.exe",
   "chromeInstallerFile": "GoogleChromeStandaloneEnterprise64.msi",
 
-  "//3": "── 연결되는 사이트 주소 ─ build ─────────────────────────────",
+  "//3": "── 온라인 설치(다운로드) 주소 ─ runtime ─────────────────────",
+  "nodeDownloadUrl": "https://nodejs.org",
+  "gitDownloadUrl": "https://git-scm.com/downloads",
+  "vscodeDownloadUrl": "https://code.visualstudio.com/Download",
+  "chromeDownloadUrl": "https://www.google.co.kr/chrome/",
+  "reactDevtoolsUrl": "https://chromewebstore.google.com/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=ko",
+  "reduxDevtoolsUrl": "https://chromewebstore.google.com/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=ko",
+  "tanstackQueryDevtoolsUrl": "https://chromewebstore.google.com/detail/tanstack-query-devtools/annajfchloimdhceglpgglpeepfghfai",
+
+  "//4": "── 연결되는 사이트 주소 ─ build ─────────────────────────────",
   "exampleAppUrl": "http://redsky0212.dothome.co.kr/axiom/react/",
   "storybookUrl": "http://redsky0212.dothome.co.kr/axiom/storybook/",
   "scaffoldRepoUrl": "https://github.com/nic-company-single-react/react-app-scaffold",
   "guideRepoUrl": "https://github.com/nic-company-single-react/react-app-scaffold-guide",
+  "styleDictionaryUrl": "https://styledictionary.com/",
+  "zustandUrl": "https://zustand-demo.pmnd.rs/",
 
-  "//4": "── 이 가이드가 배포되는 주소 ─ build ────────────────────────",
+  "//5": "── 이 가이드가 배포되는 주소 ─ build ────────────────────────",
   "siteUrl": "http://redsky0212.dothome.co.kr",
   "baseUrl": "/axiom/react-guide/"
 }

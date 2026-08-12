@@ -13,7 +13,7 @@ title: "개발환경구성"
 **Node.js**가 PC에 설치되어 있지 않다면 설치한다. LTS버전(v<Var k="nodeVersion" plain />)을 설치합니다. **react-app-scaffold** 프로젝트가 최종 테스트한 버전입니다.
 
 - 온라인 설치
-  - [설치링크:(https://nodejs.org)](https://nodejs.org)
+  - <VarLink k="nodeDownloadUrl" showUrl>설치링크</VarLink>
 - 오프라인 설치
   - node.js설치 파일을 파일서버에서 제공하므로 <Var k="fileServerPath" /> 위치에서 다운로드 받아 설치 합니다.
   - node.js설치 파일: <Var k="nodeZipFile" />
@@ -46,7 +46,7 @@ npm -v
 
 Git사용을 위하여 설치합니다.  
 - 온라인 설치
-  - [설치링크:(https://git-scm.com/downloads)](https://git-scm.com/downloads)
+  - <VarLink k="gitDownloadUrl" showUrl>설치링크</VarLink>
 
 - 오프라인 설치
   - Git 설치 파일을 파일서버에서 제공하므로 <Var k="fileServerPath" /> 위치에서 다운로드 받아 설치 합니다.
@@ -59,7 +59,7 @@ Git사용을 위하여 설치합니다.
 **Frontend** 개발을 위한 Microsoft사에서 만든 개발용 코드 편집기입니다.
 
 - 온라인 설치
-  - [설치링크:(https://code.visualstudio.com/Download)](https://code.visualstudio.com/Download)
+  - <VarLink k="vscodeDownloadUrl" showUrl>설치링크</VarLink>
 - 오프라인 설치
   - Visual Studio Code 설치 파일을 파일서버에서 제공하므로 <Var k="fileServerPath" /> 위치에서 다운로드 받아 설치 합니다.
   - Visual Studio Code 설치 파일 : <Var k="vscodeInstallerFile" />
@@ -115,7 +115,7 @@ VSCode에서 사용할 수 있는 <span class="text-color-red">필수</span> 또
 Frontend 개발 시 로컬환경에서 다양한 개발자 환경을 제공하는 크롬 브라우저를 설치합니다.
 
 - 온라인 설치
-  - [Chrome 브라우저 설치 링크](https://www.google.co.kr/chrome/?brand=QCDH&gclid=CjwKCAiA8bqOBhANEiwA-sIlN8GC9kFUJffeeF2Ybz1S6hHu3fWQl0lz3T22w26Iuy6bV53q9KBqexoCYGwQAvD_BwE&gclsrc=aw.ds)
+  - <VarLink k="chromeDownloadUrl">Chrome 브라우저 설치 링크</VarLink>
 - 오프라인 설치
   - Chrome 브라우저 설치 파일을 파일서버에서 제공하므로 <Var k="fileServerPath" /> 위치에서 다운로드 받아 설치 합니다.
   - Chrome 브라우저 설치 파일 : <Var k="chromeInstallerFile" />
@@ -127,11 +127,9 @@ Frontend 개발 시 로컬환경에서 다양한 개발자 환경을 제공하�
 React를 사용할 때, React 앱을 보다 더 사용자 친화적인 인터페이스에서 검사하고 디버깅할 수 있습니다.
 
 - 온라인 설치
-  - [React Developer Tools 설치 링크](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=ko)
+  - <VarLink k="reactDevtoolsUrl">React Developer Tools 설치 링크</VarLink>
 - 오프라인 설치
   - Chrome Extensions 오프라인 .crx설치 방법#
-    {/* - 먼저 https://crxextractor.com/ 접속 합니다.
-    - LET’S START버튼을 누르고, 입력란에 Extension파일 경로를 입력하고 crx파일 다운로드를 받는다. */}
     - crx파일이 있으면 chrome브라우저에서 chrome://extensions를 입력하고 해당 브라우저에 crx파일을 드래그앤드롭하면 extension설치가 된다.
 
 ## Redux DevTools 설치 (크롬 브라우저 확장 프로그램)
@@ -139,12 +137,10 @@ React를 사용할 때, React 앱을 보다 더 사용자 친화적인 인터페
 ---
 
 React에서 사용하는 상태 관리 라이브러리 Redux의 상태 변경을 디버깅 할 수 있는 Redux DevTools를 설치합니다.  
-[Redux DevTools 설치 링크](https://chromewebstore.google.com/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=ko)
+<VarLink k="reduxDevtoolsUrl">Redux DevTools 설치 링크</VarLink>
 
 - 오프라인 설치
   - Chrome Extensions 오프라인 .crx설치 방법#
-    {/* - 먼저 https://crxextractor.com/ 접속 합니다.
-    - LET’S START버튼을 누르고, 입력란에 Extension파일 경로를 입력하고 crx파일 다운로드를 받는다. */}
     - crx파일이 있으면 chrome브라우저에서 chrome://extensions를 입력하고 해당 브라우저에 crx파일을 드래그앤드롭하면 extension설치가 된다.
 
 ## TanStack Query(React Query) DevTools 설치 (크롬 브라우저 확장 프로그램)
@@ -152,13 +148,11 @@ React에서 사용하는 상태 관리 라이브러리 Redux의 상태 변경을
 ---
 
 React에서 사용하는 상태 관리 라이브러리 TanStack Query의 상태 변경을 디버깅 할 수 있는 TanStack Query DevTools를 설치합니다.  
-[TanStack Query(React Query) DevTools 설치 링크](https://chromewebstore.google.com/detail/tanstack-query-devtools/annajfchloimdhceglpgglpeepfghfai)
+<VarLink k="tanstackQueryDevtoolsUrl">TanStack Query(React Query) DevTools 설치 링크</VarLink>
 
-- **TanStack Query(React Query)** 외에도 [Zustand](https://zustand-demo.pmnd.rs/)도 함께 고려해볼 필요가 있습니다.
+- **TanStack Query(React Query)** 외에도 <VarLink k="zustandUrl">Zustand</VarLink>도 함께 전역 상태관리로 Scaffold는 사용하고있습니다.
 - 오프라인 설치
   - Chrome Extensions 오프라인 .crx설치 방법#
-    {/* - 먼저 https://crxextractor.com/ 접속 합니다.
-    - LET’S START버튼을 누르고, 입력란에 Extension파일 경로를 입력하고 crx파일 다운로드를 받는다. */}
     - crx파일이 있으면 chrome브라우저에서 chrome://extensions를 입력하고 해당 브라우저에 crx파일을 드래그앤드롭하면 extension설치가 된다.
 
 ## VSCode에서 <span class="text-green-bold">Git bash</span> 쉘(Shll)프로그램을 사용하자.

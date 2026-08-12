@@ -1,6 +1,7 @@
 import MDXComponents from '@theme-original/MDXComponents';
 import Var from '@site/src/components/SiteConfig/Var';
 import VarCode from '@site/src/components/SiteConfig/VarCode';
+import VarLink from '@site/src/components/SiteConfig/VarLink';
 import SiteConfigTable from '@site/src/components/SiteConfig/SiteConfigTable';
 
 /**
@@ -8,11 +9,13 @@ import SiteConfigTable from '@site/src/components/SiteConfig/SiteConfigTable';
  *
  *   <Var k="fileServerPath" />   사이트별 설정값 출력
  *   <VarCode language="sh">      코드블록 안에서 {{설정키}} 치환
+ *   <VarLink k="nodeDownloadUrl">설치링크</VarLink>  설정값 주소로 링크
  *   <SiteConfigTable />          현재 사이트 설정 전체 표
  */
 export default {
   ...MDXComponents,
   Var,
   VarCode,
+  VarLink,
   SiteConfigTable,
 };

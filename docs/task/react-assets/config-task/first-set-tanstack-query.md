@@ -162,6 +162,6 @@ export function AppProviders({ children }: AppProvidersProps) {
 
 ## TanStack Query DevTools (Chrome Extension)
 ---
-* 확장팩 URL : [https://chromewebstore.google.com/detail/tanstack-query-devtools/annajfchloimdhceglpgglpeepfghfai](https://chromewebstore.google.com/detail/tanstack-query-devtools/annajfchloimdhceglpgglpeepfghfai)
+* 확장팩 URL : <Var k="tanstackQueryDevtoolsUrl" />
 
 ![ReactQueryDevtools 화면예제2](../assets/r-query/react-query02.png)

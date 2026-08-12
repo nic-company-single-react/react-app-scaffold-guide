@@ -101,7 +101,7 @@ title: "개요"
 
 ### 디자인 시스템
 
-**react-app-scaffold**는 [Style Dictionary](https://styledictionary.com/) 기반의 **디자인 토큰 시스템**을 내장하고 있어, 색상·타이포그래피·그림자 등 디자인 값을 JSON으로 일원 관리하고 CSS 변수로 자동 생성합니다.
+**react-app-scaffold**는 Style Dictionary ("<Var k="styleDictionaryUrl" />") 기반의 **디자인 토큰 시스템**을 내장하고 있어, 색상·타이포그래피·그림자 등 디자인 값을 JSON으로 일원 관리하고 CSS 변수로 자동 생성합니다.
 
 토큰은 **2계층** 구조로 관리됩니다.
 
