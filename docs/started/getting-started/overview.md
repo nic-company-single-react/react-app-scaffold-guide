@@ -18,10 +18,6 @@ title: "개요"
 
 
 
-<!-- ## 소개 자료
----
-* <a href="http://redsky0212.dothome.co.kr/axiom/react-guide/axiom-docs/react-app-scaffold_axiom-ai.mp4" target="_blank">react-app-scaffold 소개 동영상 자료</a>
-* <a href="http://redsky0212.dothome.co.kr/axiom/react-guide/axiom-docs/scaffold_presentation.pdf" target="_blank">react-app-scaffold 소개 슬라이드 자료</a> -->
 
 
 

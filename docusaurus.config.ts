@@ -151,11 +151,6 @@ const config: Config = {
           sidebarId: "apiDocSidebar",
         },
         {
-          href: siteConfig.exampleAppUrl,
-          label: "Example",
-          position: "left",
-        },
-        {
           label: "프로젝트준비(공통영역)",
           type: "docSidebar",
           position: "right",
