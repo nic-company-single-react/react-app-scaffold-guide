@@ -107,6 +107,7 @@ const sidebars: SidebarsConfig = {
         "components/ui/breadcrumb-component",
         "components/ui/button-component",
         "components/ui/button-group-component",
+        "components/ui/card-component",
         "components/ui/calendar-component",
         "components/ui/carousel-component",
         "components/ui/checkbox-component",
