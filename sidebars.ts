@@ -1,4 +1,4 @@
-import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
+import type { SidebarsConfig } from "@docusaurus/plugin-content-docs";
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -20,10 +20,10 @@ const sidebars: SidebarsConfig = {
       collapsed: false,
       collapsible: true,
       items: [
-        'started/getting-started/overview',
-        'started/getting-started/set-dev-env-config',
-        'started/getting-started/dev-convention',
-        'started/getting-started/react-style-guide',
+        "started/getting-started/overview",
+        "started/getting-started/set-dev-env-config",
+        "started/getting-started/dev-convention",
+        "started/getting-started/react-style-guide",
       ],
     },
     {
@@ -31,33 +31,27 @@ const sidebars: SidebarsConfig = {
       label: "◉ Scaffold 설정",
       collapsed: false,
       collapsible: true,
-      items: [
-        'started/app-config/index',
-      ],
+      items: ["started/app-config/index"],
     },
     {
       type: "category",
       label: "◉ Frontend담당(공통) 가이드",
       collapsed: false,
       collapsible: true,
-      items: [
-        'started/frontend-common/index',
-      ],
+      items: ["started/frontend-common/index"],
     },
     {
       type: "category",
       label: "◉ 퍼블리셔 가이드",
       collapsed: false,
       collapsible: true,
-      items: [
-        'started/publishing-guide/index',
-      ],
+      items: ["started/publishing-guide/index"],
     },
   ],
   documentDocSidebar: [
     {
-      type: 'category',
-      label: '◉ 개발 가이드',
+      type: "category",
+      label: "◉ 개발 가이드",
       collapsed: false,
       collapsible: true,
       items: [
@@ -72,17 +66,15 @@ const sidebars: SidebarsConfig = {
       ],
     },
     {
-      type: 'category',
-      label: '◉ 디자인 시스템',
+      type: "category",
+      label: "◉ 디자인 시스템",
       collapsed: false,
       collapsible: true,
-      items: [
-        "documents/design-system/create-design-tokens",
-      ],
+      items: ["documents/design-system/create-design-tokens"],
     },
     {
-      type: 'category',
-      label: '◉ 기타 가이드',
+      type: "category",
+      label: "◉ 기타 가이드",
       collapsed: false,
       collapsible: true,
       items: [
@@ -93,18 +85,15 @@ const sidebars: SidebarsConfig = {
       ],
     },
     {
-      type: 'category',
-      label: '◉ AI-assisted development ',
+      type: "category",
+      label: "◉ AI-assisted development ",
       collapsed: false,
       collapsible: true,
-      items: [
-        "documents/ai/what-rag",
-        "documents/ai/axiom-ai-reg-flow",
-      ],
+      items: ["documents/ai/what-rag", "documents/ai/axiom-ai-reg-flow"],
     },
   ],
   componentsDocSidebar: [
-    'components/index',
+    "components/index",
     {
       type: "category",
       label: "◉ UI Components",
@@ -113,7 +102,9 @@ const sidebars: SidebarsConfig = {
       items: [
         "components/ui/accordion-component",
         "components/ui/alert-component",
+        "components/ui/avatar-component",
         "components/ui/badge-component",
+        "components/ui/breadcrumb-component",
         "components/ui/button-component",
         "components/ui/button-group-component",
         "components/ui/calendar-component",
@@ -129,103 +120,97 @@ const sidebars: SidebarsConfig = {
     },
   ],
   apiDocSidebar: [
-    'apis/index',
+    "apis/index",
     {
-      type: 'category',
-      label: '◉ Functions',
+      type: "category",
+      label: "◉ Functions",
       collapsed: false,
       collapsible: true,
       items: [
         {
-          type: 'category',
-          label: '• Hooks',
+          type: "category",
+          label: "• Hooks",
           collapsed: false,
           collapsible: true,
           items: [
-            'apis/global-function/hooks/use-api',
-            'apis/global-function/hooks/use-client-state',
+            "apis/global-function/hooks/use-api",
+            "apis/global-function/hooks/use-client-state",
           ],
         },
         {
-          type: 'category',
-          label: '• Factories',
+          type: "category",
+          label: "• Factories",
           collapsed: false,
           collapsible: true,
-          items: [
-            'apis/global-function/factories/define-store',
-          ],
+          items: ["apis/global-function/factories/define-store"],
         },
       ],
     },
     {
-      type: 'category',
-      label: '◉ Service Objects(작업중)',
+      type: "category",
+      label: "◉ Service Objects(작업중)",
       collapsed: false,
       collapsible: true,
       items: [
         {
-          type: 'category',
-          label: '• $router',
+          type: "category",
+          label: "• $router",
+          collapsed: false,
+          collapsible: true,
+          items: ["apis/service-objects/router/index"],
+        },
+        {
+          type: "category",
+          label: "• $ui",
           collapsed: false,
           collapsible: true,
           items: [
-            'apis/service-objects/router/index',
+            "apis/service-objects/ui/alert-ui",
+            "apis/service-objects/ui/confirm-ui",
+            "apis/service-objects/ui/dialog-ui",
           ],
         },
         {
-          type: 'category',
-          label: '• $ui',
+          type: "category",
+          label: "• $util",
           collapsed: false,
           collapsible: true,
           items: [
-            'apis/service-objects/ui/alert-ui',
-            'apis/service-objects/ui/confirm-ui',
-            'apis/service-objects/ui/dialog-ui',
-          ],
-        },
-        {
-          type: 'category',
-          label: '• $util',
-          collapsed: false,
-          collapsible: true,
-          items: [
-            'apis/service-objects/util/array-util',
-            'apis/service-objects/util/date-util',
-            'apis/service-objects/util/finance-util',
-            'apis/service-objects/util/number-util',
-            'apis/service-objects/util/object-util',
-            'apis/service-objects/util/string-util',
+            "apis/service-objects/util/array-util",
+            "apis/service-objects/util/date-util",
+            "apis/service-objects/util/finance-util",
+            "apis/service-objects/util/number-util",
+            "apis/service-objects/util/object-util",
+            "apis/service-objects/util/string-util",
           ],
         },
       ],
     },
   ],
   taskDocSidebar: [
-    'task/intro',
+    "task/intro",
     {
-      type: 'category',
-      label: '◉ React 프로젝트 준비',
+      type: "category",
+      label: "◉ React 프로젝트 준비",
       collapsed: true,
       collapsible: true,
       items: [
-        'task/react-assets/config-task/first-set-proj',
-        'task/react-assets/config-task/set-layout-template',
-        'task/react-assets/config-task/first-set-tanstack-query',
-        'task/react-assets/config-task/first-set-storybook',
+        "task/react-assets/config-task/first-set-proj",
+        "task/react-assets/config-task/set-layout-template",
+        "task/react-assets/config-task/first-set-tanstack-query",
+        "task/react-assets/config-task/first-set-storybook",
       ],
     },
     {
-      type: 'category',
-      label: '◉ Git 관련',
+      type: "category",
+      label: "◉ Git 관련",
       collapsed: true,
       collapsible: true,
-      items: [
-        'task/git/command-list',
-      ],
+      items: ["task/git/command-list"],
     },
   ],
   // By default, Docusaurus generates a sidebar from the docs folder structure
-  tutorialSidebar: [{type: 'autogenerated', dirName: '.'}],
+  tutorialSidebar: [{ type: "autogenerated", dirName: "." }],
 
   // But you can create a sidebar manually
   /*
