@@ -12,8 +12,8 @@ export default function SiteInfo(): React.ReactElement {
       <main className="container margin-vert--lg">
         <h1>사이트 설정 정보</h1>
         <p>
-          이 가이드 문서에서 현장마다 달라지는 값(설치 파일 경로 등)은 문서
-          본문에 직접 적혀 있지 않고, 배포된{' '}
+          이 가이드 문서에서 현장마다 달라지는 값(설치 파일 경로, 설치 파일 이름
+          등)은 문서 본문에 직접 적혀 있지 않고, 배포된{' '}
           <code>{SITE_CONFIG_FILENAME}</code> 파일에서 읽어옵니다. 아래에서 지금
           이 서버에 어떤 값이 들어가 있는지 확인할 수 있습니다.
         </p>
@@ -44,9 +44,15 @@ export default function SiteInfo(): React.ReactElement {
             기본값으로 표시됩니다. 저장 후 이 페이지에서 꼭 확인하세요.
           </li>
           <li>
-            값이 기본값 그대로면 문서 본문에{' '}
+            <strong>현장(사이트) 값</strong> 이 기본값 그대로면 문서 본문에{' '}
             <span style={{fontWeight: 700}}>사이트 설정 필요</span> 배지가
             표시되어, 개발자가 잘못된 경로를 따라 하지 않도록 알려 줍니다.
+          </li>
+          <li>
+            <strong>설치 파일 / 버전</strong> 항목은 기본값도 정상적으로 쓸 수
+            있는 값이라 경고가 뜨지 않습니다. 파일서버에 올려 둔 설치 파일이
+            문서에 적힌 이름과 다를 때만 수정하면, 개발환경구성 문서의 파일
+            이름이 한 번에 모두 바뀝니다.
           </li>
         </ul>
       </main>

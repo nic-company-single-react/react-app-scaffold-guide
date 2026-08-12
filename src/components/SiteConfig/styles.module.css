@@ -77,6 +77,15 @@
   margin-bottom: 0.25rem;
 }
 
+.group {
+  margin-bottom: 2rem;
+}
+
+.groupTitle {
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+}
+
 .tableWrap {
   overflow-x: auto;
 }
@@ -109,6 +118,12 @@
 .stateUnset {
   color: var(--ifm-color-danger-darkest);
   font-weight: 700;
+  white-space: nowrap;
+}
+
+/* JSON 으로 덮어쓰지 않고 배포 기본값을 쓰고 있는 상태 (정상) */
+.stateDefault {
+  color: var(--ifm-color-emphasis-700);
   white-space: nowrap;
 }
 

@@ -10,13 +10,13 @@ title: "개발환경구성"
 
 ---
 
-**Node.js**가 PC에 설치되어 있지 않다면 설치한다. LTS버전(v24.14.0)을 설치합니다.
+**Node.js**가 PC에 설치되어 있지 않다면 설치한다. LTS버전(v<Var k="nodeVersion" plain />)을 설치합니다. **react-app-scaffold** 프로젝트가 최종 테스트한 버전입니다.
 
 - 온라인 설치
   - [설치링크:(https://nodejs.org)](https://nodejs.org)
 - 오프라인 설치
   - node.js설치 파일을 파일서버에서 제공하므로 <Var k="fileServerPath" /> 위치에서 다운로드 받아 설치 합니다.
-  - node.js설치 파일: `node-v24.14.0-win-x64.zip`
+  - node.js설치 파일: <Var k="nodeZipFile" />
     - **zip**를 통해 설치할 경우 압축을 풀면 다음과 같은 폴더 구조를 가집니다. 여기서 node.exe 를 실행하면 됩니다.
     ```sh
     node-v24.x.x-win-x64/
@@ -27,31 +27,30 @@ title: "개발환경구성"
     │   └── npm/
     └── ...
     ```
-  - 또는 `node-v24.14.0-x64.msi` 설치 파일을 통해 설치 진행합니다.
+  - **msi**를 통해 설치할 경우 <Var k="nodeMsiFile" /> 설치 파일을 통해 설치 진행합니다.
     - **msi**를 통해 설치 중 "Automatically install the necessary tools" 옵션을 체크하면 Chocolatey, Python, Visual Studio Build Tools 등을 인터넷에서 추가 다운로드하려 합니다.
       오프라인 환경이라면 이 옵션은 반드시 체크 해제해야 합니다.
 
-1. **LTS버전 (v24.14.0)** - 설치 완료 후 아래와 같이 윈도우 **명령 프롬프트** 창에서 `node`와 `npm` 설치 여부를 확인해봅니다.
+1. **LTS버전 (v<Var k="nodeVersion" plain />)** - 설치 완료 후 아래와 같이 윈도우 **명령 프롬프트** 창에서 `node`와 `npm` 설치 여부를 확인해봅니다.
 
-```sh
-# 설치 후 설치 버전 확인
+<VarCode language="sh">{`# 설치 후 설치 버전 확인
 node -v
-# 24.14.0
+# {{nodeVersion}}
 
 npm -v
-# 11.9.0
-```
+# {{npmVersion}}`}</VarCode>
 
 ## Git 설치
 
 ---
 
 Git사용을 위하여 설치합니다.  
-[설치링크:(https://git-scm.com/downloads)](https://git-scm.com/downloads)
+- 온라인 설치
+  - [설치링크:(https://git-scm.com/downloads)](https://git-scm.com/downloads)
 
 - 오프라인 설치
   - Git 설치 파일을 파일서버에서 제공하므로 <Var k="fileServerPath" /> 위치에서 다운로드 받아 설치 합니다.
-  - Git 설치 파일 : `Git-2.53.0.2-64-bit.exe`
+  - Git 설치 파일 : <Var k="gitInstallerFile" />
 
 ## Visual Studio Code 설치
 
@@ -63,7 +62,7 @@ Git사용을 위하여 설치합니다.
   - [설치링크:(https://code.visualstudio.com/Download)](https://code.visualstudio.com/Download)
 - 오프라인 설치
   - Visual Studio Code 설치 파일을 파일서버에서 제공하므로 <Var k="fileServerPath" /> 위치에서 다운로드 받아 설치 합니다.
-  - Visual Studio Code 설치 파일 : `VSCodeUserSetup-x64-1.114.0.exe`
+  - Visual Studio Code 설치 파일 : <Var k="vscodeInstallerFile" />
   - 오프라인이면 .vscode/settings.json 파일 생성 및 외부 연결 시도 막는 부분 세팅
     ```json
     {
@@ -119,7 +118,7 @@ Frontend 개발 시 로컬환경에서 다양한 개발자 환경을 제공하�
   - [Chrome 브라우저 설치 링크](https://www.google.co.kr/chrome/?brand=QCDH&gclid=CjwKCAiA8bqOBhANEiwA-sIlN8GC9kFUJffeeF2Ybz1S6hHu3fWQl0lz3T22w26Iuy6bV53q9KBqexoCYGwQAvD_BwE&gclsrc=aw.ds)
 - 오프라인 설치
   - Chrome 브라우저 설치 파일을 파일서버에서 제공하므로 <Var k="fileServerPath" /> 위치에서 다운로드 받아 설치 합니다.
-  - Chrome 브라우저 설치 파일 : `GoogleChromeStandaloneEnterprise64.msi`
+  - Chrome 브라우저 설치 파일 : <Var k="chromeInstallerFile" />
 
 ## React Developer Tools 설치 (크롬 브라우저 확장 프로그램)
 

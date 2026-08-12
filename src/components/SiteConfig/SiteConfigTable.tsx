@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import {
   SITE_CONFIG_FIELDS,
   SITE_CONFIG_FILENAME,
+  SITE_CONFIG_GROUPS,
   isUnsetValue,
 } from '@site/src/config/site-config';
 import {useSiteConfig} from './context';
@@ -81,55 +82,74 @@ export default function SiteConfigTable(): React.ReactElement {
     <div>
       {banner}
 
-      <div className={styles.tableWrap}>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>항목</th>
-              <th>설정 키</th>
-              <th>현재 값</th>
-              <th>상태</th>
-            </tr>
-          </thead>
-          <tbody>
-            {SITE_CONFIG_FIELDS.map((field) => {
-              const value = values[field.key];
-              const unset = isUnsetValue(field, value);
+      {SITE_CONFIG_GROUPS.map((group) => {
+        const fields = SITE_CONFIG_FIELDS.filter(
+          (field) => field.group === group.key,
+        );
+        if (fields.length === 0) return null;
 
-              return (
-                <tr key={field.key}>
-                  <td>
-                    <div>
-                      <strong>{field.label}</strong>
-                      {field.required && (
-                        <span className={styles.stateUnset}> *</span>
-                      )}
-                    </div>
-                    <div className={styles.desc}>{field.description}</div>
-                  </td>
-                  <td className={styles.key}>
-                    <code>{field.key}</code>
-                  </td>
-                  <td>
-                    <code className={clsx(unset && styles.unset)}>{value}</code>
-                  </td>
-                  <td>
-                    {status === 'loading' ? (
-                      <span>확인 중</span>
-                    ) : unset ? (
-                      <span className={styles.stateUnset}>
-                        {field.required ? '미설정(필수)' : '미설정'}
-                      </span>
-                    ) : (
-                      <span className={styles.stateOk}>설정됨</span>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+        return (
+          <section key={group.key} className={styles.group}>
+            <h2 className={styles.groupTitle}>{group.label}</h2>
+            <p className={styles.desc}>{group.description}</p>
+
+            <div className={styles.tableWrap}>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th>항목</th>
+                    <th>설정 키</th>
+                    <th>현재 값</th>
+                    <th>상태</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {fields.map((field) => {
+                    const value = values[field.key];
+                    const unset = isUnsetValue(field, value);
+                    const isDefault = value === field.placeholder;
+
+                    return (
+                      <tr key={field.key}>
+                        <td>
+                          <div>
+                            <strong>{field.label}</strong>
+                            {field.required && (
+                              <span className={styles.stateUnset}> *</span>
+                            )}
+                          </div>
+                          <div className={styles.desc}>{field.description}</div>
+                        </td>
+                        <td className={styles.key}>
+                          <code>{field.key}</code>
+                        </td>
+                        <td>
+                          <code className={clsx(unset && styles.unset)}>
+                            {value}
+                          </code>
+                        </td>
+                        <td>
+                          {status === 'loading' ? (
+                            <span>확인 중</span>
+                          ) : unset ? (
+                            <span className={styles.stateUnset}>
+                              {field.required ? '미설정(필수)' : '미설정'}
+                            </span>
+                          ) : isDefault ? (
+                            <span className={styles.stateDefault}>기본값</span>
+                          ) : (
+                            <span className={styles.stateOk}>설정됨</span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        );
+      })}
 
       <p className={styles.desc}>
         <strong>*</strong> 표시는 현장마다 반드시 교체해야 하는 값입니다. 설정
