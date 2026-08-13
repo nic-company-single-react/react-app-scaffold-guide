@@ -123,6 +123,7 @@ const sidebars: SidebarsConfig = {
         "components/ui/select-component",
         "components/ui/skeleton-component",
         "components/ui/slider-component",
+        "components/ui/smart-table-component",
         "components/ui/spinner-component",
         "components/ui/switch-component",
         "components/ui/toast-component",
