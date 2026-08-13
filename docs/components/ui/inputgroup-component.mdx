@@ -22,43 +22,38 @@ hide_table_of_contents: false
 
 ### Input · InputGroup · Field — 무엇이 다른가
 
-| 구분 | 역할(계층) | 테두리·포커스 소유 | 이 프로젝트 |
-| --- | --- | --- | --- |
-| `Input` | 입력 컨트롤 **하나** (`<input>`) | input 자신 | ✅ 설치됨 |
-| `InputGroup` | 입력 + 아이콘·텍스트·버튼을 **한 테두리 안**에 조합 | **InputGroup 래퍼** | ✅ 설치됨 |
-| `Field` | 폼 **한 행** 레이아웃(라벨 + 컨트롤 + 설명 + 에러) | 해당 없음(입력이 아님) | ❌ 미설치 |
+| 구분         | 역할(계층)                                          | 테두리·포커스 소유     | 이 프로젝트 |
+| ------------ | --------------------------------------------------- | ---------------------- | ----------- |
+| `Input`      | 입력 컨트롤 **하나** (`<input>`)                    | input 자신             | ✅ 설치됨   |
+| `InputGroup` | 입력 + 아이콘·텍스트·버튼을 **한 테두리 안**에 조합 | **InputGroup 래퍼**    | ✅ 설치됨   |
+| `Field`      | 폼 **한 행** 레이아웃(라벨 + 컨트롤 + 설명 + 에러)  | 해당 없음(입력이 아님) | ❌ 미설치   |
 
 :::info `Field`는 이 프로젝트에 없습니다 — 없어도 됩니다
 shadcn 공식 InputGroup 문서 예제에는 `Field / FieldLabel / FieldDescription / FieldError`가 자주 함께 등장하지만, 그건 **입력 컴포넌트가 아니라 라벨·설명·에러를 묶는 폼 레이아웃 래퍼**라 InputGroup과 직접 관계가 없습니다. 이 프로젝트에서는 기존 `Label` + 도움말/에러 텍스트 조합으로 동일하게 처리합니다.
 
 ```tsx
-{/* Field 없이 — Label + InputGroup + 도움말/에러 텍스트 */}
+{
+  /* Field 없이 — Label + InputGroup + 도움말/에러 텍스트 */
+}
 <div className="grid gap-1.5">
   <Label htmlFor="email">이메일</Label>
   <InputGroup>
-    <InputGroupAddon><MailIcon /></InputGroupAddon>
-    <InputGroupInput id="email" type="email" placeholder="you@example.com" aria-describedby="email-help" />
+    <InputGroupAddon>
+      <MailIcon />
+    </InputGroupAddon>
+    <InputGroupInput
+      id="email"
+      type="email"
+      placeholder="you@example.com"
+      aria-describedby="email-help"
+    />
   </InputGroup>
-  <p id="email-help" className="text-xs text-muted-foreground">회사 이메일을 입력하세요.</p>
-</div>
+  <p id="email-help" className="text-xs text-muted-foreground">
+    회사 이메일을 입력하세요.
+  </p>
+</div>;
 ```
-:::
 
-:::info 📷 예제 캡쳐 준비 중
-이 페이지의 예제 이미지는 아직 등록되지 않았습니다. 캡쳐 원본은 scaffold 예제 페이지(`src/domains/example/pages/ui-components/InputGroupComponent.tsx`)를 실행해 해당 섹션을 그대로 찍으면 됩니다.
-
-| 저장 경로(`docs/components/assets/ui/`) | 캡쳐할 화면 |
-| --- | --- |
-| `inputgroup-basic.png` | 아이콘 프리픽스 검색창(기본 사용법) |
-| `inputgroup-align.png` | `align` 4종(앞·뒤·위·아래) 배치 비교 |
-| `inputgroup-text.png` | `https://` 프리픽스 · `원` 서픽스 · `$`/`USD` 양쪽 |
-| `inputgroup-button.png` | 쿠폰 `적용` 버튼 · 비밀번호 토글 · 복사 버튼 |
-| `inputgroup-state.png` | `disabled` / `aria-invalid` 상태 |
-| `inputgroup-textarea.png` | Textarea + `block-end` 글자 수·전송 버튼 |
-| `inputgroup-style.png` | `className` 오버라이드(알약형 검색 바) |
-| `inputgroup-real-search.png` | 실전 예제 — 통합 검색 바 |
-
-**교체 방법** — 위 경로에 파일을 넣고, 각 섹션에 `{/* … */}` 주석으로 준비해 둔 `<img>` 한 줄의 주석만 해제하세요.
 :::
 
 ---
@@ -75,7 +70,7 @@ import {
   InputGroupTextarea,
   InputGroupText,
   InputGroupButton,
-} from '@axiom/components/ui';
+} from "@axiom/components/ui";
 ```
 
 InputGroup은 **여러 파트를 조합해서** 쓰는 합성(compound) 컴포넌트입니다. 전부 필수는 아니며 **필요한 것만 골라** 씁니다. 각 파트의 역할은 [구성(Anatomy)](#구성-anatomy)에서 설명합니다.
@@ -92,17 +87,21 @@ InputGroup은 **여러 파트를 조합해서** 쓰는 합성(compound) 컴포�
 
 가장 흔한 형태는 **아이콘 프리픽스 + 입력**입니다. `InputGroupAddon`은 기본값이 `align="inline-start"`(앞)이라 별도 지정이 필요 없습니다.
 
-{/* <img src={require('../assets/ui/inputgroup-basic.png').default} alt="InputGroup 기본 사용법" width="80%" /> */}
+<img
+  src={require("../assets/ui/inputgroup-basic.png").default}
+  alt="InputGroup 기본 사용법"
+  width="80%"
+/>
 
 ```tsx
-import { Search } from 'lucide-react';
+import { Search } from "lucide-react";
 
 <InputGroup>
   <InputGroupAddon>
     <Search />
   </InputGroupAddon>
   <InputGroupInput placeholder="검색어를 입력하세요" />
-</InputGroup>
+</InputGroup>;
 ```
 
 기본 크기는 **높이 32px(`h-8`)**, 너비는 부모에 꽉 차는 `w-full`입니다. 폭을 제한하려면 감싼 요소에서 `max-w-*`를 주세요.
@@ -124,28 +123,32 @@ import { Search } from 'lucide-react';
 ---
 
 ```tsx
-<InputGroup>                            {/* 래퍼 — 테두리·높이·포커스·에러·disabled 소유 */}
-  <InputGroupAddon>                     {/* 부가 영역(앞) — 기본 align="inline-start" */}
+<InputGroup>
+  {" "}
+  {/* 래퍼 — 테두리·높이·포커스·에러·disabled 소유 */}
+  <InputGroupAddon>
+    {" "}
+    {/* 부가 영역(앞) — 기본 align="inline-start" */}
     <SearchIcon />
   </InputGroupAddon>
-
-  <InputGroupInput />                   {/* 입력 컨트롤 (또는 InputGroupTextarea) */}
-
-  <InputGroupAddon align="inline-end">  {/* 부가 영역(뒤) */}
+  <InputGroupInput /> {/* 입력 컨트롤 (또는 InputGroupTextarea) */}
+  <InputGroupAddon align="inline-end">
+    {" "}
+    {/* 부가 영역(뒤) */}
     <InputGroupText>원</InputGroupText> {/* 고정 텍스트 */}
-    <InputGroupButton>적용</InputGroupButton>  {/* 액션 버튼 */}
+    <InputGroupButton>적용</InputGroupButton> {/* 액션 버튼 */}
   </InputGroupAddon>
 </InputGroup>
 ```
 
-| 파트 | 실제 렌더 | 역할 |
-| --- | --- | --- |
-| `InputGroup` | `<div role="group" data-slot="input-group">` | 루트 래퍼. 테두리·높이·모서리·포커스 링·에러·disabled 스타일을 소유 |
-| `InputGroupAddon` | `<div role="group" data-slot="input-group-addon" data-align="…">` | 부가 영역. `align`으로 위치 결정. 클릭하면 입력에 포커스 |
-| `InputGroupInput` | `Input` + `data-slot="input-group-control"` | 한 줄 입력. 테두리·배경이 제거된 상태로 그룹 안에 들어감 |
-| `InputGroupTextarea` | `Textarea` + `data-slot="input-group-control"` | 여러 줄 입력. 넣으면 그룹 높이가 `auto`로 바뀜 |
-| `InputGroupText` | `<span>` | 단위·도메인 같은 **고정 텍스트**(입력 아님) |
-| `InputGroupButton` | `Button`(`data-slot="button"`) | 액션 버튼. 기본 `type="button"` · `variant="ghost"` · `size="xs"` |
+| 파트                 | 실제 렌더                                                         | 역할                                                                |
+| -------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `InputGroup`         | `<div role="group" data-slot="input-group">`                      | 루트 래퍼. 테두리·높이·모서리·포커스 링·에러·disabled 스타일을 소유 |
+| `InputGroupAddon`    | `<div role="group" data-slot="input-group-addon" data-align="…">` | 부가 영역. `align`으로 위치 결정. 클릭하면 입력에 포커스            |
+| `InputGroupInput`    | `Input` + `data-slot="input-group-control"`                       | 한 줄 입력. 테두리·배경이 제거된 상태로 그룹 안에 들어감            |
+| `InputGroupTextarea` | `Textarea` + `data-slot="input-group-control"`                    | 여러 줄 입력. 넣으면 그룹 높이가 `auto`로 바뀜                      |
+| `InputGroupText`     | `<span>`                                                          | 단위·도메인 같은 **고정 텍스트**(입력 아님)                         |
+| `InputGroupButton`   | `Button`(`data-slot="button"`)                                    | 액션 버튼. 기본 `type="button"` · `variant="ghost"` · `size="xs"`   |
 
 :::note Addon은 JSX 순서가 아니라 `align`이 위치를 정합니다
 `inline-start`는 `order-first`, `inline-end`는 `order-last`가 적용됩니다. 즉 **JSX에서 어디에 쓰든** 화면상 위치는 `align` 값이 결정합니다. 다만 읽는 사람을 위해 **화면 순서대로 작성**하는 것을 권장합니다.
@@ -159,39 +162,51 @@ import { Search } from 'lucide-react';
 
 `InputGroupAddon`의 `align`으로 부가 영역이 붙는 위치를 정합니다. 값은 4가지입니다.
 
-{/* <img src={require('../assets/ui/inputgroup-align.png').default} alt="InputGroup align 4종" width="80%" /> */}
+<img
+  src={require("../assets/ui/inputgroup-align.png").default}
+  alt="InputGroup align 4종"
+  width="80%"
+/>
 
-| `align` | 위치 | 그룹에 생기는 변화 |
-| --- | --- | --- |
-| `"inline-start"` *(기본)* | 입력 **앞** | 한 줄 유지(`h-8`), 입력 왼쪽 여백 축소 |
-| `"inline-end"` | 입력 **뒤** | 한 줄 유지(`h-8`), 입력 오른쪽 여백 축소 |
-| `"block-start"` | 입력 **위** | 그룹이 **세로 배치(`flex-col`) + 높이 auto** 로 전환 |
-| `"block-end"` | 입력 **아래** | 그룹이 **세로 배치(`flex-col`) + 높이 auto** 로 전환 |
+| `align`                   | 위치          | 그룹에 생기는 변화                                   |
+| ------------------------- | ------------- | ---------------------------------------------------- |
+| `"inline-start"` _(기본)_ | 입력 **앞**   | 한 줄 유지(`h-8`), 입력 왼쪽 여백 축소               |
+| `"inline-end"`            | 입력 **뒤**   | 한 줄 유지(`h-8`), 입력 오른쪽 여백 축소             |
+| `"block-start"`           | 입력 **위**   | 그룹이 **세로 배치(`flex-col`) + 높이 auto** 로 전환 |
+| `"block-end"`             | 입력 **아래** | 그룹이 **세로 배치(`flex-col`) + 높이 auto** 로 전환 |
 
 ```tsx
-{/* 앞 (기본) */}
+{
+  /* 앞 (기본) */
+}
 <InputGroup>
-  <InputGroupAddon><Search /></InputGroupAddon>
+  <InputGroupAddon>
+    <Search />
+  </InputGroupAddon>
   <InputGroupInput placeholder="검색어" />
-</InputGroup>
+</InputGroup>;
 
-{/* 뒤 */}
+{
+  /* 뒤 */
+}
 <InputGroup>
   <InputGroupInput placeholder="쿠폰 코드" />
   {/* highlight-next-line */}
   <InputGroupAddon align="inline-end">
     <InputGroupButton variant="default">적용</InputGroupButton>
   </InputGroupAddon>
-</InputGroup>
+</InputGroup>;
 
-{/* 위 — 그룹이 세로로 바뀜 */}
+{
+  /* 위 — 그룹이 세로로 바뀜 */
+}
 <InputGroup>
   {/* highlight-next-line */}
   <InputGroupAddon align="block-start">
     <InputGroupText>배송 메모</InputGroupText>
   </InputGroupAddon>
   <InputGroupInput placeholder="부재 시 문 앞에 놓아주세요" />
-</InputGroup>
+</InputGroup>;
 ```
 
 :::caution `block-*`은 높이를 바꿉니다
@@ -206,26 +221,36 @@ import { Search } from 'lucide-react';
 
 `https://`·`원`·`USD`처럼 **사용자가 수정할 수 없는 고정 문구**는 `InputGroupText`로 넣습니다. 입력값이 아니므로 폼 제출에 포함되지 않습니다.
 
-{/* <img src={require('../assets/ui/inputgroup-text.png').default} alt="InputGroup 텍스트 프리픽스/서픽스" width="80%" /> */}
+<img
+  src={require("../assets/ui/inputgroup-text.png").default}
+  alt="InputGroup 텍스트 프리픽스/서픽스"
+  width="80%"
+/>
 
 ```tsx
-{/* 앞에 텍스트 */}
+{
+  /* 앞에 텍스트 */
+}
 <InputGroup>
   <InputGroupAddon>
     <InputGroupText>https://</InputGroupText>
   </InputGroupAddon>
   <InputGroupInput placeholder="example.com" />
-</InputGroup>
+</InputGroup>;
 
-{/* 뒤에 단위 */}
+{
+  /* 뒤에 단위 */
+}
 <InputGroup>
   <InputGroupInput type="number" placeholder="0" />
   <InputGroupAddon align="inline-end">
     <InputGroupText>원</InputGroupText>
   </InputGroupAddon>
-</InputGroup>
+</InputGroup>;
 
-{/* 양쪽 동시 — 통화 기호(앞) + 통화 코드(뒤) */}
+{
+  /* 양쪽 동시 — 통화 기호(앞) + 통화 코드(뒤) */
+}
 <InputGroup>
   <InputGroupAddon>
     <InputGroupText>$</InputGroupText>
@@ -234,7 +259,7 @@ import { Search } from 'lucide-react';
   <InputGroupAddon align="inline-end">
     <InputGroupText>USD</InputGroupText>
   </InputGroupAddon>
-</InputGroup>
+</InputGroup>;
 ```
 
 :::tip `<kbd>`도 Addon 안에서 자동 정렬됩니다
@@ -257,28 +282,34 @@ Addon은 **직속 자식** `<kbd>`에 모서리 반경(`calc(var(--radius) - 5px
 
 입력에 붙는 버튼입니다. 내부적으로 scaffold `Button`을 렌더하므로 `variant`·`onClick`·`disabled` 등 Button의 props를 그대로 받습니다.
 
-{/* <img src={require('../assets/ui/inputgroup-button.png').default} alt="InputGroup 버튼" width="80%" /> */}
+<img
+  src={require("../assets/ui/inputgroup-button.png").default}
+  alt="InputGroup 버튼"
+  width="80%"
+/>
 
 ```tsx
-{/* 텍스트 버튼 */}
+{
+  /* 텍스트 버튼 */
+}
 <InputGroup>
   <InputGroupInput placeholder="쿠폰 코드" />
   <InputGroupAddon align="inline-end">
     <InputGroupButton variant="default">적용</InputGroupButton>
   </InputGroupAddon>
-</InputGroup>
+</InputGroup>;
 ```
 
 ### 크기 — `size`
 
 `InputGroupButton`의 `size`는 **Button의 size와 다른 자체 값**입니다(Button의 `size`는 받지 않습니다).
 
-| `size` | 결과 |
-| --- | --- |
-| `"xs"` *(기본)* | 높이 24px(`h-6`) · 좁은 좌우 여백 · 아이콘 14px |
-| `"sm"` | **전용 크기 클래스 없음** → Button 기본 크기(높이 32px)를 그대로 사용 |
-| `"icon-xs"` | 24×24 정사각 아이콘 버튼 |
-| `"icon-sm"` | 32×32 정사각 아이콘 버튼 |
+| `size`          | 결과                                                                  |
+| --------------- | --------------------------------------------------------------------- |
+| `"xs"` _(기본)_ | 높이 24px(`h-6`) · 좁은 좌우 여백 · 아이콘 14px                       |
+| `"sm"`          | **전용 크기 클래스 없음** → Button 기본 크기(높이 32px)를 그대로 사용 |
+| `"icon-xs"`     | 24×24 정사각 아이콘 버튼                                              |
+| `"icon-sm"`     | 32×32 정사각 아이콘 버튼                                              |
 
 :::caution `size="sm"`은 `xs`보다 **큽니다**
 `sm`에는 별도 크기 클래스가 비어 있어 Button 기본값(`h-8`)이 그대로 나옵니다. 그룹 높이도 `h-8`이라 버튼이 세로로 꽉 차 보입니다. 컴팩트한 버튼을 원하면 기본값 `xs`를, 눈에 띄는 CTA를 원하면 `sm`을 쓰세요.
@@ -289,12 +320,12 @@ Addon은 **직속 자식** `<kbd>`에 모서리 반경(`calc(var(--radius) - 5px
 `size="icon-xs"`로 정사각 버튼을 만들고 `type`을 토글합니다. **아이콘만 있는 버튼에는 `aria-label`이 필수**입니다.
 
 ```tsx
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff } from "lucide-react";
 
 const [show, setShow] = useState(false);
 
 <InputGroup>
-  <InputGroupInput type={show ? 'text' : 'password'} placeholder="비밀번호" />
+  <InputGroupInput type={show ? "text" : "password"} placeholder="비밀번호" />
   <InputGroupAddon align="inline-end">
     {/* highlight-start */}
     <InputGroupButton
@@ -306,7 +337,7 @@ const [show, setShow] = useState(false);
     </InputGroupButton>
     {/* highlight-end */}
   </InputGroupAddon>
-</InputGroup>
+</InputGroup>;
 ```
 
 ### 읽기 전용 + 복사 버튼
@@ -314,12 +345,12 @@ const [show, setShow] = useState(false);
 초대 코드·API 키처럼 **보여주기만 하고 복사시키는** 패턴입니다.
 
 ```tsx
-import { Copy, Check } from 'lucide-react';
+import { Copy, Check } from "lucide-react";
 
 const [copied, setCopied] = useState(false);
 
 const handleCopy = () => {
-  navigator.clipboard?.writeText('AXIOM-2026-INVITE').catch(() => {});
+  navigator.clipboard?.writeText("AXIOM-2026-INVITE").catch(() => {});
   setCopied(true);
   window.setTimeout(() => setCopied(false), 1500);
 };
@@ -331,7 +362,7 @@ const handleCopy = () => {
       {copied ? <Check /> : <Copy />}
     </InputGroupButton>
   </InputGroupAddon>
-</InputGroup>
+</InputGroup>;
 ```
 
 :::note 기본 `type="button"` — 폼 안에서 안전합니다
@@ -346,25 +377,43 @@ const handleCopy = () => {
 
 상태 스타일은 **개별 컨트롤이 아니라 그룹 전체**에 적용됩니다.
 
-{/* <img src={require('../assets/ui/inputgroup-state.png').default} alt="InputGroup disabled / aria-invalid" width="80%" /> */}
+<img
+  src={require("../assets/ui/inputgroup-state.png").default}
+  alt="InputGroup disabled / aria-invalid"
+  width="80%"
+/>
 
 ```tsx
-{/* disabled — 그룹 전체가 흐려짐 */}
+{
+  /* disabled — 그룹 전체가 흐려짐 */
+}
 <InputGroup>
-  <InputGroupAddon><Search /></InputGroupAddon>
+  <InputGroupAddon>
+    <Search />
+  </InputGroupAddon>
   {/* highlight-next-line */}
   <InputGroupInput placeholder="비활성화" disabled />
-</InputGroup>
+</InputGroup>;
 
-{/* aria-invalid — 그룹 테두리·링이 destructive 로 */}
+{
+  /* aria-invalid — 그룹 테두리·링이 destructive 로 */
+}
 <div className="grid gap-1.5">
   <InputGroup>
-    <InputGroupAddon><Mail /></InputGroupAddon>
+    <InputGroupAddon>
+      <Mail />
+    </InputGroupAddon>
     {/* highlight-next-line */}
-    <InputGroupInput aria-invalid defaultValue="틀린-이메일" aria-describedby="mail-error" />
+    <InputGroupInput
+      aria-invalid
+      defaultValue="틀린-이메일"
+      aria-describedby="mail-error"
+    />
   </InputGroup>
-  <p id="mail-error" className="text-xs text-destructive">올바른 이메일 형식이 아닙니다.</p>
-</div>
+  <p id="mail-error" className="text-xs text-destructive">
+    올바른 이메일 형식이 아닙니다.
+  </p>
+</div>;
 ```
 
 - **`disabled`** — 안쪽 컨트롤에 `disabled`를 주면 그룹 배경이 흐려지고 투명도가 낮아집니다(`has-disabled:`).
@@ -383,6 +432,7 @@ const handleCopy = () => {
   </InputGroupAddon>
 </InputGroup>
 ```
+
 :::
 
 :::note 포커스 링은 **입력에 포커스했을 때만** 켜집니다
@@ -397,12 +447,16 @@ const handleCopy = () => {
 
 `InputGroupTextarea` + `align="block-end"` Addon 조합으로 **글자 수·전송 버튼이 아래 붙은 메시지 입력창**을 만듭니다.
 
-{/* <img src={require('../assets/ui/inputgroup-textarea.png').default} alt="InputGroup Textarea + block-end" width="80%" /> */}
+<img
+  src={require("../assets/ui/inputgroup-textarea.png").default}
+  alt="InputGroup Textarea + block-end"
+  width="80%"
+/>
 
 ```tsx
-import { Send } from 'lucide-react';
+import { Send } from "lucide-react";
 
-const [memo, setMemo] = useState('');
+const [memo, setMemo] = useState("");
 
 <InputGroup>
   {/* highlight-next-line */}
@@ -420,7 +474,7 @@ const [memo, setMemo] = useState('');
       <Send /> 전송
     </InputGroupButton>
   </InputGroupAddon>
-</InputGroup>
+</InputGroup>;
 ```
 
 - `InputGroupTextarea`가 들어가면 그룹 높이가 자동으로 `auto`가 됩니다(`has-[>textarea]:h-auto`).
@@ -439,17 +493,21 @@ Addon의 빈 곳을 클릭하면 그룹 안의 **첫 번째 `<input>`** 에 포�
 안쪽 컨트롤은 표준 `<input>` / `<textarea>`이므로 [`Input`](./input-component)과 동일하게 동작합니다.
 
 ```tsx
-{/* 비제어 — 초기값만 지정 */}
-<InputGroupInput defaultValue="홍길동" />
+{
+  /* 비제어 — 초기값만 지정 */
+}
+<InputGroupInput defaultValue="홍길동" />;
 ```
 
 값에 따라 UI를 바꾸려면 제어 모드를 씁니다. 아래는 **값이 있을 때만 지우기 버튼을 노출**하는 예입니다.
 
 ```tsx
-const [keyword, setKeyword] = useState('');
+const [keyword, setKeyword] = useState("");
 
 <InputGroup>
-  <InputGroupAddon><Search /></InputGroupAddon>
+  <InputGroupAddon>
+    <Search />
+  </InputGroupAddon>
   {/* highlight-start */}
   <InputGroupInput
     value={keyword}
@@ -458,11 +516,13 @@ const [keyword, setKeyword] = useState('');
   />
   {keyword && (
     <InputGroupAddon align="inline-end">
-      <InputGroupButton size="xs" onClick={() => setKeyword('')}>지우기</InputGroupButton>
+      <InputGroupButton size="xs" onClick={() => setKeyword("")}>
+        지우기
+      </InputGroupButton>
     </InputGroupAddon>
   )}
   {/* highlight-end */}
-</InputGroup>
+</InputGroup>;
 ```
 
 :::caution `value`를 넘기면 반드시 `onChange`도
@@ -477,60 +537,60 @@ const [keyword, setKeyword] = useState('');
 
 ### `InputGroup` (루트)
 
-| Prop | 타입 | 기본값 | 설명 |
-| --- | --- | --- | --- |
-| `children` | `ReactNode` | — | Addon · Input · Textarea 조합 |
-| `className` | `string` | — | 기본 스타일 **뒤에 병합** — 높이·모서리·테두리·색 커스터마이징 |
-| *(div 속성)* | `React.ComponentProps<"div">` | — | `id`·`aria-label`·`onClick` 등 표준 div 속성 전달 |
+| Prop         | 타입                          | 기본값 | 설명                                                           |
+| ------------ | ----------------------------- | ------ | -------------------------------------------------------------- |
+| `children`   | `ReactNode`                   | —      | Addon · Input · Textarea 조합                                  |
+| `className`  | `string`                      | —      | 기본 스타일 **뒤에 병합** — 높이·모서리·테두리·색 커스터마이징 |
+| _(div 속성)_ | `React.ComponentProps<"div">` | —      | `id`·`aria-label`·`onClick` 등 표준 div 속성 전달              |
 
 `role="group"` · `data-slot="input-group"`이 자동으로 붙습니다.
 
 ### `InputGroupAddon`
 
-| Prop | 타입 | 기본값 | 설명 |
-| --- | --- | --- | --- |
-| `align` | `"inline-start" \| "inline-end" \| "block-start" \| "block-end"` | `"inline-start"` | 부가 영역 위치(앞·뒤·위·아래) |
-| `children` | `ReactNode` | — | 아이콘 · `InputGroupText` · `InputGroupButton` · `<kbd>` |
-| `className` | `string` | — | Addon 여백·색 조정 |
+| Prop        | 타입                                                             | 기본값           | 설명                                                     |
+| ----------- | ---------------------------------------------------------------- | ---------------- | -------------------------------------------------------- |
+| `align`     | `"inline-start" \| "inline-end" \| "block-start" \| "block-end"` | `"inline-start"` | 부가 영역 위치(앞·뒤·위·아래)                            |
+| `children`  | `ReactNode`                                                      | —                | 아이콘 · `InputGroupText` · `InputGroupButton` · `<kbd>` |
+| `className` | `string`                                                         | —                | Addon 여백·색 조정                                       |
 
 `role="group"` · `data-slot="input-group-addon"` · `data-align="{align}"`이 붙고, **빈 곳을 클릭하면 그룹 안 첫 `<input>`에 포커스**합니다(버튼 클릭은 제외).
 
 ### `InputGroupInput`
 
-| Prop | 타입 | 기본값 | 설명 |
-| --- | --- | --- | --- |
-| *(input 속성 전부)* | `React.ComponentProps<"input">` | — | `type`·`value`·`onChange`·`placeholder`·`disabled`·`readOnly`·`maxLength`·`aria-invalid` 등 |
-| `className` | `string` | — | 입력 자체의 폰트·여백 조정 |
+| Prop                | 타입                            | 기본값 | 설명                                                                                        |
+| ------------------- | ------------------------------- | ------ | ------------------------------------------------------------------------------------------- |
+| _(input 속성 전부)_ | `React.ComponentProps<"input">` | —      | `type`·`value`·`onChange`·`placeholder`·`disabled`·`readOnly`·`maxLength`·`aria-invalid` 등 |
+| `className`         | `string`                        | —      | 입력 자체의 폰트·여백 조정                                                                  |
 
 `data-slot="input-group-control"`로 렌더됩니다(**`data-slot="input"` 아님** — [스타일링](#4-data-slot--css-module) 주의사항 참고).
 
 ### `InputGroupTextarea`
 
-| Prop | 타입 | 기본값 | 설명 |
-| --- | --- | --- | --- |
-| *(textarea 속성 전부)* | `React.ComponentProps<"textarea">` | — | `rows`·`value`·`onChange`·`maxLength` 등 |
-| `className` | `string` | — | 높이·리사이즈 동작 조정(기본 `resize-none`) |
+| Prop                   | 타입                               | 기본값 | 설명                                        |
+| ---------------------- | ---------------------------------- | ------ | ------------------------------------------- |
+| _(textarea 속성 전부)_ | `React.ComponentProps<"textarea">` | —      | `rows`·`value`·`onChange`·`maxLength` 등    |
+| `className`            | `string`                           | —      | 높이·리사이즈 동작 조정(기본 `resize-none`) |
 
 `data-slot="input-group-control"`로 렌더됩니다.
 
 ### `InputGroupText`
 
-| Prop | 타입 | 기본값 | 설명 |
-| --- | --- | --- | --- |
-| `children` | `ReactNode` | — | 고정 텍스트·단위·아이콘 라벨 |
-| `className` | `string` | — | 색·굵기 조정 |
+| Prop        | 타입        | 기본값 | 설명                         |
+| ----------- | ----------- | ------ | ---------------------------- |
+| `children`  | `ReactNode` | —      | 고정 텍스트·단위·아이콘 라벨 |
+| `className` | `string`    | —      | 색·굵기 조정                 |
 
 `<span>`으로 렌더되며 **`data-slot`이 없습니다.** CSS로 겨냥하려면 `className`을 쓰세요.
 
 ### `InputGroupButton`
 
-| Prop | 타입 | 기본값 | 설명 |
-| --- | --- | --- | --- |
-| `size` | `"xs" \| "sm" \| "icon-xs" \| "icon-sm"` | `"xs"` | **InputGroup 전용 크기**(Button의 size와 다름) |
-| `variant` | `"ghost" \| "default" \| "outline" \| "secondary" \| "destructive" \| "link"` | `"ghost"` | Button의 variant 그대로 |
-| `type` | `"button" \| "submit" \| "reset"` | `"button"` | 기본값이 `button`이라 폼을 제출하지 않음 |
-| `onClick` / `disabled` / `aria-label` | — | — | Button(=`<button>`) 표준 속성 |
-| `className` | `string` | — | 모서리·색 조정 |
+| Prop                                  | 타입                                                                          | 기본값     | 설명                                           |
+| ------------------------------------- | ----------------------------------------------------------------------------- | ---------- | ---------------------------------------------- |
+| `size`                                | `"xs" \| "sm" \| "icon-xs" \| "icon-sm"`                                      | `"xs"`     | **InputGroup 전용 크기**(Button의 size와 다름) |
+| `variant`                             | `"ghost" \| "default" \| "outline" \| "secondary" \| "destructive" \| "link"` | `"ghost"`  | Button의 variant 그대로                        |
+| `type`                                | `"button" \| "submit" \| "reset"`                                             | `"button"` | 기본값이 `button`이라 폼을 제출하지 않음       |
+| `onClick` / `disabled` / `aria-label` | —                                                                             | —          | Button(=`<button>`) 표준 속성                  |
+| `className`                           | `string`                                                                      | —          | 모서리·색 조정                                 |
 
 `data-slot="button"` · `data-size="{size}"`로 렌더됩니다.
 
@@ -542,12 +602,12 @@ const [keyword, setKeyword] = useState('');
 
 InputGroup은 시각적 조합 컴포넌트라 **키보드 동작은 표준 `<input>` / `<button>`을 그대로 따릅니다.**
 
-| 키 | 동작 |
-| --- | --- |
-| `Tab` / `Shift+Tab` | 입력 → Addon 버튼 순으로 초점 이동 |
-| 문자 키 | 값 입력 |
-| `Enter` | 폼 안에서 제출(`type="submit"` 버튼이 있을 때) |
-| `Space` / `Enter` (버튼 포커스 시) | 버튼 실행 |
+| 키                                 | 동작                                           |
+| ---------------------------------- | ---------------------------------------------- |
+| `Tab` / `Shift+Tab`                | 입력 → Addon 버튼 순으로 초점 이동             |
+| 문자 키                            | 값 입력                                        |
+| `Enter`                            | 폼 안에서 제출(`type="submit"` 버튼이 있을 때) |
+| `Space` / `Enter` (버튼 포커스 시) | 버튼 실행                                      |
 
 체크할 것:
 
@@ -566,12 +626,12 @@ InputGroup은 시각적 조합 컴포넌트라 **키보드 동작은 표준 `<in
 
 바꾸려는 대상에 따라 방법이 다릅니다. 위에서 아래로 갈수록 세밀합니다.
 
-| 바꾸려는 것 | 방법 |
-| --- | --- |
-| 색(테두리·포커스 링·오류) | **디자인 토큰**(`--input`, `--ring`, `--destructive`) |
-| Addon 위치 / 버튼 크기 | **prop**(`align`, `size`) |
-| 이 인스턴스만 높이·모서리·여백 | **래퍼 `className`** (Tailwind) |
-| 겉모습 전체 교체 | **`data-slot` 선택자 + CSS Module** |
+| 바꾸려는 것                    | 방법                                                  |
+| ------------------------------ | ----------------------------------------------------- |
+| 색(테두리·포커스 링·오류)      | **디자인 토큰**(`--input`, `--ring`, `--destructive`) |
+| Addon 위치 / 버튼 크기         | **prop**(`align`, `size`)                             |
+| 이 인스턴스만 높이·모서리·여백 | **래퍼 `className`** (Tailwind)                       |
+| 겉모습 전체 교체               | **`data-slot` 선택자 + CSS Module**                   |
 
 :::tip 핵심 원칙
 **컴포넌트 코드(`input-group.tsx`)를 복사해서 고치지 마세요.** 룩앤필은 거의 전부 `InputGroup` 래퍼에 얹혀 있으므로, 래퍼의 `className` 하나만 덮어써도 대부분의 디자인 요구를 만족합니다.
@@ -585,18 +645,30 @@ InputGroup 전용 색 변수는 없습니다. 기본 테두리는 `--input`, 포
 
 퍼블리셔가 가장 자주 쓰는 방식입니다. 래퍼의 `className`이 기본 스타일 뒤에 병합되므로 높이·모서리·여백을 자유롭게 덮어씁니다.
 
-{/* <img src={require('../assets/ui/inputgroup-style.png').default} alt="InputGroup className 오버라이드" width="80%" /> */}
+<img
+  src={require("../assets/ui/inputgroup-style.png").default}
+  alt="InputGroup className 오버라이드"
+  width="80%"
+/>
 
 ```tsx
-{/* 큰 사이즈 + 알약형 */}
-{/* highlight-next-line */}
+{
+  /* 큰 사이즈 + 알약형 */
+}
+{
+  /* highlight-next-line */
+}
 <InputGroup className="h-11 rounded-full px-2">
-  <InputGroupAddon><Search /></InputGroupAddon>
+  <InputGroupAddon>
+    <Search />
+  </InputGroupAddon>
   <InputGroupInput placeholder="둥근 검색 바" />
   <InputGroupAddon align="inline-end">
-    <InputGroupButton variant="default" size="sm" className="rounded-full">검색</InputGroupButton>
+    <InputGroupButton variant="default" size="sm" className="rounded-full">
+      검색
+    </InputGroupButton>
   </InputGroupAddon>
-</InputGroup>
+</InputGroup>;
 ```
 
 ### 3. 안쪽 파트 조정
@@ -605,7 +677,9 @@ InputGroup 전용 색 변수는 없습니다. 기본 테두리는 `--input`, 포
 
 ```tsx
 <InputGroup className="h-12 rounded-2xl">
-  <InputGroupAddon className="pl-4 text-sky-500"><Search /></InputGroupAddon>
+  <InputGroupAddon className="pl-4 text-sky-500">
+    <Search />
+  </InputGroupAddon>
   <InputGroupInput className="text-base" placeholder="검색어" />
 </InputGroup>
 ```
@@ -614,12 +688,12 @@ InputGroup 전용 색 변수는 없습니다. 기본 테두리는 `--input`, 포
 
 기본 톤과 전혀 다른 디자인을 입히려면 컴포넌트가 노출하는 `data-slot`을 CSS Module에서 선택자로 오버라이드합니다.
 
-| data-slot | 대상 |
-| --- | --- |
-| `[data-slot="input-group"]` | 래퍼 |
-| `[data-slot="input-group-addon"]` | Addon (`[data-align="inline-end"]` 등으로 세분화 가능) |
-| `[data-slot="input-group-control"]` | 안쪽 입력 — **input · textarea 공통** |
-| `[data-slot="button"]` | `InputGroupButton` (`[data-size="icon-xs"]` 등으로 세분화 가능) |
+| data-slot                           | 대상                                                            |
+| ----------------------------------- | --------------------------------------------------------------- |
+| `[data-slot="input-group"]`         | 래퍼                                                            |
+| `[data-slot="input-group-addon"]`   | Addon (`[data-align="inline-end"]` 등으로 세분화 가능)          |
+| `[data-slot="input-group-control"]` | 안쪽 입력 — **input · textarea 공통**                           |
+| `[data-slot="button"]`              | `InputGroupButton` (`[data-size="icon-xs"]` 등으로 세분화 가능) |
 
 :::caution `[data-slot="input"]` 으로는 잡히지 않습니다
 `InputGroupInput`은 내부적으로 `Input`을 쓰지만 `data-slot`을 **`input-group-control`로 덮어씁니다.** 마찬가지로 `InputGroupTextarea`도 `textarea`가 아니라 `input-group-control`입니다. 페이지 전역에 `[data-slot='input']` 스타일을 걸어 뒀다면 **그룹 안의 입력에는 적용되지 않으니** 주의하세요.
@@ -629,18 +703,18 @@ InputGroup 전용 색 변수는 없습니다. 기본 테두리는 `--input`, 포
 
 ```css
 /* 래퍼(.wrap) 아래에서 슬롯을 재정의. 래퍼+슬롯을 겹쳐 Tailwind 유틸리티보다 명시도를 확보한다. */
-.wrap :global([data-slot='input-group']) {
+.wrap :global([data-slot="input-group"]) {
   height: 52px;
   border-radius: 9999px;
 }
-.wrap :global([data-slot='input-group']):focus-within {
+.wrap :global([data-slot="input-group"]):focus-within {
   border-color: #14b8a6;
   box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.15);
 }
-.wrap :global([data-slot='input-group-addon'])[data-align='inline-start'] {
+.wrap :global([data-slot="input-group-addon"])[data-align="inline-start"] {
   padding-left: 14px;
 }
-.wrap :global([data-slot='input-group-control']) {
+.wrap :global([data-slot="input-group-control"]) {
   font-size: 0.95rem;
 }
 ```
@@ -661,7 +735,11 @@ InputGroup 전용 색 변수는 없습니다. 기본 테두리는 `--input`, 포
 
 제공 `InputGroup` 계열을 **그대로 쓰고**, `className`에 `*.module.css` 클래스를 넘겨 전혀 다른 룩앤필(높이 52px · 알약형 · teal 소프트 글로우 · 키보드 힌트 · 지우기 버튼)을 입힌 예제입니다. 실제 SI 프로젝트에서 퍼블리셔가 InputGroup 스타일을 바꾸는 **전형적인 방식**이므로, 아래 소스를 그대로 복사해 시작점으로 쓰세요.
 
-{/* <img src={require('../assets/ui/inputgroup-real-search.png').default} alt="InputGroup 실전 예제 — 통합 검색 바" width="70%" /> */}
+<img
+  src={require("../assets/ui/inputgroup-real-search.png").default}
+  alt="InputGroup 실전 예제 — 통합 검색 바"
+  width="70%"
+/>
 
 **포인트**
 
@@ -675,10 +753,16 @@ InputGroup 전용 색 변수는 없습니다. 기본 테두리는 `--input`, 포
 <summary><b>SearchBarInputGroup.tsx</b> — 전체 소스 보기</summary>
 
 ```tsx title="src/domains/example/components/ui-components/input-group/SearchBarInputGroup.tsx"
-import { useState } from 'react';
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText } from '@axiom/components/ui';
-import { Search, X, CornerDownLeft } from 'lucide-react';
-import styles from './SearchBarInputGroup.module.css';
+import { useState } from "react";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+  InputGroupText,
+} from "@axiom/components/ui";
+import { Search, X, CornerDownLeft } from "lucide-react";
+import styles from "./SearchBarInputGroup.module.css";
 
 /**
  * 실전 예제 — 통합 검색 바.
@@ -688,9 +772,9 @@ import styles from './SearchBarInputGroup.module.css';
  * (높이 52px · 알약형 · 소프트 포커스 글로우 · 키보드 힌트)으로 덮어쓴다.
  */
 export default function SearchBarInputGroup(): React.ReactNode {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
 
-  const clear = () => setQuery('');
+  const clear = () => setQuery("");
 
   return (
     <div className={styles.wrap}>
@@ -706,7 +790,7 @@ export default function SearchBarInputGroup(): React.ReactNode {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === 'Escape') clear();
+            if (e.key === "Escape") clear();
           }}
         />
 
@@ -739,7 +823,7 @@ export default function SearchBarInputGroup(): React.ReactNode {
             <b>“{query}”</b> 검색 준비됨 — Enter 로 검색, Esc 로 지우기
           </>
         ) : (
-          '검색어를 입력해 보세요. 스타일은 CSS Module 로만 덮어썼습니다.'
+          "검색어를 입력해 보세요. 스타일은 CSS Module 로만 덮어썼습니다."
         )}
       </p>
     </div>
@@ -773,7 +857,9 @@ export default function SearchBarInputGroup(): React.ReactNode {
   background: #fff;
   padding-inline: 6px;
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
-  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
 }
 
 /* 포커스 시 소프트 글로우 (teal). :focus-within 로 그룹 전체에 반응 */
