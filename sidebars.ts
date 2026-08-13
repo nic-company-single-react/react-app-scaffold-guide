@@ -130,6 +130,7 @@ const sidebars: SidebarsConfig = {
         "components/ui/tabs-component",
         "components/ui/textarea-component",
         "components/ui/toast-component",
+        "components/ui/toggle-component",
       ],
     },
   ],
