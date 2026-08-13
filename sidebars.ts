@@ -121,6 +121,7 @@ const sidebars: SidebarsConfig = {
         "components/ui/progress-component",
         "components/ui/radio-group-component",
         "components/ui/select-component",
+        "components/ui/skeleton-component",
         "components/ui/spinner-component",
         "components/ui/switch-component",
         "components/ui/toast-component",
