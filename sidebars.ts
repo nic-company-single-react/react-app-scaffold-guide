@@ -122,6 +122,7 @@ const sidebars: SidebarsConfig = {
         "components/ui/radio-group-component",
         "components/ui/select-component",
         "components/ui/skeleton-component",
+        "components/ui/slider-component",
         "components/ui/spinner-component",
         "components/ui/switch-component",
         "components/ui/toast-component",
