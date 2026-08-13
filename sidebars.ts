@@ -117,6 +117,7 @@ const sidebars: SidebarsConfig = {
         "components/ui/input-component",
         "components/ui/inputgroup-component",
         "components/ui/native-select-component",
+        "components/ui/pagination-component",
         "components/ui/spinner-component",
         "components/ui/switch-component",
         "components/ui/toast-component",
