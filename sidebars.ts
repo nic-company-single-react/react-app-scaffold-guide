@@ -131,6 +131,7 @@ const sidebars: SidebarsConfig = {
         "components/ui/textarea-component",
         "components/ui/toast-component",
         "components/ui/toggle-component",
+        "components/ui/tooltip-component",
       ],
     },
   ],
