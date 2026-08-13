@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 displayed_sidebar: 'startDocSidebar'
-title: '프론트앤드 공통'
+title: '프론트엔드 공통'
 ---
 
 # 프론트엔드(Scaffold) 담당자 가이드

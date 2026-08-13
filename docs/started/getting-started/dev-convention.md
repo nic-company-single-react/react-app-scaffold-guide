@@ -112,7 +112,7 @@ react-app-scaffold
 
 도메인들은 아래 **공통 토대** 위에서 동작합니다.
 
-* <span class="text-green-bold">core</span> — 앱 핵심 코어 로직 (프론트앤드 공통 개발 담당자 관리 영역)
+* <span class="text-green-bold">core</span> — 앱 핵심 코어 로직 (프론트엔드 공통 개발 담당자 관리 영역)
 * <span class="text-green-bold">shared</span> — 도메인이 함께 쓰는 전역 공유 코드
 * <span class="text-green-bold">assets</span> — 정적 리소스 (이미지·폰트·CSS)
 
