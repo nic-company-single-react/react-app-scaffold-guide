@@ -113,6 +113,7 @@ const sidebars: SidebarsConfig = {
         "components/ui/checkbox-component",
         "components/ui/combobox-component",
         "components/ui/dialog-component",
+        "components/ui/drawer-component",
         "components/ui/input-component",
         "components/ui/inputgroup-component",
         "components/ui/spinner-component",

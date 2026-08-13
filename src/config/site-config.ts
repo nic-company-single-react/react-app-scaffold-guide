@@ -302,6 +302,16 @@ export const SITE_CONFIG_FIELDS = [
     applyAt: "runtime",
     required: false,
   },
+  {
+    key: "vaulUrl",
+    label: "vaul (웹)",
+    description:
+      "Drawer 컴포넌트 문서에서 안내하는 드로어 라이브러리 vaul 저장소 주소",
+    kind: "url",
+    group: "link",
+    applyAt: "runtime",
+    required: false,
+  },
 
 
   // ── 이 가이드가 배포되는 주소 ───────────────────────────────
