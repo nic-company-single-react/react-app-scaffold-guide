@@ -127,6 +127,7 @@ const sidebars: SidebarsConfig = {
         "components/ui/spinner-component",
         "components/ui/switch-component",
         "components/ui/table-component",
+        "components/ui/tabs-component",
         "components/ui/toast-component",
       ],
     },
