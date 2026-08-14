@@ -6,3 +6,7 @@ src/domains/example/pages/ui-components/ 폴더에 drawer 컴포넌트에 대한
 
 현재 페이지는 Scaffold의 Alert 컴포넌트 사용 가이드 페이지이다. 내용을 수정해줘. 페이지 구성 스타일은 accordion-component.mdx를 참조해서 구성하면 되고, 실제 Alert컴포넌트 코드는 C:\redsky\work\react\single_react_new_nicfirst\react-app-scaffold\src\shared\lib\shadcn\ui\alert.tsx 이다.
 그리고 실제로 동작하는 인터렉티브한 동작 페이지는 C:\redsky\work\react\single_react_new_nicfirst\react-app-scaffold\src\domains\example\pages\ui-components\AlertComponent.tsx 이다.
+
+
+현재 페이지는 Scaffold의 $ui.dialog를 사용 가이드 페이지이다. $ui.dialog를 사용하는 프론트엔드 개발자가 모를 때 찾아보는 가이드 페이지 이므로 친절하게 빠짐없이 가이드 되어야할 것이다. 내용을 수정해줘. 페이지 구성 스타일은 accordion-component.mdx를 참조해서 구성하면 되고, 실제 $ui.dialog 관련 코드는 C:\redsky\work\react\single_react_new_nicfirst\react-app-scaffold\src\core\ui/ 폴더에 있고 내부 dialog 폴더에도 있다. dialog UI는 C:\redsky\work\react\single_react_new_nicfirst\react-app-scaffold\src\shared\ui\overlay 폴더에 있다.
+그리고 실제로 동작하는 인터렉티브한 동작 페이지는 C:\redsky\work\react\single_react_new_nicfirst\react-app-scaffold\src\domains\example\pages\ui\UiDialog.tsx 이다.
