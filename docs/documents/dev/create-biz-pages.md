@@ -16,7 +16,7 @@ title: "페이지만들기"
 
 ![업무(domain) 페이지 만들기](../assets/account_domain_page_creation.svg)
 
-:::info 설명
+:::info 요약 설명
 * STEP 1 : 업무 폴더 구조 생성.
 * STEP 2 : `pages` 폴더에 페이지 생성.
 * STEP 3 : 라우터 연결.
