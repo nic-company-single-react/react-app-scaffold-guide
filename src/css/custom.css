@@ -86,3 +86,39 @@ li.theme-doc-sidebar-item-link-level-3 a.menu__link {
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+/* ── core / shared 레이어 경로 색 구분 ───────────────────────────── */
+.layer-core,
+.layer-core code {
+  color: #1063c9;
+  border-color: rgba(16, 99, 201, 0.35);
+}
+.layer-core code {
+  background-color: rgba(16, 99, 201, 0.08);
+}
+
+.layer-shared,
+.layer-shared code {
+  color: #0f8a63;
+  border-color: rgba(15, 138, 99, 0.35);
+}
+.layer-shared code {
+  background-color: rgba(15, 138, 99, 0.08);
+}
+
+[data-theme='dark'] .layer-core,
+[data-theme='dark'] .layer-core code {
+  color: #7ab6ff;
+  border-color: rgba(122, 182, 255, 0.35);
+}
+[data-theme='dark'] .layer-core code {
+  background-color: rgba(122, 182, 255, 0.12);
+}
+
+[data-theme='dark'] .layer-shared,
+[data-theme='dark'] .layer-shared code {
+  color: #4fddbf;
+  border-color: rgba(79, 221, 191, 0.35);
+}
+[data-theme='dark'] .layer-shared code {
+  background-color: rgba(79, 221, 191, 0.12);
+}

@@ -123,6 +123,26 @@ if (picked) setAssignee(picked);
 스스로 닫거나 확인을 처리해야 할 때만 컴포넌트 안에서 **`useDialog()`** 를 부르세요.
 :::
 
+### 소스 위치
+
+동작을 직접 고칠 일은 거의 없지만, 문제가 생겼을 때 **어디를 열어야 하는지**는 알아두면 좋습니다.
+전역 UI는 `src/core/ui/` 아래에 **분야(전역 컴포넌트) 단위 폴더**로 나뉘어 있습니다.
+
+| 경로                                      | 무엇                                                     |
+| ----------------------------------------- | -------------------------------------------------------- |
+| `src/core/ui/index.ts`                    | `$ui` 조립 · `registerWindowUI()` — **유일한 공개 표면** |
+| `src/core/ui/dialog/`                     | `$ui.dialog` 스택 엔진 (컨트롤러 · 스토어 · 훅 · 호스트) |
+| `src/core/ui/alert/`                      | `$ui.alert` · `$ui.confirm` (FIFO 큐)                    |
+| `src/core/ui/toast/`                      | 전역 토스트 호스트                                       |
+| `src/core/hooks/index.ts`                 | `@axiom/hooks` 재export — **화면 코드의 유일한 창구**    |
+| `src/shared/ui/overlay/DialogSkin.tsx`    | **모양(껍데기)** — 퍼블리셔가 고치는 파일                |
+| `src/shared/ui/overlay/overlay-layers.ts` | z-index 티어 · `CLOSE_ANIM_MS`                           |
+
+:::note 분야 폴더 안에는 barrel(`index.ts`)이 없습니다
+공개 표면은 `core/ui/index.ts` 하나이고 훅의 창구는 `@axiom/hooks` 하나입니다.
+그래서 화면 코드가 `@/core/ui/dialog/...` 같은 내부 경로를 직접 import 할 일이 없습니다.
+:::
+
 ---
 
 ## Import
@@ -151,7 +171,7 @@ import type { IDialogResult, IDialogOption } from "@/types/components";
 ```
 
 :::caution `@/core/ui`에서 가져올 것은 없습니다
-`@/core/ui`가 내보내는 것은 **`AppProviders` 전용 호스트 컴포넌트**뿐입니다. 화면 코드에서 import 할 일이 없습니다.
+`@/core/ui`가 내보내는 것은 **`AppProviders` 전용 호스트 컴포넌트**(`UIHosts` · `UIDialogStackHost` · `UIAlertHost` · `AppToaster`)와 부트스트랩용 `registerWindowUI()` 뿐입니다. 화면 코드에서 import 할 일이 없습니다.
 훅은 반드시 **`@axiom/hooks`** 에서 가져오세요.
 :::
 
@@ -194,7 +214,7 @@ export interface INicknameFormDialogProps {
   initial: string;
 }
 
-// props 는 평범하다. 감싸는 헬퍼도, dialog prop 도 없다.
+// props 는 평범하다. 감싸는 헬퍼가 없고, 제어 API 는 훅으로 꺼낸다.
 export default function NicknameFormDialog({
   initial,
 }: INicknameFormDialogProps) {
@@ -338,31 +358,47 @@ await d; // 결과 기다리기 (닫힌 뒤 resolve)
 
 ### 핸들 API
 
-| 메서드          | 타입                                       | 설명                                                              |
-| --------------- | ------------------------------------------ | ----------------------------------------------------------------- |
-| `id`            | `string`                                   | 이 다이얼로그의 고유 id (읽기 전용)                               |
-| `update(props)` | `(props: Partial<P>) => void`              | 열려 있는 컨텐츠의 props를 **얕은 병합**으로 갱신                 |
-| `patch(option)` | `(option: Partial<IDialogOption>) => void` | 껍데기 옵션(`title` · `size` · `dismissable` …) 갱신              |
-| `close(data?)`  | `(data?: T) => void`                       | 코드로 닫기. **`beforeClose` 가드와 `dismissable: false`를 우회** |
-| `cancel()`      | `() => void`                               | 결과 없이 닫기. `close()`와 동일하게 가드를 우회                  |
-| `isOpen()`      | `() => boolean`                            | 아직 열려 있는지                                                  |
+| 메서드          | 타입                                       | 설명                                                                                                                      |
+| --------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| `id`            | `string`                                   | 이 다이얼로그의 고유 id (읽기 전용)                                                                                       |
+| `update(props)` | `(props: Partial<P>) => void`              | 열려 있는 컨텐츠의 props를 **얕은 병합**으로 갱신                                                                         |
+| `patch(option)` | `(option: Partial<IDialogOption>) => void` | 껍데기 옵션(`title` · `size` · `dismissable` …) 갱신                                                                      |
+| `close(data?)`  | `(data?: T) => void`                       | 코드로 닫기(reason `programmatic`). `data`를 주면 그 값으로 resolve. **`beforeClose` 가드와 `dismissable: false`를 우회** |
+| `cancel()`      | `() => void`                               | 결과 없이 닫기. `close()`와 동일하게 reason `programmatic`이며 가드를 우회                                                |
+| `isOpen()`      | `() => boolean`                            | 아직 열려 있는지                                                                                                          |
 
 :::warning `handle.close()`는 왜 가드를 우회하나
 호출한 쪽이 **이미 닫기로 결정한 상황**이기 때문입니다. 여기서 가드가 막아버리면 아무도 `resolve` 하지 못해 `await`가 영원히 멈춥니다(Promise 누수).
 사용자가 닫으려는 경로(ESC · 배경 · X)만 가드·`dismissable`의 대상입니다.
 :::
 
+:::caution 이름은 같지만 `handle.close()`와 `dialog.close()`는 다릅니다
+**호출부**의 핸들과 **컨텐츠**의 `useDialog()`는 둘 다 `close` · `cancel`을 갖지만 남기는 `reason`이 다릅니다.
+
+| 어디서                          | 호출              | `reason`       | `result.confirmed` | 가드    |
+| ------------------------------- | ----------------- | -------------- | :----------------: | ------- |
+| 호출부 (`$ui.dialog(...)` 반환) | `handle.close(v)` | `programmatic` |      `false`       | ⏭ 우회 |
+| 호출부                          | `handle.cancel()` | `programmatic` |      `false`       | ⏭ 우회 |
+| 컨텐츠 (`useDialog()`)          | `dialog.close(v)` | `submit`       |     **`true`**     | ✅ 실행 |
+| 컨텐츠                          | `dialog.close()`  | `close`        |      `false`       | ✅ 실행 |
+| 컨텐츠                          | `dialog.cancel()` | `cancel`       |      `false`       | ✅ 실행 |
+
+`await`로 받는 **결과값 자체는 양쪽 모두 넘긴 인자**입니다. 달라지는 것은 `onClose(result)` · `beforeClose(result)`가 보는 `reason` · `confirmed`와, 가드를 타는지 여부입니다.
+:::
+
 ### 결과값 규칙
 
-| 닫은 경로                                   | `await` 결과                  |
-| ------------------------------------------- | ----------------------------- |
-| `useDialogSubmit`이 값을 반환               | **그 값**                     |
-| 컨텐츠에서 `dialog.close(data)`             | **`data`**                    |
-| 셸 `확인` + 제출 핸들러 없음                | `footer.confirmValue ?? true` |
-| 취소 · ESC · X · 배경 클릭 · `autoDismiss`  | `undefined`                   |
-| `handle.close()` (인자 없음) · `closeAll()` | `undefined`                   |
-| 라우트 변경으로 자동 닫힘                   | `undefined`                   |
-| 컨텐츠 렌더/청크 로드 **실패**              | `undefined` (reject 아님)     |
+| 닫은 경로                                                | `await` 결과                          |
+| -------------------------------------------------------- | ------------------------------------- |
+| `useDialogSubmit`이 값을 반환                            | **그 값**                             |
+| 컨텐츠에서 `dialog.close(data)`                          | **`data`**                            |
+| 호출부에서 `handle.close(data)`                          | **`data`** (단 `confirmed`는 `false`) |
+| 셸 `확인` + 제출 핸들러 없음                             | `footer.confirmValue ?? true`         |
+| 취소 · ESC · X · 배경 클릭 · `autoDismiss`               | `undefined`                           |
+| `handle.close()` (인자 없음) · `cancel()` · `closeAll()` | `undefined`                           |
+| 라우트 변경으로 자동 닫힘                                | `undefined`                           |
+| 제출 핸들러 · 가드가 **예외를 던짐**                     | `undefined` (fail-open으로 닫힘)      |
+| 컨텐츠 렌더/청크 로드 **실패**                           | `undefined` (reject 아님)             |
 
 :::danger 절대 reject 하지 않습니다
 아무도 `await` 하지 않은 핸들에서 unhandled rejection이 터지는 것을 막기 위한 설계입니다.
@@ -391,7 +427,7 @@ export interface IMemberPickerProps {
   deptId: number;
 }
 
-// 평범한 컴포넌트다. dialog prop 도, 감싸는 헬퍼도 없다.
+// 평범한 컴포넌트다. 감싸는 헬퍼가 없고, 제어 API 는 훅으로 꺼낸다.
 export default function MemberPicker({ deptId }: IMemberPickerProps) {
   const dialog = useDialog<IMember>();
   return <Button onClick={() => dialog.close(member)}>선택</Button>;
@@ -407,6 +443,16 @@ const member = await $ui.dialog<IMember>({
 
 :::tip 스스로 닫지 않는 컨텐츠라면 훅조차 필요 없습니다
 진행률 표시처럼 **보여주기만** 하는 컴포넌트는 `useDialog()`도 부르지 않습니다. props를 받아 그리는 보통 컴포넌트 그대로입니다.
+:::
+
+:::note 컨텐츠에는 `dialog` prop도 함께 내려옵니다
+셸은 컨텐츠를 `<Content {...props} dialog={api} />` 로 렌더합니다. 그래서 `useDialog()`를 부르지 않아도 **`props.dialog`로 똑같은 제어 API를 받을 수 있습니다.**
+그래도 권장 경로는 `useDialog()`입니다. 이유는 두 가지입니다.
+
+- `props.dialog`는 **최상위 컨텐츠 컴포넌트에만** 내려옵니다. 깊은 자식에서 쓰려면 다시 prop으로 내려야 하지만, `useDialog()`는 컨텍스트라 **어느 깊이에서든** 바로 꺼냅니다.
+- 같은 컴포넌트를 **페이지 안에 그냥 박아 쓰면** `props.dialog`가 `undefined`가 됩니다. 안/밖 겸용 컴포넌트라면 `useDialogSafe()`를 쓰세요.
+
+⚠️ `dialog`는 `{...props}` **뒤에** 붙으므로, 컨텐츠 props에 `dialog`라는 이름을 쓰면 **셸이 덮어씁니다.** 그 이름은 피하세요.
 :::
 
 ### 결과 타입 지정 — `$ui.dialog<T>()` / `$ui.dialog<T, P>()`
@@ -507,7 +553,7 @@ useDialogSubmit<IInquiry>(async () => {
 
 - **비동기 함수**를 등록할 수 있습니다. 셸은 `await` 하는 동안 `loading` 상태로 전환합니다.
 - 매 렌더마다 최신 클로저로 교체되므로 **stale closure가 생기지 않습니다.** deps 배열이 없습니다.
-- 핸들러가 예외를 던지면 콘솔에 오류를 남기고 **다이얼로그를 닫습니다**(fail-open). 닫히지 않는 모달이 더 나쁘기 때문입니다.
+- 핸들러가 예외를 던지면 콘솔에 오류를 남기고 **다이얼로그를 닫습니다**(fail-open). 닫히지 않는 모달이 더 나쁘기 때문입니다. 이때 `await` 결과는 **`undefined`** 입니다 — API 오류는 핸들러 안에서 `try/catch`로 잡고 `undefined`를 반환해 **닫지 않는** 편이 낫습니다.
 
 ### `useDialogGuard<T>(fn)` — 닫기 가드 {#use-dialog-guard}
 
@@ -675,39 +721,46 @@ Radix가 바깥 전체를 `aria-hidden` + 오버레이로 막기 때문입니다
 모든 닫기는 **단 하나의 진입점**을 통과합니다. Radix에게 닫기 결정권을 주지 않기 때문에, ESC·배경 클릭이 가드를 조용히 우회하는 일이 없습니다.
 
 ```text
-requestClose(reason)
-  │
-  ├─ 이미 정산됨 / 처리 중 ──────────────────────────────→ 무시
-  │
-  ├─ ① dismissable: false 이고
-  │     reason ∈ { escape · overlay · close · autoDismiss } → 차단 (닫히지 않음)
-  │
-  ├─ ② reason === 'confirm' 이면
-  │       ├ useDialogSubmit 등록됨 → loading=true → await submit()
-  │       │     └ undefined 반환 ────────────────────────→ 닫지 않음 (검증 실패)
-  │       └ 없음 → 결과 = footer.confirmValue ?? true
-  │
-  ├─ ③ reason ∉ { programmatic · route · error } 이면 가드 실행
-  │       가드 = useDialogGuard 등록분 ?? option.beforeClose
-  │       └ false 반환 ──────────────────────────────────→ 닫지 않음
-  │
-  └─ ④ 정산 — onClose(result) → Promise resolve → 150ms 후 스택에서 제거
+① ESC · 배경 클릭은 옵션 검사가 먼저다
+     closeOnEscape: false        → ESC 무시 (requestClose 를 부르지도 않음)
+     closeOnOverlayClick: false  → 배경 클릭 무시
+          ↓ 통과
+② requestClose(reason) — 모든 닫기의 단일 관문
+     ├─ 이미 정산됨 / 처리 중(pending) ─────────────────────→ 무시
+     │
+     ├─ dismissable: false 이고
+     │    reason ∈ { escape · overlay · close · autoDismiss } → 차단 (닫히지 않음)
+     │
+     ├─ reason === 'confirm' 이면
+     │    ├ useDialogSubmit 등록됨 → loading=true → await submit()
+     │    │    └ undefined 반환 ──────────────────────────→ 닫지 않음 (검증 실패)
+     │    └ 없음 → 결과 = footer.confirmValue ?? true
+     │
+     └─ reason ∉ { programmatic · route · error } 이면 가드 실행
+          가드 = useDialogGuard 등록분 ?? option.beforeClose
+          └ false 반환 ───────────────────────────────────→ 닫지 않음
+          ↓ 통과
+③ 정산(settle)
+     onClose(result) → Promise resolve → 150ms(CLOSE_ANIM_MS) 뒤 스택에서 제거
+
+※ 라우트 변경 · 컨텐츠 렌더 실패는 ②를 거치지 않고 곧바로 ③ 으로 갑니다.
+  (이미 확정된 사실이므로 dismissable · pending · 가드가 전부 무관합니다)
 ```
 
 ### `reason` 전체 목록
 
-| `reason`       | 닫힌 경로                                   | `dismissable:false`로 차단 | `beforeClose` 가드 |
-| -------------- | ------------------------------------------- | :------------------------: | :----------------: |
-| `confirm`      | 셸 **확인** 버튼                            |                            |      ✅ 실행       |
-| `cancel`       | 셸 **취소** 버튼 · `dialog.cancel()`        |                            |      ✅ 실행       |
-| `close`        | 우상단 **X** · `dialog.close()` (인자 없음) |          🔒 차단           |      ✅ 실행       |
-| `escape`       | **ESC** 키                                  |          🔒 차단           |      ✅ 실행       |
-| `overlay`      | **배경(딤)** 클릭                           |          🔒 차단           |      ✅ 실행       |
-| `autoDismiss`  | `autoDismiss` 시간 경과                     |          🔒 차단           |      ✅ 실행       |
-| `submit`       | 컨텐츠가 `dialog.close(data)`               |                            |      ✅ 실행       |
-| `programmatic` | `handle.close()` · `$ui.dialog.closeAll()`  |                            |      ⏭ 우회       |
-| `route`        | 라우트(pathname) 변경                       |                            |      ⏭ 우회       |
-| `error`        | 컨텐츠 렌더/청크 로드 실패                  |                            |      ⏭ 우회       |
+| `reason`       | 닫힌 경로                                                                    | `dismissable:false`로 차단 | `beforeClose` 가드 |
+| -------------- | ---------------------------------------------------------------------------- | :------------------------: | :----------------: |
+| `confirm`      | 셸 **확인** 버튼                                                             |                            |      ✅ 실행       |
+| `cancel`       | 셸 **취소** 버튼 · 컨텐츠의 `dialog.cancel()`                                |                            |      ✅ 실행       |
+| `close`        | 우상단 **X** · 컨텐츠의 `dialog.close()` (인자 없음)                         |          🔒 차단           |      ✅ 실행       |
+| `escape`       | **ESC** 키 (`closeOnEscape: false`면 발생하지 않음)                          |          🔒 차단           |      ✅ 실행       |
+| `overlay`      | **배경(딤)** 클릭 (`closeOnOverlayClick: false`면 발생 안 함)                |          🔒 차단           |      ✅ 실행       |
+| `autoDismiss`  | `autoDismiss` 시간 경과                                                      |          🔒 차단           |      ✅ 실행       |
+| `submit`       | 컨텐츠의 `dialog.close(data)`                                                |                            |      ✅ 실행       |
+| `programmatic` | `handle.close()` · `handle.cancel()` · `$ui.dialog.close(id)` · `closeAll()` |                            |      ⏭ 우회       |
+| `route`        | 라우트(pathname) 변경                                                        |                            |      ⏭ 우회       |
+| `error`        | 컨텐츠 렌더/청크 로드 실패                                                   |                            |      ⏭ 우회       |
 
 :::caution `dismissable: false`가 잠그는 것은 "사용자가 직접 닫는 경로"뿐입니다
 셸의 **취소 버튼**(`cancel`)과 컨텐츠의 `dialog.close(data)`(`submit`)는 **잠기지 않습니다.**
@@ -813,24 +866,24 @@ $ui.dialog<T, P>({ component, props, ...option })  ─── ① 호출 옵션 (
 
 ### 목적별 찾기
 
-| 하고 싶은 일                        | 쓰는 API                                                        | 쓰는 곳         |
-| ----------------------------------- | --------------------------------------------------------------- | --------------- |
-| 모달을 열고 결과를 받는다           | `await $ui.dialog<T>({ component })`                            | 호출부          |
-| 확인 · 취소 문구/색을 바꾼다        | `footer: { confirmText, cancelText, confirmVariant }`           | 호출부          |
-| 푸터를 없애거나 직접 그린다         | `footer: false` · `footer: 내 노드`                             | 호출부          |
-| 셸 `확인`이 돌려줄 값을 정한다      | `useDialogSubmit(fn)` — 없으면 `footer.confirmValue ?? true`    | 컨텐츠          |
-| 컨텐츠가 스스로 닫는다              | `useDialog().close(data)` · `.cancel()`                         | 컨텐츠          |
-| 작성 중 이탈을 막는다               | `useDialogGuard(fn)` · 옵션 `beforeClose`                       | 컨텐츠 · 호출부 |
-| ESC · 배경 · X를 잠근다             | `dismissable: false`                                            | 호출부          |
-| 열린 뒤 props를 바꾼다              | `handle.update(props)`                                          | 호출부          |
-| 바탕 페이지 state를 실시간 반영한다 | `useLiveProps(values)` → `props`                                | 호출부(페이지)  |
-| 열린 뒤 제목 · 크기를 바꾼다        | `handle.patch({ … })` · `dialog.setTitle` · `dialog.setSize`    | 양쪽            |
-| 확인 버튼을 로딩/비활성으로 만든다  | `dialog.setLoading(true)` · `dialog.setConfirmDisabled(true)`   | 컨텐츠          |
-| 어떤 경로로 닫혔는지 안다           | 옵션 `onClose(result)` → `result.reason`                        | 호출부          |
-| 특정 · 모든 다이얼로그를 닫는다     | `$ui.dialog.close(id)` · `$ui.dialog.closeAll()`                | 어디서나        |
-| 열려 있는 개수를 센다               | `$ui.dialog.count()`                                            | 어디서나        |
+| 하고 싶은 일                        | 쓰는 API                                                      | 쓰는 곳         |
+| ----------------------------------- | ------------------------------------------------------------- | --------------- |
+| 모달을 열고 결과를 받는다           | `await $ui.dialog<T>({ component })`                          | 호출부          |
+| 확인 · 취소 문구/색을 바꾼다        | `footer: { confirmText, cancelText, confirmVariant }`         | 호출부          |
+| 푸터를 없애거나 직접 그린다         | `footer: false` · `footer: 내 노드`                           | 호출부          |
+| 셸 `확인`이 돌려줄 값을 정한다      | `useDialogSubmit(fn)` — 없으면 `footer.confirmValue ?? true`  | 컨텐츠          |
+| 컨텐츠가 스스로 닫는다              | `useDialog().close(data)` · `.cancel()`                       | 컨텐츠          |
+| 작성 중 이탈을 막는다               | `useDialogGuard(fn)` · 옵션 `beforeClose`                     | 컨텐츠 · 호출부 |
+| ESC · 배경 · X를 잠근다             | `dismissable: false`                                          | 호출부          |
+| 열린 뒤 props를 바꾼다              | `handle.update(props)`                                        | 호출부          |
+| 바탕 페이지 state를 실시간 반영한다 | `useLiveProps(values)` → `props`                              | 호출부(페이지)  |
+| 열린 뒤 제목 · 크기를 바꾼다        | `handle.patch({ … })` · `dialog.setTitle` · `dialog.setSize`  | 양쪽            |
+| 확인 버튼을 로딩/비활성으로 만든다  | `dialog.setLoading(true)` · `dialog.setConfirmDisabled(true)` | 컨텐츠          |
+| 어떤 경로로 닫혔는지 안다           | 옵션 `onClose(result)` → `result.reason`                      | 호출부          |
+| 특정 · 모든 다이얼로그를 닫는다     | `$ui.dialog.close(id)` · `$ui.dialog.closeAll()`              | 어디서나        |
+| 열려 있는 개수를 센다               | `$ui.dialog.count()`                                          | 어디서나        |
 
-### 시그니처
+### dialog 타입
 
 ```ts
 // 결과 타입 T, props 타입 P — 둘 다 좁히려면 타입 인자를 모두 적습니다
@@ -859,17 +912,17 @@ $ui.dialog<T = unknown, P extends object = Record<string, unknown>>(
 
 #### 표시
 
-| 옵션               | 타입                                              | 기본값 | 설명                                                          |
-| ------------------ | ------------------------------------------------- | ------ | ------------------------------------------------------------- |
-| `title`            | `ReactNode`                                       | —      | 제목. 미지정 시 접근성용 sr-only 제목(`대화상자`)이 자동 삽입 |
-| `description`      | `ReactNode`                                       | —      | 제목 아래 보조 설명                                           |
-| `size`             | `'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl' \| 'full'` | `'md'` | 폭 프리셋 → [크기와 스타일링](#크기와-스타일링)               |
-| `scrollable`       | `boolean`                                         | `true` | 본문에 최대 높이(`70vh`) + 스크롤 적용                        |
-| `footer`           | `false \| ReactNode \| IDialogFooterOption`       | —      | [기본 사용법](#기본-사용법) 참고                              |
-| `showCloseButton`  | `boolean`                                         | `true` | 우상단 X 버튼 표시                                            |
-| `className`        | `string`                                          | —      | 본체(`DialogContent`)에 추가할 클래스                         |
-| `overlayClassName` | `string`                                          | —      | 딤 배경에 추가할 클래스                                       |
-| `bodyClassName`    | `string`                                          | —      | 본문 래퍼에 추가할 클래스                                     |
+| 옵션               | 타입                                              | 기본값 | 설명                                                                                       |
+| ------------------ | ------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------ |
+| `title`            | `ReactNode`                                       | —      | 제목. 미지정 시 접근성용 sr-only 제목(`대화상자`)이 자동 삽입                              |
+| `description`      | `ReactNode`                                       | —      | 제목 아래 보조 설명                                                                        |
+| `size`             | `'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl' \| 'full'` | `'md'` | 폭 프리셋 → [크기와 스타일링](#크기와-스타일링)                                            |
+| `scrollable`       | `boolean`                                         | `true` | 본문에 최대 높이(`70vh`) + 스크롤 적용                                                     |
+| `footer`           | `false \| ReactNode \| IDialogFooterOption`       | —      | [기본 사용법](#기본-사용법) 참고                                                           |
+| `showCloseButton`  | `boolean`                                         | `true` | 우상단 X 버튼 표시                                                                         |
+| `className`        | `string`                                          | —      | 본체(`DialogContent`)에 추가할 클래스                                                      |
+| `overlayClassName` | `string`                                          | —      | 딤 배경에 추가할 클래스 — ⚠️ **현재 셸이 적용하지 않습니다** → [상세](#overlay-class-name) |
+| `bodyClassName`    | `string`                                          | —      | 본문 래퍼에 추가할 클래스                                                                  |
 
 #### 닫힘 동작
 
@@ -910,38 +963,39 @@ $ui.dialog<T = unknown, P extends object = Record<string, unknown>>(
 
 `Promise<T | undefined>` 위에 제어 API가 얹혀 있습니다. → [반환값 상세](#핸들-api) · [결과값 규칙](#결과값-규칙)
 
-| 멤버            | 타입                                       | 설명                                                         |
-| --------------- | ------------------------------------------ | ------------------------------------------------------------ |
-| `id`            | `string`                                   | 이 다이얼로그의 고유 id (읽기 전용)                          |
-| `update(props)` | `(props: Partial<P>) => void`              | 컨텐츠 props를 **얕은 병합**으로 갱신 → [상세](#handle-update) |
-| `patch(option)` | `(option: Partial<IDialogOption>) => void` | 껍데기 옵션(`title` · `size` · `dismissable` …) 갱신         |
-| `close(data?)`  | `(data?: T) => void`                       | 코드로 닫기. **가드와 `dismissable: false`를 우회**           |
-| `cancel()`      | `() => void`                               | 결과 없이 닫기. `close()`와 동일하게 가드를 우회             |
-| `isOpen()`      | `() => boolean`                            | 아직 열려 있는지                                             |
+| 멤버            | 타입                                       | 설명                                                                       |
+| --------------- | ------------------------------------------ | -------------------------------------------------------------------------- |
+| `id`            | `string`                                   | 이 다이얼로그의 고유 id (읽기 전용)                                        |
+| `update(props)` | `(props: Partial<P>) => void`              | 컨텐츠 props를 **얕은 병합**으로 갱신 → [상세](#handle-update)             |
+| `patch(option)` | `(option: Partial<IDialogOption>) => void` | 껍데기 옵션(`title` · `size` · `dismissable` …) 갱신                       |
+| `close(data?)`  | `(data?: T) => void`                       | 코드로 닫기(reason `programmatic`). **가드와 `dismissable: false`를 우회** |
+| `cancel()`      | `() => void`                               | 결과 없이 닫기. `close()`와 동일하게 reason `programmatic`                 |
+| `isOpen()`      | `() => boolean`                            | 아직 열려 있는지                                                           |
 
 ### 컨텐츠 훅 (`@axiom/hooks`)
 
 **전부 선택**입니다. 제어가 필요한 컨텐츠만 부르면 됩니다.
+(셸이 최상위 컨텐츠에 `dialog` prop도 함께 내려주지만, 깊은 자식에서도 통하는 **`useDialog()`가 권장 경로**입니다 → [상세](#컨텐츠는-평범한-컴포넌트입니다))
 
-| 훅                       | 시그니처                                                                  | 설명                                                                    |
-| ------------------------ | ------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| `useDialog<T>()`         | `() => IDialogApiHandle<T>`                                               | 제어 API. 다이얼로그 밖에서 부르면 **throw** → [상세](#use-dialog)      |
-| `useDialogSafe<T>()`     | `() => IDialogApiHandle<T> \| null`                                       | 밖이면 `null`. 안/밖 겸용 컴포넌트용                                    |
-| `useDialogSubmit<T>(fn)` | `(fn: () => T \| undefined \| Promise<T \| undefined>) => void`           | 셸 `확인` 처리. `undefined` 반환 시 닫지 않음 → [상세](#use-dialog-submit) |
-| `useDialogGuard<T>(fn)`  | `(fn: (r: IDialogResult<T>) => boolean \| Promise<boolean>) => void`      | 닫기 가드. `false` 반환 시 닫히지 않음 → [상세](#use-dialog-guard)      |
-| `useLiveProps(values)`   | `<P>(values: P) => ILivePropsBox<P>`                                      | **호출부 페이지**에서 사용. 살아있는 props → [상세](#use-live-props)    |
+| 훅                       | 시그니처                                                             | 설명                                                                       |
+| ------------------------ | -------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `useDialog<T>()`         | `() => IDialogApiHandle<T>`                                          | 제어 API. 다이얼로그 밖에서 부르면 **throw** → [상세](#use-dialog)         |
+| `useDialogSafe<T>()`     | `() => IDialogApiHandle<T> \| null`                                  | 밖이면 `null`. 안/밖 겸용 컴포넌트용                                       |
+| `useDialogSubmit<T>(fn)` | `(fn: () => T \| undefined \| Promise<T \| undefined>) => void`      | 셸 `확인` 처리. `undefined` 반환 시 닫지 않음 → [상세](#use-dialog-submit) |
+| `useDialogGuard<T>(fn)`  | `(fn: (r: IDialogResult<T>) => boolean \| Promise<boolean>) => void` | 닫기 가드. `false` 반환 시 닫히지 않음 → [상세](#use-dialog-guard)         |
+| `useLiveProps(values)`   | `<P>(values: P) => ILivePropsBox<P>`                                 | **호출부 페이지**에서 사용. 살아있는 props → [상세](#use-live-props)       |
 
 `useDialog()` / `useDialogSafe()`가 돌려주는 제어 API (`IDialogApiHandle`) → [전체 표](#use-dialog)
 
-| 멤버                                                        | 설명                                                     |
-| ----------------------------------------------------------- | -------------------------------------------------------- |
+| 멤버                                                        | 설명                                                      |
+| ----------------------------------------------------------- | --------------------------------------------------------- |
 | `id` · `depth` · `isTop`                                    | 읽기 전용 — id · 스택 깊이(0 = 최하단) · 최상단 여부      |
-| `close(data?)` · `cancel()`                                 | `data` 있으면 reason `submit`, 없으면 `close` / `cancel` |
-| `setTitle(node)` · `setDescription(node)` · `setSize(size)` | 셸 헤더 · 폭 변경                                        |
+| `close(data?)` · `cancel()`                                 | `data` 있으면 reason `submit`, 없으면 `close` / `cancel`  |
+| `setTitle(node)` · `setDescription(node)` · `setSize(size)` | 셸 헤더 · 폭 변경                                         |
 | `setLoading(b)` · `setConfirmDisabled(b)`                   | 푸터 전체 로딩 · 확인 버튼만 비활성 (**effect에서 호출**) |
-| `setDismissable(b)`                                         | ESC · 배경 · X 잠금/해제                                 |
-| `setBeforeClose(fn)` · `setSubmit(fn)`                      | 가드 · 제출 핸들러 직접 등록 (**훅 사용 권장**)          |
-| `patch(option)`                                             | 껍데기 옵션 부분 갱신                                    |
+| `setDismissable(b)`                                         | ESC · 배경 · X 잠금/해제                                  |
+| `setBeforeClose(fn)` · `setSubmit(fn)`                      | 가드 · 제출 핸들러 직접 등록 (**훅 사용 권장**)           |
+| `patch(option)`                                             | 껍데기 옵션 부분 갱신                                     |
 
 ### 정적 메서드
 
@@ -966,6 +1020,11 @@ if ($ui.dialog.count() === 0) {
   void $ui.dialog({ component: NoticeDialog });
 }
 ```
+
+:::note `close(id, reason)`에 기본값이 아닌 `reason`을 주면
+`'programmatic'` 이외의 값을 넘기면 **일반 닫기 경로를 그대로 탑니다.** 예를 들어 `'cancel'`을 주면 `beforeClose` 가드가 실행되고, `'escape'`를 주면 `dismissable: false`에 막혀 닫히지 않습니다.
+"무조건 닫아야 한다"면 기본값을 그대로 쓰세요.
+:::
 
 :::note `closeAll()`은 위에서부터 닫습니다
 스택 순서를 유지하기 위해 최상단부터 역순으로 정산합니다. 가드는 우회하므로 **저장되지 않은 폼이 확인 없이 사라집니다.** 사용자 흐름 안에서 쓰지 말고, 로그아웃·세션 만료 같은 **강제 정리** 상황에만 쓰세요.
@@ -1036,11 +1095,11 @@ await $ui.dialog({ component: HeavyEditor, size: "full" }); // 편집기는 full
 
 ### 한 번만 바꾸는 스타일 — `className`
 
-| 옵션               | 대상                        |
-| ------------------ | --------------------------- |
-| `className`        | 본체 카드 (`DialogContent`) |
-| `overlayClassName` | 딤 배경                     |
-| `bodyClassName`    | 본문 래퍼 (스크롤 영역)     |
+| 옵션               | 대상                        | 동작 여부      |
+| ------------------ | --------------------------- | -------------- |
+| `className`        | 본체 카드 (`DialogContent`) | ✅             |
+| `bodyClassName`    | 본문 래퍼 (스크롤 영역)     | ✅             |
+| `overlayClassName` | 딤 배경                     | ⚠️ 현재 미적용 |
 
 ```tsx
 await $ui.dialog({
@@ -1048,9 +1107,28 @@ await $ui.dialog({
   size: "full",
   className: "bg-black/90 border-none",
   bodyClassName: "p-0",
-  overlayClassName: "backdrop-blur-sm",
 });
 ```
+
+#### `overlayClassName`은 현재 화면에 반영되지 않습니다 {#overlay-class-name}
+
+:::caution 타입에는 있지만 셸이 읽지 않는 옵션입니다
+타입(`IDialogOption`)에는 있지만 **`DialogSkin`이 이 값을 읽지 않습니다.** 스킨은 딤 배경의 클래스 자리를 "중첩 시 딤 누적 방지"(깊이 1 이상은 투명 처리) 용도로 이미 쓰고 있고, 거기에 `option.overlayClassName`을 합치는 코드가 없습니다.
+
+딤 배경을 바꿔야 한다면 지금은 두 가지 방법이 있습니다.
+
+1. **프로젝트 전체를 한 번에** — `DialogSkin.tsx`의 `overlayClassName` 값을 직접 고칩니다. (권장)
+2. **호출별로 다르게 주고 싶다면** — 스킨에서 두 값을 합치도록 한 줄 고칩니다.
+
+```tsx title="src/shared/ui/overlay/DialogSkin.tsx"
+overlayClassName={cn(
+  frame.depth > 0 && 'bg-transparent supports-backdrop-filter:backdrop-blur-none',
+  option.overlayClassName, // ← 이 줄을 더하면 옵션이 살아납니다
+)}
+```
+
+딤의 **z-index**는 `frame.contentProps`의 `overlayStyle`로 정상 적용되므로 이 문제와 무관합니다.
+:::
 
 ### 프로젝트 전체의 껍데기 — `DialogSkin.tsx`
 
@@ -1281,7 +1359,7 @@ export interface IMemberPickerDialogProps {
   selectedId?: number;
 }
 
-// 평범한 컴포넌트다. 제어 API 는 prop 주입이 아니라 훅으로 꺼낸다.
+// 평범한 컴포넌트다. 감싸는 헬퍼가 없고, 제어 API 는 훅으로 꺼낸다.
 export default function MemberPickerDialog({
   selectedId,
 }: IMemberPickerDialogProps): React.ReactNode {
@@ -1444,7 +1522,7 @@ export default function InquiryFormDialog({
 
 - [ ] 결과를 쓴다면 호출부에 **`$ui.dialog<T>(...)`** 로 결과 타입을 줬는가 (안 주면 `unknown`)
 - [ ] props까지 체크받고 싶다면 **`$ui.dialog<T, P>(...)`** 로 두 인자를 모두 적었는가
-- [ ] 컨텐츠에서 닫는다면 **`useDialog<T>()`** 로 제어 API를 꺼냈는가 (`dialog` prop은 없어졌다)
+- [ ] 컨텐츠에서 닫는다면 **`useDialog<T>()`** 로 제어 API를 꺼냈는가 (`props.dialog`로도 오지만 깊은 자식·페이지 겸용에는 훅이 안전하다)
 - [ ] 셸 `확인`을 쓴다면 **`useDialogSubmit`을 등록**했는가 (안 하면 `true`가 온다)
 - [ ] `await` 결과가 **`undefined`인 경우를 분기**했는가
 - [ ] 작성 중 폼이라면 **`useDialogGuard`**를 등록했는가
