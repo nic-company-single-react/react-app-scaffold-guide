@@ -13,7 +13,7 @@ title: 'API Reference'
 ### Hooks
 
 - **[useApi](./global-function/hooks/use-api)** — TanStack Query 기반 REST API 호출 훅
-- **[useClientState(작업중)](./global-function/hooks/use-client-state)** — Zustand 기반 클라이언트 전역 상태 훅
+
 
 ## Service Objects
 ---

@@ -150,7 +150,6 @@ const sidebars: SidebarsConfig = {
           collapsible: true,
           items: [
             "apis/global-function/hooks/use-api",
-            "apis/global-function/hooks/use-client-state",
           ],
         },
         {
@@ -164,7 +163,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: "category",
-      label: "◉ Service Objects(작업중)",
+      label: "◉ Service Objects",
       collapsed: false,
       collapsible: true,
       items: [
