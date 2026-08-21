@@ -35,15 +35,23 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: "category",
-      label: "◉ Frontend담당(공통) 가이드",
-      collapsed: false,
+      label: "◉ Scaffold 작업 기반 다지기",
+      collapsed: true,
       collapsible: true,
-      items: ["started/frontend-common/index"],
+      items: [
+        "started/frontend-common/index",
+        "started/frontend-common/preparation-entry",
+        "started/frontend-common/entry",
+        "started/frontend-common/set-internal-network",
+        "started/frontend-common/layout-theme",
+        "started/frontend-common/convention",
+        "started/frontend-common/dist",
+      ],
     },
     {
       type: "category",
       label: "◉ 퍼블리셔 가이드",
-      collapsed: false,
+      collapsed: true,
       collapsible: true,
       items: ["started/publishing-guide/index"],
     },
@@ -148,9 +156,7 @@ const sidebars: SidebarsConfig = {
           label: "• Hooks",
           collapsed: false,
           collapsible: true,
-          items: [
-            "apis/global-function/hooks/use-api",
-          ],
+          items: ["apis/global-function/hooks/use-api"],
         },
         {
           type: "category",
