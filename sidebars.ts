@@ -82,6 +82,16 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: "category",
+      label: "◉ jwt 인증 적용",
+      collapsed: false,
+      collapsible: true,
+      items: [
+        "documents/jwt-certi/set-jwt-certi-common",
+        "documents/jwt-certi/set-jwt-certi-biz",
+      ],
+    },
+    {
+      type: "category",
       label: "◉ 기타 가이드",
       collapsed: false,
       collapsible: true,
