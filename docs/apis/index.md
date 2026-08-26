@@ -13,7 +13,9 @@ title: 'API Reference'
 ### Hooks
 
 - **[useApi](./global-function/hooks/use-api)** — TanStack Query 기반 REST API 호출 훅
-- **[defineStore](./global-function/factories/define-store)** — Store 만들기 훅
+
+### Factories
+- **[defineStore](./global-function/factories/define-store)** — Store 만들기
 
 
 ## Service Objects
