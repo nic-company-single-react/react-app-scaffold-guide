@@ -40,7 +40,7 @@ function siteConfigRuntimePlugin(): Plugin {
 const config: Config = {
   title: "react-app-scaffold",
   tagline:
-    "react-app-scaffold는 실무에 즉시 적용 가능한 컴포넌트, 유틸리티, 예제 코드를 제공하여 React 프로젝트의 빠르고 유연한 개발을 돕는 실전형 스타터 프로젝트입니다.",
+    "react-app-scaffold는 실무에 즉시 적용 가능한 UI 컴포넌트, 유틸리티, 예제, 가이드 등을 패키지로 제공하여 React 프로젝트의 빠르고 유연한 개발을 돕는 실전형 스타터 프로젝트입니다.",
   favicon: "img/logo.ico",
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -185,10 +185,10 @@ const config: Config = {
       style: "dark",
       links: [
         {
-          title: "Docs",
+          title: "Getting Started",
           items: [
             {
-              label: "소개",
+              label: "개요",
               to: "/docs/started/getting-started/overview",
             },
             {
@@ -203,6 +203,55 @@ const config: Config = {
               label: "코딩 스타일",
               to: "/docs/started/getting-started/react-style-guide",
             },
+            {
+              label: "프로젝트 설정",
+              to: "/docs/started/app-config/",
+            },
+            {
+              label: "프로젝트 기반 다지기",
+              to: "/docs/started/frontend-common/",
+            },
+            {
+              label: "퍼블리셔 가이드",
+              to: "/docs/started/publishing-guide/",
+            },
+          ],
+        },
+        {
+          title: "Docs",
+          items: [
+            {
+              label: "페이지 만들기",
+              to: "/docs/documents/dev/create-biz-pages",
+            },
+            {
+              label: "페이지 이동하기",
+              to: "/docs/documents/dev/navigating-pages",
+            },
+            {
+              label: "REST API 데이터 활용",
+              to: "/docs/documents/dev/use-rest-api",
+            },
+            {
+              label: "UI 컴포넌트 사용하기",
+              to: "/docs/documents/dev/using-ui-component",
+            },
+            {
+              label: "업무 전용 공통함수 만들기",
+              to: "/docs/documents/dev/create-domain-common-function",
+            },
+            {
+              label: "업무 스토어(Store) 만들기",
+              to: "/docs/documents/dev/create-global-state",
+            },
+            {
+              label: "컴포넌트 전용 스타일 만들기",
+              to: "/docs/documents/dev/create-module-css",
+            },
+            {
+              label: "내장 인증 함수 사용",
+              to: "/docs/documents/jwt-certi/set-jwt-certi-biz",
+            },
           ],
         },
         {
@@ -213,12 +262,128 @@ const config: Config = {
               href: "/docs/components/ui/accordion-component",
             },
             {
+              label: "Alert",
+              href: "/docs/components/ui/alert-component",
+            },
+            {
+              label: "Avatar",
+              href: "/docs/components/ui/avatar-component",
+            },
+            {
+              label: "Badge",
+              href: "/docs/components/ui/badge-component",
+            },
+            {
+              label: "Breadcrumb",
+              href: "/docs/components/ui/breadcrumb-component",
+            },
+            {
               label: "Button",
               href: "/docs/components/ui/button-component",
             },
             {
+              label: "Button Group",
+              href: "/docs/components/ui/button-group-component",
+            },
+            {
+              label: "Calendar",
+              href: "/docs/components/ui/calendar-component",
+            },
+            {
+              label: "Card",
+              href: "/docs/components/ui/card-component",
+            },
+            {
+              label: "Carousel",
+              href: "/docs/components/ui/carousel-component",
+            },
+            {
+              label: "Checkbox",
+              href: "/docs/components/ui/checkbox-component",
+            },
+            {
+              label: "Combobox",
+              href: "/docs/components/ui/combobox-component",
+            },
+            {
               label: "Dialog",
               href: "/docs/components/ui/dialog-component",
+            },
+            {
+              label: "Drawer",
+              href: "/docs/components/ui/drawer-component",
+            },
+            {
+              label: "Input",
+              href: "/docs/components/ui/input-component",
+            },
+            {
+              label: "InputGroup",
+              href: "/docs/components/ui/inputgroup-component",
+            },
+            {
+              label: "Native Select",
+              href: "/docs/components/ui/native-select-component",
+            },
+            {
+              label: "Pagination",
+              href: "/docs/components/ui/pagination-component",
+            },
+            {
+              label: "Progress",
+              href: "/docs/components/ui/progress-component",
+            },
+            {
+              label: "RadioGroup",
+              href: "/docs/components/ui/radio-group-component",
+            },
+            {
+              label: "Select",
+              href: "/docs/components/ui/select-component",
+            },
+            {
+              label: "Skeleton",
+              href: "/docs/components/ui/skeleton-component",
+            },
+            {
+              label: "Slider",
+              href: "/docs/components/ui/slider-component",
+            },
+            {
+              label: "SmartTable",
+              href: "/docs/components/ui/smart-table-component",
+            },
+            {
+              label: "Spinner",
+              href: "/docs/components/ui/spinner-component",
+            },
+            {
+              label: "Switch",
+              href: "/docs/components/ui/switch-component",
+            },
+            {
+              label: "Table",
+              href: "/docs/components/ui/table-component",
+            },
+            {
+              label: "Tabs",
+              href: "/docs/components/ui/tabs-component",
+            },
+            {
+              label: "Textarea",
+              href: "/docs/components/ui/textarea-component",
+            },
+            {
+              label: "Toast",
+              href: "/docs/components/ui/toast-component",
+            },
+            {
+              label: "Toggle",
+              href: "/docs/components/ui/toggle-component",
+            },
+            {
+              label: "Tooltip",
+              href: "/docs/components/ui/tooltip-component",
             },
           ],
         },
@@ -231,15 +396,7 @@ const config: Config = {
             },
             {
               label: "Service Objects",
-              href: "/docs/apis/service-objects/ui/alert-ui",
-            },
-            {
-              label: "예제 소스 GitHub",
-              href: siteConfig.scaffoldRepoUrl,
-            },
-            {
-              label: "Guide GitHub",
-              href: siteConfig.guideRepoUrl,
+              href: "/docs/apis/service-objects/router/",
             },
           ],
         },

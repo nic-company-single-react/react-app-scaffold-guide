@@ -13,6 +13,7 @@ title: 'API Reference'
 ### Hooks
 
 - **[useApi](./global-function/hooks/use-api)** — TanStack Query 기반 REST API 호출 훅
+- **[defineStore](./global-function/factories/define-store)** — Store 만들기 훅
 
 
 ## Service Objects
@@ -29,6 +30,9 @@ title: 'API Reference'
 
 ### $util
 
+- **[$util.array](./service-objects/util/array-util)**
 - **[$util.date](./service-objects/util/date-util)**
+- **[$util.finance](./service-objects/util/finance-util)**
 - **[$util.number](./service-objects/util/number-util)**
+- **[$util.object](./service-objects/util/object-util)**
 - **[$util.string](./service-objects/util/string-util)**
