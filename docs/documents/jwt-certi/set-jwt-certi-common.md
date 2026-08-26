@@ -9,14 +9,13 @@ title: "jwt인증 적용 (공통)"
 
 :::info 작업 내용
 * `react-app-scaffold`가 기능으로 제공하는 **JWT 인증**을 프로젝트 서버에 맞춰 **조립(적용)** 하는 방법을 설명합니다.
-* 이 문서를 끝내면 **로그인 · 자동 토큰 갱신 · 라우트 보호 · 탭 간 로그아웃**이 동작하고, 업무 개발자는 **인증 코드를 한 줄도 짜지 않아도** 됩니다.
-* **대상**: 프로젝트 착수 시 인증을 서버에 맞춰 붙이는 **프론트엔드 공통 개발자**. 프로젝트당 한 번만 읽으면 됩니다.
-* **소요 시간**: 서버 담당의 답변이 준비돼 있으면 1~2시간.
+* `react-app-scaffold`는 **로그인 · 자동 토큰 갱신 · 라우트 보호 · 탭 간 로그아웃** 작업 관련 로직을 쉽게 적용할 수 있게 제공하고, 업무 개발자는 **인증 관련 코드 작업**을 쉽게 시작할 수 있습니다.
+* **대상**: 프로젝트 착수 시 인증을 서버에 맞춰 붙이는 **프론트엔드 공통 개발자**.
 :::
 
 :::tip 업무 개발자는 이 문서를 읽지 않습니다
-* 업무(도메인) 개발자는 [jwt인증 적용 (업무)](./set-jwt-certi-biz) 를 봅니다. 그쪽에는 `useAuth()` · `hasRole()` 사용법만 있습니다.
-* 이 문서에서 세팅을 끝낸 뒤 [7. 업무 개발자에게 공지하기](#announce) 의 템플릿을 반드시 전달하세요. 공지하지 않으면 업무 개발자들이 각자 401 처리를 짜 넣습니다.
+* 업무(도메인) 개발자는 [jwt인증 적용 (업무)](./set-jwt-certi-biz) 가이드가 따로 있습니다. 그쪽 가이드를 참조하여 프로젝트에 인증 관련 사전 작업이 완료된 후 사용하면 됩니다.
+* 이 문서에서 세팅을 끝낸 뒤 [7. 업무 개발자에게 공지하기](#announce) 의 템플릿을 반드시 전달하세요. 공지하지 않으면 업무 개발자들이 알 수 없으므로 관련 작업이 지연될 수 있습니다.
 :::
 
 ---
@@ -24,21 +23,15 @@ title: "jwt인증 적용 (공통)"
 
 
 
-## 0. 시작 전 — 지금 스캐폴드 상태
+## 인증 적용 시작 전 — 지금 스캐폴드 상태
 ---
 
-스캐폴드에는 인증 **기능**이 들어 있고, **실제 적용되어 있지 않습니다.**
+`react-app-scaffold`에는 jwt인증 관련 **기능**이 들어 있고, **실제 적용되어 있지 않습니다.**
 
-프로젝트마다 로그인 방식·화면·서버 규약이 다릅니다. 배선까지 미리 해두면 스캐폴드를 반입한 프로젝트가 가장 먼저 하는 일이 "그걸 지우는 일"이 됩니다. 게다가 첫 `npm run dev`에서 랜딩 페이지 대신 남의 로그인 화면이 뜹니다. 그래서 스캐폴드는 **동작하는 부품**만 주고, 조립은 이 문서가 안내합니다.
-
-:::note 기본 상태에서는
-* `src/shared/auth/**` 가 아무 데서도 참조되지 않아 **번들에 들어가지 않습니다.**
-* 어떤 라우트도 보호되지 않고, 인증 관련 네트워크 요청이 나가지 않습니다.
-* 인증을 쓰지 않는 프로젝트는 **아무것도 안 해도 됩니다.** ([8. 인증을 쓰지 않는 프로젝트](#no-auth))
-:::
+프로젝트마다 로그인 방식·화면·서버 규약이 다릅니다. 모든 작업을 미리 해두면 스캐폴드를 반입한 프로젝트가 해당 프로젝트에 맞게 수정하거나 지우는 작업을 먼저 하게 됩니다. 그래서 스캐폴드는 **동작하는 부품**만 주고, 실제 적용은 이 문서가 안내합니다.
 
 
-### 이미 있는 것 — `src/shared/auth/**` (열지 않습니다)
+#### ◉ 관련 코드 위치 — `src/shared/auth/**` 
 
 | 파일 | 하는 일 |
 | --- | --- |
@@ -53,7 +46,9 @@ title: "jwt인증 적용 (공통)"
 | `dev-probe.ts` | 콘솔 확인용 `window.__auth` (dev 전용, 선택) |
 
 
-### 없는 것 — 이 문서에서 **새로 만듭니다**
+#### ◉ 프로젝트에서 새로 만들어야할 것들
+* 프로젝트마다 인증관련 업무를 어떻게 업무 도메인으로 구분하여 작업할지 모르나 다음 예와같이 로그인 페이지가 필요합니다. 
+* 프로젝트 상황에 따라 다르게 만들어도 됩니다.
 
 ```text
 src/domains/auth/types.ts               서버가 받고 주는 값의 모양      ← 만든다
@@ -61,7 +56,8 @@ src/domains/auth/pages/LoginIndex.tsx   로그인 화면                    ← 
 src/domains/auth/router/index.tsx       로그인 라우트                  ← 만든다
 ```
 
-### 이미 있고 **값만 고치는** 것
+#### ◉ 수정해야할 파일
+* 다음 파일들은 설정 내용이나 일부 코드를 수정해야합니다.
 
 ```text
 .env                          주소 · 저장소 키
@@ -70,12 +66,12 @@ src/shared/router/index.tsx   어느 라우트를 보호할지
 src/main.tsx                  부팅 배선 세 줄
 ```
 
-:::caution `src/shared/auth/**` 는 열지 않습니다
-열어야 하는 상황이 생겼다면 **설정으로 흡수할 수 있는 범위를 넘었거나**([10. 여기까지가 설정, 그 밖은 코드](#beyond-config)), **스캐폴드에 확장 지점이 빠진 것**입니다. 후자라면 스캐폴드 쪽 결함이니 고쳐 쓰기 전에 알려주세요. 말없이 고쳐 놓으면 새 버전을 반입할 때 그 수정이 날아갑니다.
+:::caution `src/shared/auth/**` 는 수정하지 않습니다.
+만약 해당 폴더의 소스코드를 변경해야 할 상황이 생긴다면 `react-app-scaffold` 제작자에게 문의 하세요.
 :::
 
 :::warning `src/config/auth.config.ts` 는 지우지 않습니다
-`src/shared/auth` 의 다섯 파일이 이 파일을 **정적 import** 하고, 일부는 **모듈 로드 시점에** 값을 읽습니다(예: `auth-strategies.ts` 의 저장소 키, `auth-interceptor.ts` 의 비갱신 엔드포인트 목록). 파일이 없으면 **컴파일되지 않습니다.** 인증을 쓰지 않더라도 파일은 그대로 둡니다.
+인증 기능을 사용하지 않더라도 해당 파일은 지우지 않습니다.
 :::
 
 ---
@@ -83,13 +79,12 @@ src/main.tsx                  부팅 배선 세 줄
 
 
 
-## 1. 인증이 동작하는 방식 (한눈에)
+## 인증이 동작하는 방식 한눈에 보기
 ---
 
 배선하기 전에 **무슨 일이 언제 일어나는지**를 먼저 잡아두면, 뒤에 나오는 값들이 왜 거기 있어야 하는지 이해됩니다. 아래 다섯 장면이 전부입니다.
 
 ### ① 로그인
-
 ```text
 LoginIndex 화면
   └─ useLogin().submit(form)          ← form 이 그대로 요청 body 가 된다
@@ -103,7 +98,6 @@ LoginIndex 화면
 ```
 
 ### ② 새로고침 (부팅 복구)
-
 ```text
 main.tsx
   └─ await bootAuth()        ← createRoot() '전에' 딱 1회
@@ -113,7 +107,6 @@ main.tsx
 ```
 
 ### ③ access token 만료 → 자동 갱신
-
 ```text
 업무 화면의 평범한 API 호출
   └─ 401
@@ -129,7 +122,6 @@ main.tsx
 :::
 
 ### ④ 로그아웃 · 세션 종료
-
 ```text
 useLogout().logout()
   └─ POST {endpoints.logout}      ← 실패해도 진행한다(서버가 죽어도 화면에서 나갈 수 있어야 한다)
@@ -146,7 +138,6 @@ useLogout().logout()
 | `other-tab` | 다른 탭에서 로그아웃했습니다 |
 
 ### ⑤ 라우트 보호
-
 ```text
 <ProtectedRoute />
   ├─ status 가 authenticated / refreshing  → 통과 (Outlet)
@@ -163,13 +154,15 @@ useLogout().logout()
 
 
 
-## 2. 서버 담당에게 물어볼 것 {#ask-server}
+
+
+## 서버 담당에게 물어볼 것 {#ask-server}
 ---
 
-**아래를 그대로 복사해서 보내면 됩니다.** 이 답이 나오면 세팅은 값 채우기만 남습니다.
+**아래를 그대로 복사해서 보내면 됩니다.**
 
 ```text
-[프론트엔드] 인증 연동 확인 요청
+[프론트엔드] 인증 연동 확인 요청 ====================
 
 1. refresh token 을 어떻게 주시나요?  (셋 중 하나)
    a. Set-Cookie 로 내려줍니다 (HttpOnly)
@@ -200,7 +193,7 @@ useLogout().logout()
 ```
 
 
-### 서버에 반드시 요구해야 하는 것
+#### ◉ 서버에 반드시 요구해야 하는 것
 
 위 질문 중 아래 항목들은 **협의가 아니라 요구사항**입니다. 하나라도 어긋나면 자동 갱신이 동작하지 않습니다.
 
@@ -217,27 +210,15 @@ useLogout().logout()
 `cookie` 전략을 쓸 수 없습니다. 그때는 `storage`로 내려가면 되고, **그 이유로 `src/shared/auth` 를 뜯을 일은 없습니다.**
 :::
 
-
-### 답을 못 받아도 시작할 수 있는 것
-
-* **[4.2](#step-types) ~ [4.6](#step-gate) (타입 · 로그인 화면 · 라우트 · 게이트)은 서버 없이 다 만들 수 있습니다.** 마크업과 배선은 서버 응답 모양과 무관합니다. 답이 오면 [4.1](#step-env) · [4.3](#step-config) 의 값만 채우면 됩니다.
-* **동작 확인([6. 검증](#verify))은 서버가 있어야 합니다.**
-
-:::caution 스캐폴드에 인증 목(mock)은 없습니다
-프로젝트마다 로그인 규약이 달라 그대로 쓰이는 일이 없었고, 남아 있으면 실서버가 붙은 뒤에도 조용히 앞을 가려 **원인 찾기 어려운 버그**를 만들었기 때문입니다.
-
-서버가 한참 늦어져 임시로 흉내내야 한다면 프로젝트 안에 직접 만들되, **실서버가 뜨는 즉시 지웁니다.**
-:::
-
 ---
 
 
 
 
-## 3. 저장 전략 고르기 {#strategy}
+## 저장 전략 고르기 {#strategy}
 ---
 
-[2번](#ask-server) 1번 질문의 답이 곧 전략입니다. **직접 전략을 구현하는 것이 아니라 이름만 고릅니다.**
+서버에서 refresh token 을 어떻게 주는냐에 따라 다음 설정을 조정합니다.
 
 | 서버 답변 | `strategy` |
 | --- | --- |
@@ -257,7 +238,7 @@ useLogout().logout()
 :::tip `cookie` 가 **가능한지부터** 물어보세요
 가능한데 안 쓰는 것과 불가능해서 못 쓰는 것은 다릅니다.
 
-* `storage` · `access-only` 를 고르면 **개발 콘솔에 하향 경고가 한 번** 뜹니다. **막지는 않습니다** — 서버가 그렇다면 다른 방법이 없습니다. 운영 빌드에서는 나오지 않습니다.
+* `storage` · `access-only` 를 고르면 **개발 콘솔에 하향 경고가 한 번** 뜹니다. **막지는 않습니다** — 서버가 그렇다면 다른 방법이 없습니다. 운영 빌드에서는 경고 문구가 나오지 않습니다.
 * `access-only` 는 `storage` 와 코드가 거의 같지만 **401을 받았을 때의 행동이 정반대**입니다(갱신 시도 vs 즉시 로그아웃). 서버에 refresh가 **정말 없을 때만** 고르세요.
 :::
 
@@ -270,17 +251,12 @@ useLogout().logout()
 
 
 
-## 4. 붙이는 순서 (8단계) {#steps}
+## 붙이는 순서 (8단계) {#steps}
 ---
 
-:::danger 순서대로 하세요
-[4.6(라우터 게이트)](#step-gate)을 [4.4·4.5(화면·라우트)](#step-login-page)보다 **먼저 하면 로그인 화면 대신 404로 튕겨서** 원인을 찾느라 시간을 씁니다. 게이트는 항상 마지막에서 두 번째입니다.
-:::
 
 
-
-
-### 4.1 `.env` — 주소와 저장소 키 **(이미 있습니다)** {#step-env}
+### ◉ 1 `.env` — 주소와 저장소 키 **(이미 있습니다)** {#step-env}
 
 스캐폴드 `.env` 에는 데모용 값(`https://jsonplaceholder.typicode.com`)이 들어 있습니다. **프로젝트 서버 주소로 바꿉니다.**
 
@@ -309,16 +285,24 @@ VITE_LOCALSTORAGE_TOKEN_NAME=access_token
 Vite는 `.env` 를 핫리로드하지 않습니다.
 :::
 
-- [ ] 완료
 
 
 
 
-### 4.2 `src/domains/auth/types.ts` — 서버가 받고 주는 모양 **(새로 만듭니다)** {#step-types}
+### ◉ 2 `src/domains/auth/types/index.ts` — 서버가 받고 주는 모양 **(새로 만듭니다)** {#step-types}
+* 해당 인증 화면의 타입 파일은 프로젝트 마다 자신의 상황에 맞는 위치에 생성하여 작업하면 됩니다. 
+* 다음 질문에 대한 답을 작성한다고 생각하면 됩니다.
+```
+3. 로그인 요청 body 에 어떤 필드를 받으시나요?
+   (예: loginId + password / 사번 + 비밀번호 / 회사코드 + ID + 비밀번호 + OTP)
 
-[2번](#ask-server) 3번 · 4번 질문의 답을 여기 적습니다. **이 파일은 프로젝트가 소유합니다** — 스캐폴드는 이 형태를 전혀 모르고, 새 버전을 반입해도 덮어쓰지 않습니다.
+4. 로그인 응답 형태를 알려주세요.
+   - access token 이 들어있는 키 이름      (예: accessToken, token, data.access_token)
+   - 사용자 정보가 들어있는 키와 필드      (예: user: { id, name, role })
+```
 
-```ts title="src/domains/auth/types.ts"
+
+```ts title="src/domains/auth/types/index.ts"
 /**
  * 인증 도메인 타입 — 이 프로젝트가 소유한다.
  *
@@ -344,6 +328,7 @@ export interface IAppUser {
 	id: number | string;
 	loginId: string;
 	name: string;
+	email: string;
 	role?: string;
 }
 ```
@@ -351,14 +336,14 @@ export interface IAppUser {
 필드는 **이름도 개수도 프로젝트마다 다릅니다.** 서버에 맞춰 그대로 바꾸세요.
 
 ```ts
-// 사번 + 2차 인증을 받는 서버라면
+// 사번 + 2차 인증을 받는 서버라면 다음과 같은 형태
 export interface ILoginCredentials {
 	empNo: string;
 	password: string;
 	otp: string;
 }
 
-// 회사코드가 앞에 붙는 멀티테넌트 서버라면
+// 회사코드가 앞에 붙는 멀티테넌트 서버라면 다음과 같은 형태
 export interface ILoginCredentials {
 	companyCode: string;
 	userId: string;
@@ -367,17 +352,16 @@ export interface ILoginCredentials {
 ```
 
 :::info 왜 스캐폴드가 이 타입을 갖고 있지 않나
-`login()` 은 자격 증명을 `object` 로 받아 **그대로 요청 body로 보냅니다.** 형태를 스캐폴드에 고정하면 필드가 하나만 달라도 프로젝트가 `src/shared/auth` 를 열게 됩니다. 요청 스펙은 **호출 측의 타입(`ILoginCredentials`)이 정합니다.**
+`login()` 은 자격 증명을 `object` 로 받아 **그대로 요청 body로 보냅니다.** 형태를 스캐폴드에 고정하면 필드가 하나만 달라도 해당 프로젝트가 `src/shared/auth` 를 열어서 수정하게 됩니다. 요청 스펙은 **호출 측의 타입(`ILoginCredentials`)이 정합니다.**
 
-`IAppUser` 는 업무 개발자가 `useAuth<IAppUser>()` 로 꺼내 쓰는 타입입니다. 서버 키가 다르면 여기서 이름을 맞추거나 `extractUser` 에서 변환합니다([4.3](#step-config)).
+`IAppUser` 는 업무 개발자가 `useAuth<IAppUser>()` 로 꺼내 쓰는 타입입니다. 서버 키가 다르면 여기서 이름을 맞추거나 `extractUser` 에서 변환합니다([◉ 3](#step-config)).
 :::
 
-- [ ] 완료
 
 
 
 
-### 4.3 `src/config/auth.config.ts` — 설정의 중심 **(이미 있습니다)** {#step-config}
+### ◉ 3 `src/config/auth.config.ts` — 설정의 중심 **(수정합니다)** {#step-config}
 
 세팅의 대부분이 이 파일 한 곳에서 끝납니다. 파일에는 이미 기본값과 상세 주석이 들어 있으니, **값만 서버에 맞춰 고칩니다.**
 
@@ -389,9 +373,9 @@ const LOGIN_PATH = '/auth/login';
 
 export const authConfig: AuthConfig = {
 	// highlight-next-line
-	strategy: 'cookie',                       // ← 3. 저장 전략 고르기 에서 고른 값
-
-	endpoints: {                              // ← 2번 질문의 답
+	strategy: 'cookie',              // ← 저장 전략 설정 값
+	// endpoints값이 변경되면 src/types/auth.ts 파일의 IAuthEndpoints를 변경하세요.
+	endpoints: {                              
 		login: '/auth/login',
 		logout: '/auth/logout',
 		refresh: '/auth/refresh',
@@ -417,22 +401,12 @@ export const authConfig: AuthConfig = {
 };
 ```
 
-#### 경로는 baseURL 뒤에 붙습니다
+#### api 호출 경로는 baseURL 뒤에 붙습니다
 
 ```text
-VITE_API_BASE_URL=/api  +  endpoints.login='/auth/login'   →   POST /api/auth/login
+VITE_API_BASE_URL=/api  +  endpoints.login='/auth/login'   →   /api/auth/login
 ```
 
-#### `endpoints.login` 과 `loginPath` 는 다른 것입니다
-
-:::danger 이름이 비슷해 **반드시 헷갈립니다**
-| 항목 | 무엇 | 예 |
-| --- | --- | --- |
-| `endpoints.login` | **서버 API** 경로 | `POST /api/auth/login` |
-| `loginPath` | **화면 라우트** 경로 | `/#/auth/login` ([4.5](#step-route)에서 만듭니다) |
-
-`loginPath` 가 가리키는 라우트가 없으면 미인증 사용자는 **로그인 화면 대신 404**를 봅니다.
-:::
 
 #### 응답 키를 여러 개 탐색하지 마세요
 
@@ -441,38 +415,24 @@ VITE_API_BASE_URL=/api  +  endpoints.login='/auth/login'   →   POST /api/auth/
 extractAccessToken: (body) => body.accessToken ?? body.token ?? body.data?.token,
 ```
 
-붙이는 순간에는 편하지만, 서버가 응답을 바꿨을 때 **조용히 다른 키를 집어 계속 동작하는 척합니다.** 그때 나는 버그는 원인을 찾기 어렵습니다. **한 줄 아끼려다 하루를 씁니다.**
+붙이는 순간에는 편하지만, 서버가 응답을 바꿨을 때 **조용히 다른 키를 집어 계속 동작하는 척합니다.** 그때 나는 버그는 원인을 찾기 어렵습니다. **한 줄 아끼려다 버그 찾다 하루 꼬박 고생합니다**
 
-응답이 중첩돼 있으면 **정확히 하나를 지정합니다.**
+응답이 중첩돼 있으면 **정확히 하나를 지정하여 사용합니다.**
 
 ```ts
 extractAccessToken: (body) => body.data.access_token,
 extractUser: (body) => body.data.userInfo,
 ```
 
-키 이름이 `IAppUser` 와 다르면 여기서 맞춰 줍니다.
-
-```ts
-extractUser: (body) => ({
-	id: body.user.empNo,
-	loginId: body.user.empNo,
-	name: body.user.userNm,
-	role: body.user.authCd,
-}),
-```
-
-:::note 200인데 토큰을 못 꺼내면 즉시 에러가 납니다
-`extractAccessToken` 이 값을 못 꺼내면 스캐폴드가 **"accessToken 을 꺼내지 못했습니다"** 라는 메시지와 함께 그 자리에서 터뜨립니다. 조용히 넘어가면 "로그인은 성공했는데 그 뒤 모든 요청이 401"이라는, 원인을 찾기 어려운 증상이 되기 때문입니다.
-:::
-
-- [ ] 완료
 
 
 
 
-### 4.4 `src/domains/auth/pages/LoginIndex.tsx` — 로그인 화면 **(새로 만듭니다)** {#step-login-page}
 
-아래를 그대로 복사해 시작한 뒤 프로젝트 디자인에 맞춰 마크업을 바꿉니다. **유지할 것은 훅 네 줄뿐입니다.**
+### ◉ 4 `src/domains/auth/pages/LoginIndex.tsx` — 로그인 화면 **(새로 만듭니다)** {#step-login-page}
+
+* 아래를 그대로 복사해 시작한 뒤 프로젝트 디자인에 맞춰 마크업을 바꿉니다. 프로젝트에 이미 로그인 페이지가 있다면 그 화면에서 작업합니다.
+* **인증 관련 훅 사용 코드만 적용하면 됩니다**
 
 ```tsx title="src/domains/auth/pages/LoginIndex.tsx"
 import { useState, type ChangeEvent, type SubmitEvent } from 'react';
@@ -614,7 +574,7 @@ if (isAuthenticated) return <Navigate to={from} replace />;   // 성공 후 이�
 * 토큰 저장 · 상태 전환 · 자동 갱신은 **이미 되어 있습니다.** 직접 하지 마세요.
 * `error` 에는 **서버가 준 메시지**가 그대로 들어옵니다. 서버가 안 주면 기본 문구가 나옵니다. 기본 문구를 바꾸려면 `useLogin({ fallbackMessage: '...' })`.
 * `pending` 은 **성공 후에도 `true` 로 유지됩니다.** 곧 화면이 바뀌므로 버튼이 잠겨 있는 편이 이중 제출을 막습니다.
-* 입력 필드를 늘리려면 `ILoginCredentials`([4.2](#step-types))에 **먼저** 추가하세요. 그러면 이 화면이 타입 검사를 받고, 그 객체가 그대로 요청 body가 됩니다.
+* 입력 필드를 늘리려면 `domains/auth/types/index.ts`의 `ILoginCredentials`에 **먼저** 추가하세요. 그러면 이 화면이 타입 검사를 받고, 그 객체가 그대로 요청 body가 됩니다.
 :::
 
 :::caution 로그인 화면에서 직접 `navigate()` 를 부르지 마세요
@@ -630,7 +590,7 @@ if (isAuthenticated) return <Navigate to={from} replace />;   // 성공 후 이�
 
 
 
-### 4.5 `src/domains/auth/router/index.tsx` — 로그인 라우트 **(새로 만듭니다)** {#step-route}
+### ◉ 5 `src/domains/auth/router/index.tsx` — 로그인 라우트 **(새로 만듭니다)** {#step-route}
 
 다른 도메인 라우터와 형태가 같습니다.
 
@@ -658,7 +618,7 @@ export default routes;
 
 
 
-### 4.6 `src/shared/router/index.tsx` — 게이트 배선 **(이미 있습니다)** {#step-gate}
+### ◉ 6 `src/shared/router/index.tsx` — 게이트(ProtectedRoute) 적용 {#step-gate}
 
 파일 상단 주석에 붙이는 형태가 적혀 있습니다. 그대로 코드로 바꿉니다.
 
@@ -673,7 +633,7 @@ import AuthRouter from '@/domains/auth/router';
 // highlight-end
 
 const routes: TAppRoute[] = [
-	// ① 인증 라우트는 게이트 '바깥'
+	// ① 인증 라우트는 ProtectedRoute 게이트 '바깥'
 	// highlight-start
 	{
 		path: '/auth',
@@ -707,22 +667,22 @@ const routes: TAppRoute[] = [
 export default routes;
 ```
 
-:::danger 인증 라우트(`/auth`)를 게이트 안에 넣으면 안 됩니다
+:::danger 인증 라우트(`/auth`)를 게이트(ProtectedRoute) 안에 넣으면 안 됩니다
 로그인하러 가는 길이 다시 막혀 **무한 리다이렉트**가 됩니다.
 :::
 
-:::info 게이트 배선 규칙
+:::info 게이트(ProtectedRoute) 적용 규칙
 * 권한 부족은 기본적으로 **홈**으로 보냅니다. 바꾸려면 `forbiddenPath="/no-permission"` 을 넘깁니다.
-* 로그인 없이 볼 화면(공지, 약관 등)은 게이트 **바깥**에 둡니다.
+* 로그인 없이 볼 화면(공지, 약관 등)은 게이트 ProtectedRoute **바깥**에 둡니다.
 * `/example` · `/publishing/example` 은 스캐폴드 예제라 게이트 밖에 있습니다. 실제 개발이 시작되면 함께 지웁니다.
 :::
 
-- [ ] 완료
 
 
 
 
-### 4.7 `src/main.tsx` — 부팅 배선 **(이미 있습니다)** {#step-boot}
+
+### ◉ 7 `src/main.tsx` 수정 — 인증관련 부팅 세팅  {#step-boot}
 
 세 줄입니다. **위치가 중요합니다.**
 
@@ -750,14 +710,16 @@ initQueryConfig(queryConfig);
 
 // ① 렌더 밖 · 모듈 최상단 — 첫 요청이 나가기 전에 인터셉터가 걸려 있어야 한다
 // highlight-start
-setupAuthInterceptor();
-setupTabSync();
+setupAuthInterceptor(); // axios에 "토큰 자동 첨부 + 401이면 재발급" 훅을 건다	첫 API 요청이 나가기 전에 걸려 있어야 함
+setupTabSync(); // window에 storage 이벤트 리스너를 등록 - 다른 탭(브라우저 탭)에서 로그아웃하면 이 탭도 따라 끊기게
 // highlight-end
 
 // highlight-start
 void (async () => {
-	// ② 부팅 복구 1회. 렌더 '전에' await 한다.
-	//    실패해도 렌더는 한다(내부에서 삼킨다). 실패는 "비로그인"이지 "화면 없음"이 아니다.
+	// bootAuth()를 렌더 전에 await 하는 이유
+	// 새로고침을 누른 직후, 앱은 "이 사람이 로그인 상태인지 아직 모릅니다." 서버에 한 번 물어봐야(또는 저장소를 복원해야) 압니다. 그 답을 기다리지 않고 화면부터 그리면 둘 중 하나가 깨집니다 — 스캐폴드 auth-flow.ts 주석에도 같은 내용이 적혀 있습니다:
+	// * 대시보드를 먼저 그리면 → 자식 화면들이 토큰 없이 API를 쏩니다 (전부 401)
+	// * 로그인 화면을 먼저 그리면 → 멀쩡한 사용자가 새로고침할 때마다 로그인 폼이 한 번 번쩍입니다
 	await bootAuth();
 
 	createRoot(document.getElementById('root')!).render(
@@ -769,21 +731,21 @@ void (async () => {
 // highlight-end
 ```
 
-:::warning 위치를 바꾸면 조용히 깨집니다
-| 잘못된 위치 | 증상 |
-| --- | --- |
-| `bootAuth()` 를 **렌더 뒤**로 옮김 | 새로고침마다 **로그인 폼이 한 번 번쩍인다** |
-| `setupAuthInterceptor()` 를 async 블록 **안**에 넣음 | **첫 요청에 토큰이 안 붙는다** |
-| `bootAuth()` 가 `initApiConfig()` **앞**에 옴 | baseURL이 없어 부팅 갱신 요청이 엉뚱한 곳으로 나간다 |
+:::warning 3개 함수의 위치를 바꾸면 조용히 오류가 생깁니다. 반드시 다음 순서로 적용합니다.
+* setupAuthInterceptor() → setupTabSync() → await bootAuth()
+* 각 함수의 역할
+
+| 함수이름       | 역할                       |
+| :------------ | :------------------------- |
+| **setupAuthInterceptor()** | 인증 토큰(Access Token)을 axios headers에 세팅합니다. 다음 호출 api는 모두 적용됩니다. |
+| **setupTabSync()** | 모든 브라우저의 탭으로 여러 곳에서 열려있는 화면들이 모두 인증 여부에 따라 같이 적용되게 하기 위한 함수.  |
+| **bootAuth()** | 앱 최초 실행 시 이미 인증되어있는지 여부 파악을 위해 세션 복구를 1회 수행. 앱 랜더링 전에 수행하고 앱이 랜더링 되어야 함.  |
 :::
 
-:::note 로딩 화면은 따로 만들 필요가 없습니다
-렌더를 미루는 동안 `index.html` 의 `#app-splash` 가 그대로 떠 있습니다(그 div는 `#root` 안에 있고 render가 통째로 교체합니다). 토큰 복원도 여기서 하지 않습니다 — 저장소를 아는 것은 전략뿐이고, 새로고침 유지는 `bootAuth()` 가 담당합니다.
-:::
+
 
 #### 선택 — 콘솔 확인 도구(dev 전용) {#dev-probe}
-
-[6. 검증](#verify) 의 6·7번 확인에 씁니다. 운영 번들에는 들어가지 않습니다.
+* 실 운영에는 반영되지 않고 개발 시 인증 검증 용도로 사용하기 위하여 적용합니다.
 
 ```ts title="src/main.tsx (async 블록 안)"
 void (async () => {
@@ -805,9 +767,10 @@ void (async () => {
 
 
 
-### 4.8 (선택) 헤더에 사용자 메뉴 · 로그아웃 붙이기 {#step-usermenu}
+### ◉ 8 (선택) 헤더에 사용자 메뉴 · 로그아웃 붙이기 {#step-usermenu}
 
-로그아웃 버튼과 사용자 이름은 대개 **헤더**에 붙습니다. 헤더가 소유주이므로 스캐폴드 레이아웃의 헤더 옆 (`src/shared/layouts/default/components/`, `AppHeader.tsx` 가 있는 폴더) 에 둡니다.
+* 로그아웃 버튼과 사용자 이름은 대개 **헤더**에 붙습니다. 헤더가 소유주이므로 스캐폴드 레이아웃의 헤더 옆 (`src/shared/layouts/default/components/`, `AppHeader.tsx` 가 있는 폴더) 에 둡니다.
+* 그렇지 않으면 각자 해당 프로젝트의 **헤더** 영역의 적절한 위치에 넣어도 됩니다.
 
 :::caution `src/domains/auth` 에 두지 마세요
 업무 도메인이 인증 도메인을 직접 import 하게 되어 **도메인 간 의존이 꼬입니다.**
@@ -855,10 +818,9 @@ export default function UserMenu(): React.ReactNode {
 
 
 
-## 5. 확장 지점 세 개 {#extension-points}
+## 확장 지점 세 개 {#extension-points}
 ---
-
-`src/shared/auth` 를 열지 않고 동작을 바꾸는 자리입니다. **전부 `src/config/auth.config.ts` 에 있습니다.**
+* 인증 관련 설정 변경을 `src/config/auth.config.ts`에서 할 수 있습니다.
 
 ### `resolveRoles(user)` — 권한을 꺼내는 방법
 
@@ -940,7 +902,7 @@ onSessionEnd: () => { window.location.href = 'https://sso.example.com/logout'; }
 
 
 
-## 6. 검증 {#verify}
+## 검증 {#verify}
 ---
 
 서버를 붙인 뒤 순서대로 돌립니다.
@@ -962,9 +924,9 @@ onSessionEnd: () => { window.location.href = 'https://sso.example.com/logout'; }
 | 13 | 개발 콘솔 | 경고 없음 | 하향 경고 1회 | 하향 경고 1회 |
 
 
-### 6 · 7번은 콘솔 도구로 확인합니다
+#### 위 6 · 7번은 콘솔 도구로 확인합니다
 
-[4.7](#dev-probe) 에서 `registerAuthDevProbe()` 를 켰다면 개발자도구 콘솔에서 쓸 수 있습니다.
+* 위쪽에서 콘솔 확인 도구(dev 전용) `registerAuthDevProbe()` 를 켰다면 개발자도구 콘솔에서 쓸 수 있습니다.
 
 ```js
 await __auth.me();       // me 401 → refresh 200 → me 200  (세 줄이 순서대로 떠야 한다)
@@ -978,7 +940,7 @@ access token을 빨리 만료시키는 건 **서버 담당에게 요청**하세�
 :::
 
 
-### 특히 눈여겨볼 항목
+#### 특히 눈여겨볼 항목
 
 * **8번** — 로그인 실패가 갱신 시도로 번지면 에러 메시지 대신 화면이 튑니다. **Network 탭에 `refresh` 요청이 나가면 실패입니다.**
 * **7번** — `refresh` 가 2개 이상이면 회전하는 서버에서 계정이 로그아웃됩니다.
@@ -990,7 +952,7 @@ access token을 빨리 만료시키는 건 **서버 담당에게 요청**하세�
 
 
 
-## 7. 업무 개발자에게 공지하기 {#announce}
+## 업무 개발자에게 공지하기 {#announce}
 ---
 
 :::danger 세팅이 끝나면 반드시 공지하세요
@@ -1032,7 +994,7 @@ access token을 빨리 만료시키는 건 **서버 담당에게 요청**하세�
 
 
 
-## 8. 인증을 쓰지 않는 프로젝트 {#no-auth}
+## 인증을 쓰지 않는 프로젝트 {#no-auth}
 ---
 
 **아무것도 안 하면 됩니다.** 스캐폴드 기본 상태가 그것입니다. `src/shared/auth/**` 는 참조되지 않으면 번들에 들어가지 않습니다.
@@ -1048,27 +1010,10 @@ access token을 빨리 만료시키는 건 **서버 담당에게 요청**하세�
 
 
 
-## 9. 자주 하는 실수 {#pitfalls}
----
-
-| 실수 | 증상 | 예방 |
-| --- | --- | --- |
-| [4.6](#step-gate)(게이트)을 [4.4·4.5](#step-login-page)(화면·라우트)보다 먼저 함 | 로그인 화면 대신 404 · 무한 리다이렉트 | [4. 붙이는 순서](#steps) 를 지킨다 |
-| `loginPath` 와 실제 라우트 경로가 다름 | 로그인 화면으로 못 간다 | [4.3](#step-config) 과 [4.5](#step-route) 를 대조 |
-| `/auth` 를 게이트 안에 넣음 | 무한 리다이렉트 | 게이트 **바깥**에 둔다 |
-| `bootAuth()` 를 렌더 뒤에 부름 | 새로고침마다 로그인 폼이 번쩍 | 렌더 **전에** await |
-| `setupAuthInterceptor()` 를 async 블록 안에 넣음 | 첫 요청에 토큰이 안 붙는다 | 모듈 최상단 |
-| 로그인 화면에서 직접 `navigate()` 호출 | 이동이 두 번 일어나거나 안 일어난다 | `isAuthenticated` + `<Navigate>` |
-| `extractAccessToken` 에서 여러 키를 탐색 | 서버 응답이 바뀌어도 조용히 동작하는 척한다 | **정확히 하나**를 지정 |
-| `domains/auth` 에 UserMenu 를 두고 업무 화면에서 import | 도메인 간 의존이 꼬인다 | 헤더(`src/shared/layouts/default/components/`)에 둔다 |
-| `src/config/auth.config.ts` 를 삭제 | **컴파일 실패** | 값만 비우고 파일은 둔다 |
-
----
 
 
 
-
-## 10. 여기까지가 설정, 그 밖은 코드 {#beyond-config}
+## 여기까지가 설정, 그 밖은 코드 {#beyond-config}
 ---
 
 아래는 **설정으로 흡수하지 않습니다.** 이런 서버를 만나면 `src/shared/auth` 를 그 프로젝트에서 고쳐 쓰는 편이 낫습니다. 억지로 설정으로 우회하면 다음 사람이 더 헤맵니다.
